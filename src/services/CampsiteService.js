@@ -1,5 +1,5 @@
 import Campsite from "../model/CampsiteModel";
-const apiUrl = process.env.NODE_ENV === 'production' ? "https://campscampsitelet-server.herokuapp.com/api" : "http://localhost:8080/api";
+const apiUrl = process.env.NODE_ENV === 'production' ? "https://camps-server.herokuapp.com/api" : "http://localhost:8080/api";
 
 
 export const getCampsites = (user, token) => {
