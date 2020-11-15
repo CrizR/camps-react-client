@@ -59,7 +59,7 @@ Done
 
 
 ## Data model
-RESTful service:
+- RESTful service:
 https://app.swaggerhub.com/apis-docs/CrizR/Wildr/1.0.0#/
-UML diagram: 
+- UML diagram: 
 https://lucid.app/lucidchart/709e1e00-c421-4869-9c3b-92e30d81abd5/edit?shared=true&page=0_0#?folder_id=home&browser=icon
