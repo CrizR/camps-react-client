@@ -11,6 +11,7 @@ import CampsiteDashboardContainer from "./containers/campsiteDashboard/Dashboard
 import LoadingComponent from "./components/loading/LoadingComponent";
 import HttpsRedirect from 'react-https-redirect';
 import CampsiteContainer from "./containers/campsiteContainer/CampsiteContainer";
+import ProfileContainer from './containers/profileContainer/ProfileContainer';
 
 
 const rootReducer = combineReducers({
@@ -37,11 +38,12 @@ function App() {
             <HttpsRedirect>
                 <Provider store={store}>
                     <Router>
-
                         <ProtectedRoute path="/" exact component={CampsiteDashboardContainer}/>
                         <ProtectedRoute path='/campsite/:id'
                                         component={(routerProps) => <CampsiteContainer
                                             id={routerProps.match.params.id}/>}/>
+                        <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
+                        
                     </Router>
                 </Provider>
             </HttpsRedirect>
