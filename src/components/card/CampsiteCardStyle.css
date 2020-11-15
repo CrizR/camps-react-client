@@ -1,0 +1,96 @@
+.ui.raised.card.camps-card, .ui.raised.cards > .card.camps-card {
+    min-width: 100%;
+    width: 200px;
+    height: 155px;
+    background: white;
+    animation-name: deal-shrink;
+    animation-duration: .5s;
+    transform: scale(1.0);
+    border: 2px solid white;
+    z-index: 0;
+}
+
+.ui.raised.card.camps-card:hover, .ui.raised.cards > .card.camps-card:hover {
+    animation-name: deal-grow;
+    animation-duration: .5s;
+    transform: scale(1.05);
+}
+
+.ui.floating.dropdown > .menu {
+    z-index: 100;
+}
+
+
+.camps-card .camps-card-content h3 {
+    color: var(--camps-primary-color)
+}
+
+
+.camps-card-header {
+    padding: 20px;
+    color: var(--camps-primary-color)
+
+}
+
+.camps-edit-btn.ui.button {
+    padding: 0;
+    margin: 0;
+}
+
+.camps-start-btn {
+    width: 100%;
+    padding: 10px !important;
+}
+
+.ui.raised.card.camps-card {
+    text-align: left;
+}
+
+
+.camps-card .ui.input > input {
+    margin-left: -5px;
+    padding: 5px;
+}
+
+.camps-card .ui.segment {
+    margin: 0;
+    border: none;
+}
+
+.camps-card-actions {
+    z-index: 10
+}
+
+.ui.card > .extra.camps-card-extra, .ui.cards > .card > .extra.camps-card-extra {
+    padding: 10px;
+    text-align: center;
+}
+
+.camps-card.ui.card > .content, .ui.cards > .card > .content {
+    border-radius: 0;
+}
+
+
+.ui.card > .content.camps-card-content, .ui.cards > .card > .content.camps-card-content {
+    padding: 10px
+}
+
+
+@keyframes camps-card-grow {
+    from {
+        transform: scale(1)
+    }
+    to {
+        transform: scale(1.05)
+    }
+}
+
+
+@keyframes camps-card-shrink {
+    from {
+        transform: scale(1.05)
+    }
+    to {
+        transform: scale(1)
+    }
+}

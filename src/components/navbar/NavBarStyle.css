@@ -1,0 +1,9 @@
+.camps-navbar {
+    flex-grow: 1;
+    z-index: 4;
+    background: white;
+    top: 0;
+    position: fixed;
+    box-shadow: 0 2px 2px -2px gray !important;
+    width: 100%;
+}
