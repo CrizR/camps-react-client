@@ -93,7 +93,7 @@ function CampsiteCard({campsite, selectCampsite, deleteCampsite}) {
         </Card>
 
     );
-};
+}
 
 const stateToProperty = (state) => ({});
 

@@ -131,15 +131,15 @@ const CampsiteEditor = ({createCampsite, updateCampsite, selectedCampsite, getCa
                 }
             </Modal.Header>
             <div className={'camps-json-input-comp'}>
-                <JSONInput
-                    id={uuid()}
-                    placeholder={campsite}
-                    locale={locale}
-                    height='600px'
-                    width='100%'
-                    waitAfterKeyPress={2000}
-                    onChange={handleChange}
-                />
+                {/*<JSONInput*/}
+                {/*    id={uuid()}*/}
+                {/*    placeholder={campsite}*/}
+                {/*    locale={locale}*/}
+                {/*    height='600px'*/}
+                {/*    width='100%'*/}
+                {/*    waitAfterKeyPress={2000}*/}
+                {/*    onChange={handleChange}*/}
+                {/*/>*/}
             </div>
             <Modal.Actions className={'camps-create-campsite-card-actions'}>
                 <Grid>

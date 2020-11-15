@@ -38,12 +38,14 @@ const DashboardContainer = ({getCampsites, searchCampsites, filtered}) => {
                             </Input>
                         </Menu.Item>
                     </Menu>
+                    {/* The cards */}
                     <Grid stackable>
                         {filtered.map((campsite, i) =>
                             <Grid.Column key={i} width={4}>
                                 <CampsiteCard campsite={campsite}/>
                             </Grid.Column>
                         )}
+
                         <Grid.Column key={"add-campsite-id"} width={4}>
                             <CreateCampsiteCard
                                 isEdit={false}
