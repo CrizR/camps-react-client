@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import "./CampsiteContainerStyle.css"
+import "../campsiteContainer/CampsiteContainerStyle.css"
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import {useAuth0} from "@auth0/auth0-react";
