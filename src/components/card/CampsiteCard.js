@@ -4,9 +4,8 @@ import {Button, Card, Dropdown, DropdownItem, Grid} from "semantic-ui-react";
 import ReactMapboxGl from "react-mapbox-gl";
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux";
-import {deleteCampsiteAction, selectCampsiteAction} from "../../actions/CampsiteActions";
 import Truncate from 'react-truncate';
-import CreateCampsiteCard from "../campsiteEditor/CampsiteEditor";
+import CreateCampsiteCard from "../TripEditor/TripEditor";
 import {useAuth0} from "@auth0/auth0-react";
 
 
@@ -32,61 +31,36 @@ function CampsiteCard({campsite, selectCampsite, deleteCampsite}) {
 
     return (
         <Card className={'camps-card'} raised>
+            <Map
+                style="mapbox://styles/risleychris/ckaipv98m05sn1iplo9j0k47d"
+                center={[-Math.abs(campsite.longitude), campsite.latitude]}
+                pitch={[20]}
+                zoom={[12]}
+                containerStyle={{
+                    height: '150px',
+                }}
+            />
             <Card.Header className={'camps-card-header'}>
-                {/*<Map*/}
-                {/*    style="mapbox://styles/risleychris/ckaipv98m05sn1iplo9j0k47d"*/}
-                {/*    center={[this.bounds[0][0], this.bounds[0][1]]}*/} Have center be the coordinates for campsite
-                {/*    pitch={[20]}*/}
-                {/*    zoom={[12]}*/}
-                {/*    containerStyle={{*/}
-                {/*        height: '170px',*/}
-                {/*    }}*/}
-                {/*/>*/}
-                <Grid columns={2} centered>
-                    <Grid.Column width={12}>
-                        <h3>
-                            <Truncate lines={1} ellipsis={<span>...</span>}>
-                                {campsite.name}
-                            </Truncate>
-                        </h3>
-                        <Card.Meta>
-                            <Truncate lines={1} ellipsis={<span>...</span>}>
 
-                            </Truncate>
-                        </Card.Meta>
-                    </Grid.Column>
-                    <Grid.Column width={1}>
-                        <Dropdown
-                            pointing={'right'}
-                            style={{background: 'none'}}
-                            icon='ellipsis vertical'
-                            floating
-                            className={'camps-edit-btn'}
-                            button>
+                <Grid columns={2} centered style={{padding: '10px'}}>
+                    <h3>
+                        <Truncate lines={1} ellipsis={<span>...</span>}>
+                            {campsite.name}
+                        </Truncate>
+                    </h3>
 
-
-                            <Dropdown.Menu>
-                                <CreateCampsiteCard
-                                    isEdit={true}
-                                    triggerElement={
-                                        <DropdownItem onClick={() => selectCampsite(campsite.id)}>
-                                            Edit
-                                        </DropdownItem>
-                                    }
-                                />
-                                <DropdownItem onClick={() => deleteCampsite(user, campsite.id, token)}>
-                                    Delete
-                                </DropdownItem>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Grid.Column>
                 </Grid>
             </Card.Header>
+            <Card.Content>
+                <Card.Meta>
+                    <p style={{overflow: 'hidden'}}>{campsite.description}</p>
+                </Card.Meta>
+            </Card.Content>
             <Card.Content className={'camps-card-extra'} extra>
                 <Grid columns={1}>
                     <Grid.Column>
                         <Button className={'campssecondary-button camps-start-btn'} as={Link}
-                                to={`/campsite/${campsite.id}`}>Start</Button>
+                                to={`/campsite/${campsite.id}`}>See Details</Button>
                     </Grid.Column>
                 </Grid>
             </Card.Content>
@@ -97,10 +71,7 @@ function CampsiteCard({campsite, selectCampsite, deleteCampsite}) {
 
 const stateToProperty = (state) => ({});
 
-const propertyToDispatchMapper = (dispatch) => ({
-    deleteCampsite: (user, id, token) => deleteCampsiteAction(dispatch, user, id, token),
-    selectCampsite: (id) => selectCampsiteAction(dispatch, id)
-});
+const propertyToDispatchMapper = (dispatch) => ({});
 
 export default connect
 (stateToProperty, propertyToDispatchMapper)

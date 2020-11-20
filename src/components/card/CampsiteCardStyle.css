@@ -1,7 +1,7 @@
 .ui.raised.card.camps-card, .ui.raised.cards > .card.camps-card {
     min-width: 100%;
     width: 200px;
-    height: 155px;
+    height: 500px;
     background: white;
     animation-name: deal-shrink;
     animation-duration: .5s;
