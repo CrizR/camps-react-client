@@ -11,6 +11,7 @@ import LoadingComponent from "./components/loading/LoadingComponent";
 import HttpsRedirect from 'react-https-redirect';
 import DashboardContainer from "./containers/dashboard/DashboardContainer";
 import TripsReducer from "./reducers/TripsReducer";
+import ProfileContainer from "./containers/profile/ProfileContainer";
 
 
 const rootReducer = combineReducers({
@@ -39,6 +40,7 @@ function App() {
                 <Provider store={store}>
                     <Router>
                         <ProtectedRoute path="/" exact component={DashboardContainer}/>
+                        <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
                     </Router>
                 </Provider>
             </HttpsRedirect>

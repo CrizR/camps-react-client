@@ -1,0 +1,17 @@
+.camps-profile {
+    margin: 0 auto;
+    text-align: left;
+    padding-top: 100px !important;
+    background: #E9E9E9;
+}
+
+
+.camps-grid-column {
+    width: 25% !important;
+}
+
+.camps-profile-container {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
