@@ -9,7 +9,7 @@ const transformUser = (user) => ({
   picture: user.picture,
 });
 
-export const setCurrentUser = (user) => ({
+export const setCurrentUserAction = (user) => ({
   type: SET_CURRENT_USER,
   payload: transformUser(user),
 });
