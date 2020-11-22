@@ -1,72 +1,37 @@
 import Campsite from "../model/CampsiteModel";
-const apiUrl = process.env.NODE_ENV === 'production' ? "https://camps-server.herokuapp.com/api" : "http://localhost:8080/api";
 
+const url = "https://developer.nps.gov/api/v1/campgrounds";
+const api_key = "USBMWhZ9kdFYHUbocfzPv0yJ3gPdmYvU8barIf9M";
 
-export const getCampsites = (user, token) => {
+export const getCampsites = (parkCode, limit = 50, start = 0, query = "") => {
 
-    return fetch(`${apiUrl}/user/${user.email}/campsite`,
+    let requestUrl = `${url}?parkCode=${parkCode}&parkCode=&limit=${limit}&start=${start}&api_key=${api_key}`;
+    if (!!query) {
+        requestUrl = `${url}?parkCode=${parkCode}&parkCode=&limit=${limit}&start=${start}&q=${query}&api_key=${api_key}`;
+    }
+    console.log("test");
+
+    return fetch(requestUrl,
         {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                "Authorization": `Bearer ${token}`
             }
         })
         .then(response => response.json())
         .then(campsites => {
-            return campsites.map((campsite) => Campsite.fromStorage(campsite))
+            console.log(campsites.data);
+            return campsites.data; //TODO: Use CampsiteModel
         });
 };
 
 
-export const getCampsite = (user, id, token) =>
-    fetch(`${apiUrl}/user/${user.email}/campsite/${id}`,
-        {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${token}`
-            }
-        }
-    )
-        .then(response => response.json())
-        .then(campsite => Campsite.fromStorage(campsite.Item));
-
-
-export const createCampsite = (user, campsite, token) =>
-    fetch(`${apiUrl}/user/${user.email}/campsite/`,
-        {
-            method: 'POST',
-            body: JSON.stringify(campsite),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${token}`
-            }
-        })
-        .then(response => response.json())
-        .then(campsite => Campsite.fromStorage(campsite));
-
-export const updateCampsite = (user, id, campsite, token) =>
-    fetch(`${apiUrl}/user/${user.email}/campsite/${id}`,
-        {
-            method: 'PUT',
-            body: JSON.stringify(campsite),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${token}`
-            }
-        })
-        .then(response => response.json())
-        .then(campsite => Campsite.fromStorage(campsite));
-
-
-export const deleteCampsite = (user, id, token) =>
-    fetch(`${apiUrl}/user/${user.email}/campsite/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            "Authorization": `Bearer ${token}`
-        }
-    });
+export const getCampsite = async (campsiteId, parkCodes) => {
+    let campsites = await this.getCampsites(parkCodes, 50);
+    let filtered = campsites.filter(campsite => campsite.id = campsiteId);
+    if (!!filtered.length) {
+        return filtered[0]
+    } else {
+        return []
+    }
+};

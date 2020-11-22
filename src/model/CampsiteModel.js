@@ -2,7 +2,7 @@ class Campsite {
 
 
     constructor() {
-        // TODO:
+
     }
 
     static fromStorage(obj) {

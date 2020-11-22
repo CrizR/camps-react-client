@@ -31,10 +31,10 @@ export function NavBarComponent() {
                                 className='icon'
                             >
                                 <Dropdown.Menu>
-                                <Dropdown.Item > 
-                                <Link to='/profile'>Profile</Link>
-                                </Dropdown.Item>
-                                <Dropdown.Item onClick={() => logout()} icon='external square alternate'
+                                    <Dropdown.Item>
+                                        <Link to='/profile'>Profile</Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => logout()}
                                                    text='Logout'/>
                                 </Dropdown.Menu>
                             </Dropdown>

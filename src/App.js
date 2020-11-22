@@ -7,19 +7,18 @@ import {Provider} from "react-redux";
 import {useAuth0} from "@auth0/auth0-react";
 import CampsiteReducer from "./reducers/CampsiteReducer";
 import userReducer from  "./reducers/UserReducer";
-import tripReducer from  "./reducers/TripReducer";
 import ProtectedRoute from "./auth/ProtectedRoute";
-import CampsiteDashboardContainer from "./containers/campsiteDashboard/DashboardContainer";
 import LoadingComponent from "./components/loading/LoadingComponent";
 import HttpsRedirect from 'react-https-redirect';
-import CampsiteContainer from "./containers/campsiteContainer/CampsiteContainer";
-import ProfileContainer from './containers/profileContainer/ProfileContainer';
+import DashboardContainer from "./containers/dashboard/DashboardContainer";
+import TripsReducer from "./reducers/TripsReducer";
+import ProfileContainer from "./containers/profile/ProfileContainer";
 
 
 const rootReducer = combineReducers({
     CampsiteReducer,
     userReducer,
-    tripReducer
+    TripsReducer
 });
 
 const store = createStore(
@@ -42,12 +41,8 @@ function App() {
             <HttpsRedirect>
                 <Provider store={store}>
                     <Router>
-                        <ProtectedRoute path="/" exact component={CampsiteDashboardContainer}/>
-                        <ProtectedRoute path='/campsite/:id'
-                                        component={(routerProps) => <CampsiteContainer
-                                            id={routerProps.match.params.id}/>}/>
+                        <ProtectedRoute path="/" exact component={DashboardContainer}/>
                         <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
-                        
                     </Router>
                 </Provider>
             </HttpsRedirect>

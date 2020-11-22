@@ -5,18 +5,14 @@ import CampsiteCard from "../../components/card/CampsiteCard";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import {getCampsitesAction, searchCampsitesAction} from "../../actions/CampsiteActions";
-import CreateCampsiteCard from "../../components/campsiteEditor/CampsiteEditor";
+import CreateCampsiteCard from "../../components/TripEditor/TripEditor";
 import {useAuth0} from "@auth0/auth0-react";
 
 const DashboardContainer = ({getCampsites, searchCampsites, filtered}) => {
     const {getAccessTokenSilently, user} = useAuth0();
 
     useEffect(() => {
-        getAccessTokenSilently({
-            audience: process.env.REACT_APP_AUTH_AUDIENCE,
-        }).then((token) => {
-            getCampsites(user, token)
-        });
+        getCampsites("YOSE", 50, 0, "")
     }, []);
 
 
@@ -27,32 +23,25 @@ const DashboardContainer = ({getCampsites, searchCampsites, filtered}) => {
                 <Container>
                     <Menu secondary className={'camps-menu'}>
                         <Menu.Item className="camps-dashboard-menu-item">
-                            <h2>Campsites</h2>
+                            <h2>Campgrounds</h2>
                         </Menu.Item>
                         <Menu.Item
                             className="aligned camps-search-campsite">
-                            <Input onChange={(e) => searchCampsites(e.target.value)} type='text' icon={'search'} placeholder='Search' action>
-                                <input />
+                            <Input onChange={(e) => searchCampsites("YOSE", 50, 0, e.target.value)} type='text'
+                                   icon={'search'}
+                                   placeholder='Search' action>
+                                <input/>
                                 <Button icon={'filter'}/>
                                 <Button type='submit'>Search</Button>
                             </Input>
                         </Menu.Item>
                     </Menu>
-                    {/* The cards */}
                     <Grid stackable>
                         {filtered.map((campsite, i) =>
-                            <Grid.Column key={i} width={4}>
+                            <Grid.Column key={i} width={5}>
                                 <CampsiteCard campsite={campsite}/>
                             </Grid.Column>
                         )}
-
-                        <Grid.Column key={"add-campsite-id"} width={4}>
-                            <CreateCampsiteCard
-                                isEdit={false}
-                                triggerElement={<Button className={'camps-secondary-button camps-create-campsite-card'}>
-                                    <h2>Create Campsite</h2>
-                                </Button>}/>
-                        </Grid.Column>
                     </Grid>
                 </Container>
             </div>
@@ -66,7 +55,7 @@ const stateToProperty = (state) => ({
 });
 
 const propertyToDispatchMapper = (dispatch) => ({
-    getCampsites: (user, token) => getCampsitesAction(dispatch, user, token),
+    getCampsites: (parkCode, limit, start, query) => getCampsitesAction(dispatch, parkCode, limit, start, query),
     searchCampsites: (term) => searchCampsitesAction(dispatch, term)
 });
 
