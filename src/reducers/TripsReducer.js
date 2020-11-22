@@ -4,13 +4,17 @@ import {
     GET_TRIPS,
     GET_OWNED_TRIPS,
     SELECT_TRIP,
-    UPDATE_TRIP
+    UPDATE_TRIP,
+    GET_TRIPS_PENDING,
+    GET_TRIPS_FAILURE
 } from "../actions/TripActions";
 
 
 const initialState = {
     trips: [],
     ownedTrips: [],
+    isLoading: false,
+    error: null,
 };
 
 
@@ -47,14 +51,31 @@ const TripReducer = (state = initialState, action) => {
         case GET_TRIPS: {
             return Object.assign({}, state, {
                 trips: action.trips,
+                isTripsLoading: false,
             })
         }
 
         case GET_OWNED_TRIPS: {
             return Object.assign({}, state, {
                 trips: action.trips,
+                isTripsLoading: false,
             })
         }
+
+        case GET_TRIPS_PENDING: {
+            return {
+                ...state,
+                isTripsLoading: true,
+            };
+          }
+        
+        case GET_TRIPS_FAILURE: {
+            return {
+                ...state,
+                error: action.error,
+                isTripsLoading: false,
+      };
+    }      
         default:
             return state;
     }
