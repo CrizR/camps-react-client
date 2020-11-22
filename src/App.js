@@ -6,7 +6,7 @@ import {combineReducers, createStore} from "redux";
 import {Provider} from "react-redux";
 import {useAuth0} from "@auth0/auth0-react";
 import CampsiteReducer from "./reducers/CampsiteReducer";
-import userReducer from  "./reducers/UserReducer";
+import UserReducer from  "./reducers/UserReducer";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import LoadingComponent from "./components/loading/LoadingComponent";
 import HttpsRedirect from 'react-https-redirect';
@@ -17,7 +17,7 @@ import ProfileContainer from "./containers/profile/ProfileContainer";
 
 const rootReducer = combineReducers({
     CampsiteReducer,
-    userReducer,
+    UserReducer,
     TripsReducer
 });
 
