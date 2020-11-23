@@ -4,7 +4,7 @@ const apiUrl = process.env.NODE_ENV === 'production' ? "https://camps-node-serve
 
 
 export const getTrips = (user, token) => {
-    return fetch(`${apiUrl}/user/${user.user_id}/trips`,
+    return fetch(`${apiUrl}/user/${user.sub}/trips`,
         {
             headers: {
                 'Accept': 'application/json',
@@ -20,7 +20,7 @@ export const getTrips = (user, token) => {
 
 export const getOwnedTrips = (user, token) => {
 
-    return fetch(`${apiUrl}/user/${user.user_id}/trips/owned`,
+    return fetch(`${apiUrl}/user/${user.sub}/trips/owned`,
         {
             headers: {
                 'Accept': 'application/json',
