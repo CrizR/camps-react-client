@@ -5,18 +5,19 @@ import 'semantic-ui-css/semantic.min.css'
 import {combineReducers, createStore} from "redux";
 import {Provider} from "react-redux";
 import {useAuth0} from "@auth0/auth0-react";
-import CampsiteReducer from "./reducers/CampsiteReducer";
-import UserReducer from  "./reducers/UserReducer";
+import DashboardReducer from "./reducers/DashboardReducer";
+import UserReducer from "./reducers/UserReducer";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import LoadingComponent from "./components/loading/LoadingComponent";
 import HttpsRedirect from 'react-https-redirect';
 import DashboardContainer from "./containers/dashboard/DashboardContainer";
 import TripsReducer from "./reducers/TripsReducer";
 import ProfileContainer from "./containers/profile/ProfileContainer";
+import CampgroundContainer from "./containers/campground/CampgroundContainer";
 
 
 const rootReducer = combineReducers({
-    CampsiteReducer,
+    DashboardReducer,
     UserReducer,
     TripsReducer
 });
@@ -43,6 +44,7 @@ function App() {
                     <Router>
                         <ProtectedRoute path="/" exact component={DashboardContainer}/>
                         <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
+                        <ProtectedRoute path='/campground/:id' exact component={CampgroundContainer}/>
                     </Router>
                 </Provider>
             </HttpsRedirect>

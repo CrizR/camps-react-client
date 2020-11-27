@@ -14,6 +14,7 @@
     "mapbox-gl": "^1.12.0",
     "node": "latest",
     "react": "^16.14.0",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^16.14.0",
     "react-https-redirect": "^1.1.0",
     "react-json-editor-ajrm": "^2.5.13",

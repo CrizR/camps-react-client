@@ -20,8 +20,8 @@ export const getCampsites = (parkCode, limit = 50, start = 0, query = "") => {
         })
         .then(response => response.json())
         .then(campsites => {
-            console.log(campsites.data);
-            return campsites.data; //TODO: Use CampsiteModel
+            console.log(campsites);
+            return campsites; //TODO: Use CampsiteModel
         });
 };
 

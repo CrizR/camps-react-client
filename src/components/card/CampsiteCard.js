@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import Truncate from 'react-truncate';
 import CreateCampsiteCard from "../TripEditor/TripEditor";
 import {useAuth0} from "@auth0/auth0-react";
-
+import TripEditor from "../TripEditor/TripEditor"
 
 const Map = ReactMapboxGl({
     minZoom: 2,
@@ -41,7 +41,6 @@ function CampsiteCard({campsite, selectCampsite, deleteCampsite}) {
                 }}
             />
             <Card.Header className={'camps-card-header'}>
-
                 <Grid columns={2} centered style={{padding: '10px'}}>
                     <h3>
                         <Truncate lines={1} ellipsis={<span>...</span>}>
@@ -51,16 +50,20 @@ function CampsiteCard({campsite, selectCampsite, deleteCampsite}) {
 
                 </Grid>
             </Card.Header>
-            <Card.Content>
+            <Card.Content className={'camps-card-content'}>
                 <Card.Meta>
                     <p style={{overflow: 'hidden'}}>{campsite.description}</p>
                 </Card.Meta>
             </Card.Content>
             <Card.Content className={'camps-card-extra'} extra>
-                <Grid columns={1}>
+                <Grid columns={2}>
                     <Grid.Column>
-                        <Button className={'campssecondary-button camps-start-btn'} as={Link}
-                                to={`/campsite/${campsite.id}`}>See Details</Button>
+                        <Button className={'camps-secondary-button camps-start-btn'} as={Link}
+                                to={`/campground/${campsite.id}`}>See Details</Button>
+
+                    </Grid.Column>
+                    <Grid.Column>
+                        <TripEditor campsite={campsite} triggerElement={<Button className={'camps-primary-button camps-start-btn'}>Create Trip</Button>}/>
                     </Grid.Column>
                 </Grid>
             </Card.Content>

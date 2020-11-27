@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import "./TripEditorStyle.css"
 import {
-    Modal,
+    Button,
+    Form, Input,
+    Modal, TextArea,
 } from "semantic-ui-react";
 import {connect} from "react-redux";
 import {useAuth0} from "@auth0/auth0-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 // TODO Change this whole thing to not use JSON and to allow you to create a campsite
-const TripEditor = ({triggerElement, isEdit}) => {
+const TripEditor = ({campsite, triggerElement, isEdit}) => {
 
 
     const [open, setOpen] = React.useState(false);
@@ -24,8 +28,6 @@ const TripEditor = ({triggerElement, isEdit}) => {
     }, []);
 
 
-
-
     return (
         <Modal
             onClose={() => setOpen(false)}
@@ -36,24 +38,51 @@ const TripEditor = ({triggerElement, isEdit}) => {
             }
         >
             <Modal.Header>
-
+                {isEdit ?
+                    <h4>Edit Trip</h4>
+                    :
+                    <h4>Create Trip</h4>
+                }
             </Modal.Header>
-            <div className={'camps-json-input-comp'}>
+            <Modal.Content className={'camps-json-input-comp'}>
+                <Form>
+                    <Form.Group widths='equal'>
+                        <Form.Field
+                            control={Input}
+                            label='Trip Name'
+                            placeholder='Default Trip'
+                        />
+                    </Form.Group>
+                    <Form.Field
+                        control={Input}
+                        type={"email"}
+                        label='Invite List'
+                        placeholder='abc@gmail.com'
+                    />
+                    <Form.Field
+                        control={TextArea}
+                        label='Trip Description'
+                        placeholder='...'
+                    />
+                    <Form.Field>
+                        <label>Date</label>
+                        <DatePicker/>
+                    </Form.Field>
 
-            </div>
+                </Form>
+            </Modal.Content>
             <Modal.Actions className={'camps-create-campsite-card-actions'}>
-
+                <Button>Save Trip</Button>
             </Modal.Actions>
         </Modal>
     );
 };
 
 const stateToProperty = (state) => ({
-    selectedCampsite: state.CampsiteReducer.selected
+    selectedCampsite: state.DashboardReducer.selected
 });
 
-const propertyToDispatchMapper = (dispatch) => ({
-});
+const propertyToDispatchMapper = (dispatch) => ({});
 
 export default connect
 (stateToProperty, propertyToDispatchMapper)
