@@ -12,10 +12,10 @@ import {
     Pagination,
     Segment
 } from "semantic-ui-react";
-import CampsiteCard from "../../components/card/CampsiteCard";
+import CampsiteCard from "../../components/card/CampgroundCard";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
-import {getCampsitesAction, setPageNumberAction} from "../../actions/DashboardActions";
+import {filterCampsitesAction, getCampgroundsAction, setPageNumberAction} from "../../actions/DashboardActions";
 import {useAuth0} from "@auth0/auth0-react";
 import {parkCodes} from "../../assets/parkCodes";
 import bg from "../../assets/bg.png"
@@ -30,7 +30,7 @@ const parkOptions = parkCodes.map((code, i) => ({
 const LIMIT = 100;
 export const RESULTS_PER_PAGE = 6;
 
-const DashboardContainer = ({getCampsites, filtered, total, pageNumber, setPageNumber}) => {
+const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsites, pageNumber, setPageNumber}) => {
     const {getAccessTokenSilently, user} = useAuth0();
     const [parkCode, setParkCode] = useState("");
     const [searchInput, setSearchInput] = useState("");
@@ -38,26 +38,25 @@ const DashboardContainer = ({getCampsites, filtered, total, pageNumber, setPageN
 
     useEffect(() => {
         getCampsites(parkCode, LIMIT, 0, searchInput).then(() => {
-            setLoading(false)
+            setLoading(false);
         });
     }, []);
-
 
 
     function searchCampsites() {
         setLoading(true);
         getCampsites(parkCode, LIMIT, 0, searchInput).then(() => {
-            setLoading(false)
+            setLoading(false);
         });
     }
 
     function pageChange(activePage) {
         setLoading(true);
         setPageNumber(activePage).then(() => {
-            setLoading(false)
-
+            setLoading(false);
         });
     }
+
 
     return (
         <>
@@ -70,34 +69,37 @@ const DashboardContainer = ({getCampsites, filtered, total, pageNumber, setPageN
                             <h2>Campgrounds</h2>
                         </Menu.Item>
                         <Menu.Item
-                            className="aligned camps-search-campsite">
+                            className="aligned camps-search-campground">
                             <Input type='text'
                                    onChange={(e) => setSearchInput(e.target.value)}
-                                   icon={'search'}
-                                   placeholder='Search' action>
+                                   placeholder='Campground Name' action>
                                 <input/>
                                 <Dropdown placeholder='Select Park Code' value={parkCode}
                                           onChange={(e, {value}) => setParkCode(value)}
                                           search selection options={parkOptions}/>
                                 <Button
-                                    className={'camps-primary-button'}
+                                    className={'camps-secondary-button'}
                                     onClick={() => searchCampsites()}
                                     type='submit'>Search</Button>
                             </Input>
                         </Menu.Item>
                     </Menu>
                     <Segment className={'camps-dashboard-campgrounds'}>
+                        <div className={'camps-dashboard-grid-search'}>
+                            <Input onChange={(e) => filterCampsites(e.target.value)}
+                                   placeholder='Search'/>
+                        </div>
                         {loading ?
                             <Dimmer className={'camps-dashboard-loader'} active inverted>
                                 <Loader inverted>Loading</Loader>
                             </Dimmer>
                             :
                             <>
-                                {!!filtered.length ?
+                                {!!pageResults.length ?
                                     <Grid stackable centered columns={3}>
-                                        {filtered.map((campsite, i) =>
+                                        {pageResults.map((campground, i) =>
                                             <Grid.Column key={i}>
-                                                <CampsiteCard campsite={campsite}/>
+                                                <CampsiteCard campground={campground}/>
                                             </Grid.Column>
                                         )}
                                     </Grid> :
@@ -108,12 +110,11 @@ const DashboardContainer = ({getCampsites, filtered, total, pageNumber, setPageN
                                     className={'camps-dashboard-pagination'}
                                     boundaryRange={0}
                                     activePage={pageNumber}
-                                    defaultActivePage={1}
                                     onPageChange={(e, {activePage}) => pageChange(activePage)}
                                     ellipsisItem={null}
                                     firstItem={null}
                                     lastItem={null}
-                                    totalPages={Math.ceil(total / RESULTS_PER_PAGE)}
+                                    totalPages={Math.ceil(filtered.length / RESULTS_PER_PAGE)}
                                     pointing
                                 />
 
@@ -131,13 +132,15 @@ const DashboardContainer = ({getCampsites, filtered, total, pageNumber, setPageN
 
 const stateToProperty = (state) => ({
     filtered: state.DashboardReducer.filtered,
+    pageResults: state.DashboardReducer.pageResults,
     total: state.DashboardReducer.total,
     pageNumber: state.DashboardReducer.pageNumber
 });
 
 const propertyToDispatchMapper = (dispatch) => ({
-    getCampsites: (parkCode, limit, start, query) => getCampsitesAction(dispatch, parkCode, limit, start, query),
-    setPageNumber: (page) => setPageNumberAction(dispatch, page)
+    getCampsites: (parkCode, limit, start, query) => getCampgroundsAction(dispatch, parkCode, limit, start, query),
+    setPageNumber: (page) => setPageNumberAction(dispatch, page),
+    filterCampsites: (term) => filterCampsitesAction(dispatch, term)
 });
 
 export default connect

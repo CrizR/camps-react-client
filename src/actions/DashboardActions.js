@@ -1,13 +1,21 @@
-import {getCampsites} from "../services/CampsiteService";
+import {getCampgrounds} from "../services/CampgroundService";
 
-export const GET_CAMPSITES = "GET_CAMPSITES";
+export const GET_CAMPGROUNDS = "GET_CAMPGROUNDS";
 export const SELECT_CAMPSITE = "SELECT_CAMPSITE";
 export const SET_PAGE_NUMBER = "SET_PAGE_NUMBER";
+export const FILTER_CAMPSITES = "FILTER_CAMPSITES";
 
 export function selectCampsiteAction(dispatch, campsite) {
     return dispatch({
         type: SELECT_CAMPSITE,
         campsite: campsite
+    });
+}
+
+export function filterCampsitesAction(dispatch, term) {
+    return dispatch({
+        type: FILTER_CAMPSITES,
+        searchTerm: term
     });
 }
 
@@ -19,10 +27,10 @@ export async function setPageNumberAction(dispatch, page) {
 }
 
 
-export async function getCampsitesAction(dispatch, parkCode, limit, start, query) {
+export async function getCampgroundsAction(dispatch, parkCode, limit, start, query) {
     return dispatch({
-        type: GET_CAMPSITES,
-        campsites: await getCampsites(parkCode, limit, start, query)
+        type: GET_CAMPGROUNDS,
+        campgrounds: await getCampgrounds(parkCode, limit, start, query)
     });
 }
 

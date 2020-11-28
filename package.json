@@ -18,7 +18,7 @@
     "react-dom": "^16.14.0",
     "react-https-redirect": "^1.1.0",
     "react-json-editor-ajrm": "^2.5.13",
-    "react-mapbox-gl": "^5.0.0",
+    "react-mapbox-gl": "4.8.6",
     "react-redux": "^7.2.1",
     "react-router-dom": "latest",
     "react-scripts": "3.4.3",

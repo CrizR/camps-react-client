@@ -3,7 +3,7 @@ import Campsite from "../model/CampsiteModel";
 const url = "https://developer.nps.gov/api/v1/campgrounds";
 const api_key = "USBMWhZ9kdFYHUbocfzPv0yJ3gPdmYvU8barIf9M";
 
-export const getCampsites = (parkCode, limit = 50, start = 0, query = "") => {
+export const getCampgrounds = (parkCode, limit = 1000, start = 0, query = "") => {
 
     let requestUrl = `${url}?parkCode=${parkCode}&parkCode=&limit=${limit}&start=${start}&api_key=${api_key}`;
     if (!!query) {
@@ -26,12 +26,15 @@ export const getCampsites = (parkCode, limit = 50, start = 0, query = "") => {
 };
 
 
-export const getCampsite = async (campsiteId, parkCodes) => {
-    let campsites = await this.getCampsites(parkCodes, 50);
-    let filtered = campsites.filter(campsite => campsite.id = campsiteId);
-    if (!!filtered.length) {
-        return filtered[0]
-    } else {
-        return []
-    }
+// They have no endpoint to retrieve a single campground :(
+export const getCampground = (id) => {
+    return getCampgrounds("").then(cgs => {
+        let filtered = cgs.data.filter(cg => cg.id === id);
+        console.log(filtered, cgs, id);
+        if (!!filtered.length) {
+            return filtered[0]
+        } else {
+            return []
+        }
+    })
 };

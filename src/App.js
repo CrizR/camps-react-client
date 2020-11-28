@@ -44,7 +44,8 @@ function App() {
                     <Router>
                         <ProtectedRoute path="/" exact component={DashboardContainer}/>
                         <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
-                        <ProtectedRoute path='/campground/:id' exact component={CampgroundContainer}/>
+                        <ProtectedRoute path='/campground/:id' component={(routerProps) =>
+                            <CampgroundContainer id={routerProps.match.params.id}/>}/>
                     </Router>
                 </Provider>
             </HttpsRedirect>

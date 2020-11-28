@@ -15,6 +15,12 @@
     padding-right: 5%;
 }
 
+.camps-dashboard-grid-search {
+    text-align: left;
+    padding: 0 20px 20px 0;
+    width: 100%;
+}
+
 .camps-dashboard-campgrounds {
     background: #ffffff;
     margin-top: 25px !important;
@@ -26,14 +32,13 @@
     padding: 50px !important;
 }
 
-.camps-dashboard .ui.segment>.ui.dimmer {
+.camps-dashboard .ui.segment > .ui.dimmer {
     z-index: 0;
 }
 
 .camps-dashboard-pagination {
     margin-top: 50px !important;
 }
-
 
 
 @media only screen and (max-width: 800px) {

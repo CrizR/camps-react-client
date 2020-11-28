@@ -1,0 +1,15 @@
+.camps-campground-loader {
+    z-index: 0;
+}
+
+.camps-campground-details {
+    position: absolute !important;
+    left: 3%;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 10;
+    min-width: 200px;
+    width: 30%;
+    height: 80%;
+}
