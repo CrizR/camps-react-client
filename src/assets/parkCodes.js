@@ -2,7 +2,6 @@ export const parkCodes = {
     "Abraham Lincoln Birthplace NHS": "ABLI",
     "Acadia NP": "ACAD",
     "Adams National Historical Park": "ADAM",
-    "Administration": "ADM",
     "Agate Fossil Beds NM": "AGFO",
     "Alaska Region": "AKRO",
     "Alaska Support Office": "AKSO",

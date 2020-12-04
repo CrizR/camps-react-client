@@ -40,7 +40,6 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
         let parkCodeParam = !!currentUrlParams.get('parkCode') ? currentUrlParams.get('parkCode') : "";
         setParkCode(parkCodeParam);
         setSearchInput(searchTerm);
-        console.log(parkCodeParam, searchTerm);
         getCampsites(parkCodeParam, LIMIT, 0, searchTerm).then(() => {
             setLoading(false);
         });
