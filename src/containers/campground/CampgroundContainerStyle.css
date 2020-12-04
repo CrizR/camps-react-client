@@ -16,4 +16,6 @@
 
 .camps-campground-description-style {
     color: black;
+    text-align: left;
+    margin-bottom: 20px;
 }
