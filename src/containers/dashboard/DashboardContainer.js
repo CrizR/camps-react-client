@@ -29,24 +29,30 @@ const parkOptions = parkCodes.map((code, i) => ({
 const LIMIT = 100;
 export const RESULTS_PER_PAGE = 6;
 
-const DashboardContainer = ({searchTermParam, parkCodeParam, getCampsites, filtered, pageResults, filterCampsites, pageNumber, setPageNumber}) => {
-    const [parkCode, setParkCode] = useState(!!parkCodeParam ? parkCodeParam : "");
-    const [searchInput, setSearchInput] = useState(!!searchTermParam ? searchTermParam : "");
+const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsites, pageNumber, setPageNumber}) => {
+    const [parkCode, setParkCode] = useState("");
+    const [searchInput, setSearchInput] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getCampsites(parkCode, LIMIT, 0, searchInput).then(() => {
+        let currentUrlParams = new URLSearchParams(window.location.search);
+        setParkCode(currentUrlParams.get('parkCode'));
+        setSearchInput(currentUrlParams.get('searchTerm'));
+        getCampsites(currentUrlParams.get('parkCode'), LIMIT, 0, currentUrlParams.get('searchTerm')).then(() => {
             setLoading(false);
         });
-
-        console.log(searchTermParam);
-        console.log(parkCodeParam)
-
     }, []);
 
 
+    function updateParams() {
+        let currentUrlParams = new URLSearchParams(window.location.search);
+        currentUrlParams.set('parkCode', parkCode);
+        currentUrlParams.set('searchTerm', searchInput);
+        window.history.replaceState("", "", "?" + currentUrlParams.toString());
+    }
+
     function searchCampsites() {
-        window.history.replaceState("", "", `/dashboard/${parkCode}/${searchInput}`);
+        updateParams();
         setLoading(true);
         getCampsites(parkCode, LIMIT, 0, searchInput).then(() => {
             setLoading(false);

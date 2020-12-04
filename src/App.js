@@ -44,9 +44,7 @@ function App() {
                 <Provider store={store}>
                     <Router>
                         <Route exact path="/" component={Home}/>
-                        <ProtectedRoute exact path="/dashboard/:parkCode?/:searchTerm?" component={(routerProps) =>
-                            <DashboardContainer parkCodeParam={routerProps.match.params.parkCode}
-                                                searchTermParam={routerProps.match.params.searchTerm}/>}/>
+                        <ProtectedRoute path="/dashboard/" exact component={DashboardContainer}/>
                         <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
                         <ProtectedRoute path='/campground/:id' exact component={(routerProps) =>
                             <CampgroundContainer id={routerProps.match.params.id}/>}/>
