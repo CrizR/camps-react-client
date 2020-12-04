@@ -15,6 +15,8 @@ import TripsReducer from "./reducers/TripsReducer";
 import ProfileContainer from "./containers/profile/ProfileContainer";
 import CampgroundContainer from "./containers/campground/CampgroundContainer";
 import Home from "./containers/home/Home";
+import {createUserIfNotExist} from "./services/UserService";
+import {setCurrentUserAction} from "./actions/UserActions";
 
 
 const rootReducer = combineReducers({
@@ -28,14 +30,19 @@ const store = createStore(
 );
 
 
-// TODO: Add a homepage that you login from
-// TODO: add routing for profile page
-// TODO: Make view of Campsite not a protected route
 function App() {
-    const {isLoading} = useAuth0();
+    const {isLoading, isAuthenticated, user, getAccessTokenSilently} = useAuth0();
 
     if (isLoading) {
         return <LoadingComponent/>
+    }
+
+    if (isAuthenticated && !!user) {
+        getAccessTokenSilently({
+            audience: process.env.REACT_APP_AUTH_AUDIENCE,
+        }).then((token) => {
+            createUserIfNotExist(user, token)
+        })
     }
 
     return (
@@ -43,11 +50,25 @@ function App() {
             <HttpsRedirect>
                 <Provider store={store}>
                     <Router>
-                        <Route exact path="/" component={Home}/>
-                        <ProtectedRoute path="/dashboard/" exact component={DashboardContainer}/>
-                        <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
-                        <ProtectedRoute path='/campground/:id' exact component={(routerProps) =>
-                            <CampgroundContainer id={routerProps.match.params.id}/>}/>
+                        {isAuthenticated ?
+                            <>
+                                <Route exact path="/" component={DashboardContainer}/>
+                                <ProtectedRoute path="/dashboard/" exact component={DashboardContainer}/>
+                                <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
+                                <ProtectedRoute path='/campground/:id' exact component={(routerProps) =>
+                                    <CampgroundContainer id={routerProps.match.params.id}/>}/>
+                            </>
+                            :
+                            <>
+                                <Route exact path="/" component={Home}/>
+                                <Route path='/profile/:id' exact component={ProfileContainer}/>
+                                <Route path="/dashboard/" exact component={DashboardContainer}/>
+                                <Route path='/campground/:id' exact component={(routerProps) =>
+                                    <CampgroundContainer id={routerProps.match.params.id}/>}/>
+                            </>
+                        }
+
+
                     </Router>
                 </Provider>
             </HttpsRedirect>

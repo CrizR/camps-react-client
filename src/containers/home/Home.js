@@ -12,9 +12,10 @@ const Home = ({}) => {
 
     return (
         <>
+            <NavBarComponent/>
             <div style={{marginTop: '100px'}}>
                 <h1>TODO Home Page</h1>
-                <Button as={Link} to={"/dashboard"}>Login</Button>
+                <Button as={Link} to={"/dashboard"}>Dashboard</Button>
             </div>
         </>
     );

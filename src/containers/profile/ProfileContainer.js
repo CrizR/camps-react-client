@@ -29,7 +29,7 @@ const ProfileContainer = () => {
   const currentUser = useSelector((state) => state.UserReducer.user);
   const trips = useSelector((state) => state.TripsReducer.trips);
   const owned_trips = useSelector((state) => state.TripsReducer.ownedTrips);
-  const isLoading = true
+  const isLoading = true;
   //useSelector((state) => state.tripReducer.isTripsLoading);
 
   useEffect(() => {

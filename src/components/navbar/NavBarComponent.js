@@ -1,12 +1,12 @@
 import React from 'react';
 import './NavBarStyle.css'
 import {Link} from 'react-router-dom'
-import {Dropdown, Menu} from 'semantic-ui-react'
+import {Button, Dropdown, Menu} from 'semantic-ui-react'
 import logo from "../../assets/logo.png"
 import {useAuth0} from "@auth0/auth0-react";
 
 export function NavBarComponent() {
-    const {logout, user} = useAuth0();
+    const {logout, user, isAuthenticated, loginWithRedirect} = useAuth0();
 
     return (
 
@@ -21,7 +21,7 @@ export function NavBarComponent() {
                     </Menu.Item>
                     <Menu.Menu position={'right'}>
                         <Menu.Item>
-                            {!!user &&
+                            {!!user && isAuthenticated ?
                             <Dropdown
                                 text={`${user.name}`}
                                 icon='user'
@@ -38,6 +38,9 @@ export function NavBarComponent() {
                                                    text='Logout'/>
                                 </Dropdown.Menu>
                             </Dropdown>
+
+                                :
+                                <Button onClick={() => loginWithRedirect('/dashboard')}>Login</Button>
                             }
 
                         </Menu.Item>

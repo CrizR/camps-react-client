@@ -20,7 +20,7 @@ export const getTrips = (user, token) => {
 
 export const getOwnedTrips = (user, token) => {
 
-    return fetch(`${apiUrl}/user/${user.user_id}/trips/owned`,
+    return fetch(`${apiUrl}/user/${user.sub}/trips/owned`,
         {
             headers: {
                 'Accept': 'application/json',
@@ -37,7 +37,7 @@ export const getOwnedTrips = (user, token) => {
 
 export const inviteToTrip = (user, email, tripId, token) => {
 
-    return fetch(`${apiUrl}/user/${user.user_id}/trips/${tripId}/invite`,
+    return fetch(`${apiUrl}/user/${user.sub}/trips/${tripId}/invite`,
         {
             method: 'POST',
             body: JSON.stringify({email: email}),
@@ -52,7 +52,7 @@ export const inviteToTrip = (user, email, tripId, token) => {
 
 
 export const createTrip = (user, trip, token) =>
-    fetch(`${apiUrl}/user/${user.user_id}/trip/`,
+    fetch(`${apiUrl}/user/${user.sub}/trip/`,
         {
             method: 'POST',
             body: JSON.stringify(trip),
@@ -67,7 +67,7 @@ export const createTrip = (user, trip, token) =>
 
 
 export const updateTrip = (user, id, trip, token) =>
-    fetch(`${apiUrl}/user/${user.user_id}/trip/${id}`,
+    fetch(`${apiUrl}/user/${user.sub}/trip/${id}`,
         {
             method: 'PUT',
             body: JSON.stringify(trip),
@@ -82,7 +82,7 @@ export const updateTrip = (user, id, trip, token) =>
 
 
 export const deleteTrip = (user, id, token) =>
-    fetch(`${apiUrl}/user/${user.user_id}/trip/${id}`, {
+    fetch(`${apiUrl}/user/${user.sub}/trip/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

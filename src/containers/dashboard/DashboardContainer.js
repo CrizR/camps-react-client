@@ -18,6 +18,7 @@ import {connect} from "react-redux";
 import {filterCampsitesAction, getCampgroundsAction, setPageNumberAction} from "../../actions/DashboardActions";
 import {parkCodes} from "../../assets/parkCodes";
 import bg from "../../assets/bg.png"
+import {useAuth0} from "@auth0/auth0-react";
 
 const parkOptions = Object.keys(parkCodes).map((k, i) => ({
     key: i,

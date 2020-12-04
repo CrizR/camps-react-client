@@ -39,7 +39,6 @@ const CampgroundContainer = ({id}) => {
                     {!!campground &&
                     <Segment className={'camps-campground-details'}>
                         <h3>{campground.name}</h3>
-                        {console.log(campground)}
                         <p className="camps-campground-description-style">
                             <h4>Description</h4>
                             {campground.description}

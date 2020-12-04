@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import "./CampgroundCardStyle.css"
-import {Button, Card, Dropdown, DropdownItem, Grid, Image} from "semantic-ui-react";
+import {Button, Card, Dropdown, DropdownItem, Form, Grid, Image, Input, Modal, TextArea} from "semantic-ui-react";
 import ReactMapboxGl, {Feature, Layer} from "react-mapbox-gl";
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux";
 import Truncate from 'react-truncate';
 import {useAuth0} from "@auth0/auth0-react";
-import TripEditor from "../TripEditor/TripEditor"
+import TripEditor from "../editor/TripEditor"
 import bg from "../../assets/bg.png"
+import DatePicker from "react-datepicker";
 
 const Map = ReactMapboxGl({
     minZoom: 2,
@@ -22,6 +23,7 @@ const Map = ReactMapboxGl({
 // TODO: Make this properly display campground
 // Let's use mapbox to showcase its location
 function CampgroundCard({campground}) {
+    const {isAuthenticated, loginWithRedirect} = useAuth0();
 
     useEffect(() => {
     }, []);
@@ -63,18 +65,44 @@ function CampgroundCard({campground}) {
                 </Card.Meta>
             </Card.Content>
             <Card.Content className={'camps-card-extra'} extra>
-                <Grid columns={2}>
-                    <Grid.Column>
-                        <Button className={'camps-secondary-button camps-start-btn'} as={Link}
-                                to={`/campground/${campground.id}`}>See Details</Button>
+                {isAuthenticated ?
+                    <Grid columns={2}>
+                        <Grid.Column>
+                            <Button className={'camps-secondary-button camps-start-btn'} as={Link}
+                                    to={`/campground/${campground.id}`}>See Details</Button>
 
-                    </Grid.Column>
-                    <Grid.Column>
-                        <TripEditor campground={campground}
-                                    triggerElement={<Button className={'camps-primary-button camps-start-btn'}>Create
-                                        Trip</Button>}/>
-                    </Grid.Column>
-                </Grid>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <TripEditor campground={campground}
+                                        triggerElement={<Button className={'camps-primary-button camps-start-btn'}>
+                                            Create Trip</Button>}/>
+                        </Grid.Column>
+                    </Grid>
+                    :
+                    <Grid columns={2}>
+                        <Grid.Column>
+                            <Button className={'camps-secondary-button camps-start-btn'} as={Link}
+                                    to={`/campground/${campground.id}`}>See Details</Button>
+
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Modal
+                                size={'tiny'}
+                                style={{textAlign: 'center'}}
+                                trigger={<Button className={'camps-primary-button camps-start-btn'}>
+                                    Create Trip</Button>}
+                            >
+                                <Modal.Header>
+                                    Login to Create a Trip
+                                </Modal.Header>
+                                <Modal.Content>
+                                    <Button onClick={() => loginWithRedirect()}>Login</Button>
+                                </Modal.Content>
+                            </Modal>
+                        </Grid.Column>
+                    </Grid>
+                }
+
             </Card.Content>
         </Card>
 
