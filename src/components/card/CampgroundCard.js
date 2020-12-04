@@ -24,7 +24,6 @@ const Map = ReactMapboxGl({
 function CampgroundCard({campground}) {
 
     useEffect(() => {
-        console.log(campground)
     }, []);
 
     return (
