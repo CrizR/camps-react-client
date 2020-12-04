@@ -36,10 +36,10 @@ const CampgroundContainer = ({id}) => {
                 <div>
                     <Segment className={'camps-campground-details'}>
                         <h4>{campground.name}</h4>
-                        <p>
-                            Details here
+                        <p className="camps-campground-description-style">
+                            {campground.description}
                         </p>
-
+                        <br/>
                         <Button>Create Trip Here!</Button>
                     </Segment>
                     {!!campground.longitude && !!campground.latitude &&
