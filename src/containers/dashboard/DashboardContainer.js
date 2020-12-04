@@ -19,10 +19,10 @@ import {filterCampsitesAction, getCampgroundsAction, setPageNumberAction} from "
 import {parkCodes} from "../../assets/parkCodes";
 import bg from "../../assets/bg.png"
 
-const parkOptions = parkCodes.map((code, i) => ({
+const parkOptions = Object.keys(parkCodes).map((k, i) => ({
     key: i,
-    text: code,
-    value: code,
+    text: k,
+    value: parkCodes[k],
 }));
 
 
@@ -36,9 +36,12 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
 
     useEffect(() => {
         let currentUrlParams = new URLSearchParams(window.location.search);
-        setParkCode(currentUrlParams.get('parkCode'));
-        setSearchInput(currentUrlParams.get('searchTerm'));
-        getCampsites(currentUrlParams.get('parkCode'), LIMIT, 0, currentUrlParams.get('searchTerm')).then(() => {
+        let searchTerm = !!currentUrlParams.get('searchTerm') ? currentUrlParams.get('searchTerm') : "";
+        let parkCodeParam = !!currentUrlParams.get('parkCode') ? currentUrlParams.get('parkCode') : "";
+        setParkCode(parkCodeParam);
+        setSearchInput(searchTerm);
+        console.log(parkCodeParam, searchTerm);
+        getCampsites(parkCodeParam, LIMIT, 0, searchTerm).then(() => {
             setLoading(false);
         });
     }, []);
@@ -84,7 +87,7 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
                                    onChange={(e) => setSearchInput(e.target.value)}
                                    placeholder='Search Term' action>
                                 <input/>
-                                <Dropdown placeholder='Select Park Code' value={parkCode}
+                                <Dropdown placeholder='Select National Park' value={parkCode}
                                           onChange={(e, {value}) => setParkCode(value)}
                                           search selection options={parkOptions}/>
                                 <Button
