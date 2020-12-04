@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import './App.css';
 import 'semantic-ui-css/semantic.min.css'
 import {combineReducers, createStore} from "redux";
@@ -14,6 +14,7 @@ import DashboardContainer from "./containers/dashboard/DashboardContainer";
 import TripsReducer from "./reducers/TripsReducer";
 import ProfileContainer from "./containers/profile/ProfileContainer";
 import CampgroundContainer from "./containers/campground/CampgroundContainer";
+import Home from "./containers/home/Home";
 
 
 const rootReducer = combineReducers({
@@ -42,9 +43,12 @@ function App() {
             <HttpsRedirect>
                 <Provider store={store}>
                     <Router>
-                        <ProtectedRoute path="/" exact component={DashboardContainer}/>
+                        <Route exact path="/" component={Home}/>
+                        <ProtectedRoute exact path="/dashboard/:parkCode?/:searchTerm?" component={(routerProps) =>
+                            <DashboardContainer parkCodeParam={routerProps.match.params.parkCode}
+                                                searchTermParam={routerProps.match.params.searchTerm}/>}/>
                         <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
-                        <ProtectedRoute path='/campground/:id' component={(routerProps) =>
+                        <ProtectedRoute path='/campground/:id' exact component={(routerProps) =>
                             <CampgroundContainer id={routerProps.match.params.id}/>}/>
                     </Router>
                 </Provider>
