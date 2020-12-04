@@ -16,7 +16,6 @@ import CampsiteCard from "../../components/card/CampgroundCard";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import {filterCampsitesAction, getCampgroundsAction, setPageNumberAction} from "../../actions/DashboardActions";
-import {useAuth0} from "@auth0/auth0-react";
 import {parkCodes} from "../../assets/parkCodes";
 import bg from "../../assets/bg.png"
 
@@ -30,20 +29,24 @@ const parkOptions = parkCodes.map((code, i) => ({
 const LIMIT = 100;
 export const RESULTS_PER_PAGE = 6;
 
-const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsites, pageNumber, setPageNumber}) => {
-    const {getAccessTokenSilently, user} = useAuth0();
-    const [parkCode, setParkCode] = useState("");
-    const [searchInput, setSearchInput] = useState("");
+const DashboardContainer = ({searchTermParam, parkCodeParam, getCampsites, filtered, pageResults, filterCampsites, pageNumber, setPageNumber}) => {
+    const [parkCode, setParkCode] = useState(!!parkCodeParam ? parkCodeParam : "");
+    const [searchInput, setSearchInput] = useState(!!searchTermParam ? searchTermParam : "");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getCampsites(parkCode, LIMIT, 0, searchInput).then(() => {
             setLoading(false);
         });
+
+        console.log(searchTermParam);
+        console.log(parkCodeParam)
+
     }, []);
 
 
     function searchCampsites() {
+        window.history.replaceState("", "", `/${parkCode}/${searchInput}`);
         setLoading(true);
         getCampsites(parkCode, LIMIT, 0, searchInput).then(() => {
             setLoading(false);
@@ -71,8 +74,9 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
                         <Menu.Item
                             className="aligned camps-search-campground">
                             <Input type='text'
+                                   value={searchInput}
                                    onChange={(e) => setSearchInput(e.target.value)}
-                                   placeholder='Campground Name' action>
+                                   placeholder='Search Term' action>
                                 <input/>
                                 <Dropdown placeholder='Select Park Code' value={parkCode}
                                           onChange={(e, {value}) => setParkCode(value)}
@@ -87,7 +91,7 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
                     <Segment className={'camps-dashboard-campgrounds'}>
                         <div className={'camps-dashboard-grid-search'}>
                             <Input onChange={(e) => filterCampsites(e.target.value)}
-                                   placeholder='Search'/>
+                                   placeholder='Campground Name'/>
                         </div>
                         {loading ?
                             <Dimmer className={'camps-dashboard-loader'} active inverted>

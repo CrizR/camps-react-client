@@ -42,7 +42,9 @@ function App() {
             <HttpsRedirect>
                 <Provider store={store}>
                     <Router>
-                        <ProtectedRoute path="/" exact component={DashboardContainer}/>
+                        <ProtectedRoute path="/:parkCode?/:searchTerm?" component={(routerProps) =>
+                            <DashboardContainer parkCodeParam={routerProps.match.params.parkCode}
+                                                searchTermParam={routerProps.match.params.searchTerm}/>}/>
                         <ProtectedRoute path='/profile' exact component={ProfileContainer}/>
                         <ProtectedRoute path='/campground/:id' component={(routerProps) =>
                             <CampgroundContainer id={routerProps.match.params.id}/>}/>

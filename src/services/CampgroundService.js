@@ -20,7 +20,6 @@ export const getCampgrounds = (parkCode, limit = 1000, start = 0, query = "") =>
         })
         .then(response => response.json())
         .then(campsites => {
-            console.log(campsites);
             return campsites; //TODO: Use CampsiteModel
         });
 };
