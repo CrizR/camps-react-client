@@ -1,10 +1,7 @@
-import Trip from "../model/TripModel";
-
 const apiUrl = process.env.NODE_ENV === 'production' ? "https://camps-node-server.herokuapp.com/api" : "http://localhost:8080/api";
 
 
 export const getUser = (user, token) => {
-    console.log(`${apiUrl}/user/${user.sub}`);
     return fetch(`${apiUrl}/user/${user.sub}`,
         {
             method: 'GET',
