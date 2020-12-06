@@ -11,30 +11,33 @@ import {
   Image,
   Menu,
   Loader,
+  Form,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
-import { setCurrentUserAction } from "./../../actions/UserActions";
 import {
   getTripsAction,
   getOwnedTripsAction,
 } from "./../../actions/TripActions";
+import ProfileEditor from "../../components/profile/profileEditor";
 
 //TODO: SHOWCASE TRIPS
 const ProfileContainer = () => {
   const { getAccessTokenSilently, user, logout, isAuthenticated } = useAuth0();
   const [activeItem, setActiveItem] = useState("trips");
-
-  
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.UserReducer.user);
   const trips = useSelector((state) => state.TripsReducer.trips);
   const owned_trips = useSelector((state) => state.TripsReducer.ownedTrips);
-  const isLoading = true;
-  //useSelector((state) => state.tripReducer.isTripsLoading);
+  const isAllTripsLoaded = useSelector(
+    (state) =>
+      state.TripsReducer.isAllTripsLoaded &&
+      state.TripsReducer.isOwnedTripsLoaded
+  );
+  let isLoading = useSelector((state) => state.TripsReducer.isTripsLoading);
+  const [editing, setEditing] = React.useState(false);
 
   useEffect(() => {
-    if (isAuthenticated && user) {
-      dispatch(setCurrentUserAction(user));
+    if (isAuthenticated && user && !isAllTripsLoaded) {
       getAccessTokenSilently({
         audience: process.env.REACT_APP_AUTH_AUDIENCE,
       }).then((token) => {
@@ -42,7 +45,7 @@ const ProfileContainer = () => {
         getOwnedTripsAction(dispatch, user, token);
       });
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, isAllTripsLoaded]);
 
   return (
     currentUser && (
@@ -60,13 +63,21 @@ const ProfileContainer = () => {
                       <Header.Subheader>{currentUser.email}</Header.Subheader>
                     </Header.Content>
                   </Header>
-                  <Button
-                    fluid
-                    content="Logout"
-                    icon="external square alternate"
-                    size="small"
-                    onClick={() => logout()}
-                  />
+                  {!editing && (
+                    <Button
+                      fluid
+                      content="Edit Profile"
+                      icon="edit"
+                      size="small"
+                      onClick={() => setEditing(true)}
+                    />
+                  )}
+                  {editing && currentUser && (
+                    <ProfileEditor
+                      currentUser={currentUser}
+                      setEditing={setEditing}
+                    />
+                  )}
                 </Container>
               </Grid.Column>
               <Grid.Column width={10}>
