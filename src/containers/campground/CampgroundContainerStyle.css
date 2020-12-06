@@ -10,8 +10,8 @@
     transform: translateY(-50%);
     z-index: 10;
     min-width: 200px;
-    width: 30%;
-    height: 80%;
+    max-width: 40%;
+    height: 80%
 }
 
 .camps-campground-description-style {
@@ -19,3 +19,4 @@
     text-align: left;
     margin-bottom: 20px;
 }
+

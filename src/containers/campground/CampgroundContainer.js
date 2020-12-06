@@ -4,9 +4,10 @@ import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import ReactMapboxGl, {Feature, Layer} from "react-mapbox-gl";
 import {getCampground} from "../../services/CampgroundService";
-import {Button, Dimmer, Image, Loader, Segment} from "semantic-ui-react";
+import {Button, Dimmer, Icon, Image, Loader, Segment} from "semantic-ui-react";
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css"
+import bg from "../../assets/bg.png"
 
 const Map = ReactMapboxGl({
     minZoom: 2,
@@ -39,38 +40,37 @@ const CampgroundContainer = ({id}) => {
                     {!!campground &&
                     <Segment className={'camps-campground-details'}>
                         <h3>{campground.name}</h3>
-                        <p className="camps-campground-description-style">
-                            <h4>Description</h4>
+                        <div className="camps-campground-description-style">
+                            <h4><Icon name={'file'}/> Description</h4>
                             {campground.description}
-                        </p>
-                        <p className="camps-campground-description-style">
-                            <h4>Campsites</h4>
+                        </div>
+                        <div className="camps-campground-description-style">
+                            <h4><Icon name={'tree'}/> Campsites</h4>
                             <p>Total: {campground.campsites.totalSites}</p>
-                        </p>
-                        <p className="camps-campground-description-style">
-                            <h4>Fees</h4>
-                            <p>{campground.fees[0].title}: {campground.fees[0].cost}</p>
+                        </div>
+                        <div className="camps-campground-description-style">
+                            <h4>Fees </h4>
+                            <p>{campground.fees[0].title}: <Icon name={'dollar'}/>{campground.fees[0].cost}</p>
                             <p>{campground.fees[0].description}</p>
-                        </p>
-                        <p className="camps-campground-description-style">
+                        </div>
+                        <div className="camps-campground-description-style">
                             <h4>Contact</h4>
-                            <p>Email: <a>{campground.contacts.emailAddresses[0].emailAddress}</a></p>
-                            <p>Phone: <a>{campground.contacts.phoneNumbers[0].phoneNumber}</a></p>
-                        </p>
+                            <p><Icon name={'mail'}/><a>{campground.contacts.emailAddresses[0].emailAddress}</a></p>
+                            <p><Icon name={'phone'}/> <a>{campground.contacts.phoneNumbers[0].phoneNumber}</a></p>
+                        </div>
                         {!!campground.images.length &&
-                        <p className="camps-campground-description-style" style={{marginTop: '25px'}}>
-                            <h4>Images</h4>
-                            <ImageGallery items={campground.images.map(img => (
-                                {"original": img.url, "thumbnail": img.url}
+                        <div className="camps-campground-description-style" style={{marginTop: '25px'}}>
+                            <h4><Icon name={'photo'}/> Images</h4>
+                            <ImageGallery sizes={'small'} items={campground.images.map(img => (
+                                {"original": img.url, "originalClass": "camps-gallery-style", "thumbnail": img.url}
                             ))}/>
-                        </p>
+                        </div>
                         }
-
                         <br/>
                         <Button>Create Trip Here!</Button>
                     </Segment>
                     }
-                    {!!campground.longitude && !!campground.latitude &&
+                    {!!campground.longitude && !!campground.latitude ?
                     <Map
                         style="mapbox://styles/risleychris/ckaipv98m05sn1iplo9j0k47d"
                         center={[-Math.abs(campground.longitude), campground.latitude]}
@@ -87,6 +87,9 @@ const CampgroundContainer = ({id}) => {
                             <Feature coordinates={[-Math.abs(campground.longitude), campground.latitude]}/>
                         </Layer>
                     </Map>
+                        :
+
+                        <Image style={{height:'100vh', width:'100%'}} src={bg}/>
                     }
 
 
