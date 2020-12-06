@@ -17,7 +17,7 @@ import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {
   getTripsAction,
   getOwnedTripsAction,
-} from "./../../actions/TripActions";
+} from "../../actions/TripActions";
 import ProfileEditor from "../../components/profile/profileEditor";
 
 //TODO: SHOWCASE TRIPS

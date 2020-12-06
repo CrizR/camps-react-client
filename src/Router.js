@@ -14,6 +14,7 @@ import {
   selectCurrentUser,
   setCurrentUserAction,
 } from "./actions/CurrentUserActions";
+import AdminContainer from "./containers/admin/AdminContainer";
 
 const AppRouter = () => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -55,6 +56,7 @@ const AppRouter = () => {
               <CampgroundContainer id={routerProps.match.params.id} />
             )}
           />
+          <ProtectedRoute path='/admin' exact component={AdminContainer}/>
         </>
       ) : (
         <>

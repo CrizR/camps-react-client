@@ -22,22 +22,25 @@ export function NavBarComponent() {
                     <Menu.Menu position={'right'}>
                         <Menu.Item>
                             {!!user && isAuthenticated ?
-                            <Dropdown
-                                text={`${user.name}`}
-                                icon='user'
-                                floating
-                                labeled
-                                button
-                                className='icon'
-                            >
-                                <Dropdown.Menu>
-                                    <Dropdown.Item>
-                                        <Link to='/profile'>Profile</Link>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => logout()}
-                                                   text='Logout'/>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                                <Dropdown
+                                    text={`${user.name}`}
+                                    icon='user'
+                                    floating
+                                    labeled
+                                    button
+                                    className='icon'
+                                >
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item>
+                                            <Link to='/profile'>Profile</Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item>
+                                            <Link to='/admin'>Admin</Link>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => logout()}
+                                                       text='Logout'/>
+                                    </Dropdown.Menu>
+                                </Dropdown>
 
                                 :
                                 <Button onClick={() => loginWithRedirect('/dashboard')}>Login</Button>
