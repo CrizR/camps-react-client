@@ -20,7 +20,7 @@ export const getTrips = (user, token) => {
 
 export const getOwnedTrips = (user, token) => {
 
-    return fetch(`${apiUrl}/user/${user.sub}/trips/owned`,
+    return fetch(`${apiUrl}/user/${user.email}/trips/owned`,
         {
             headers: {
                 'Accept': 'application/json',

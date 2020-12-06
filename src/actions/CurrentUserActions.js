@@ -1,4 +1,4 @@
-import { updateUser, getUser } from "../services/UserService";
+import { updateUser} from "../services/UserService";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const GET_USER = "GET_USER";
@@ -28,13 +28,5 @@ export function updateUserAction(dispatch, user, token) {
   });
 }
 
-export function getUserAction(dispatch, user, token) {
-  getUser(user, token).then(() => {
-    return dispatch({
-      type: GET_USER,
-      user: user,
-    });
-  });
-}
 
 export const selectCurrentUser = (state) => state.UserReducer.user;
