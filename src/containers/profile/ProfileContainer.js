@@ -14,16 +14,15 @@ import {
   Form,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
-import {
-  getTripsAction,
-  getOwnedTripsAction,
-} from "../../actions/TripActions";
+import { getTripsAction, getOwnedTripsAction } from "../../actions/TripActions";
 import ProfileEditor from "../../components/profile/profileEditor";
+import { TRIP_TYPES } from "./constants";
+import TripsViewer from "../../components/profile/TripsViewer";
 
 //TODO: SHOWCASE TRIPS
 const ProfileContainer = () => {
   const { getAccessTokenSilently, user, logout, isAuthenticated } = useAuth0();
-  const [activeItem, setActiveItem] = useState("trips");
+  const [activeItem, setActiveItem] = useState(TRIP_TYPES.allTrips);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.UserReducer.user);
   const trips = useSelector((state) => state.TripsReducer.trips);
@@ -84,28 +83,22 @@ const ProfileContainer = () => {
                 <div>
                   <Menu tabular attached="top">
                     <Menu.Item
-                      name="Upcoming trips"
-                      active={activeItem === "trips"}
-                      onClick={() => setActiveItem("trips")}
+                      name="All trips"
+                      active={activeItem === TRIP_TYPES.allTrips}
+                      onClick={() => setActiveItem(TRIP_TYPES.allTrips)}
                     />
                     <Menu.Item
-                      name="manage trips"
-                      active={activeItem === "manage"}
-                      onClick={() => setActiveItem("manage")}
+                      name="owned trips"
+                      active={activeItem === TRIP_TYPES.ownedTrips}
+                      onClick={() => setActiveItem(TRIP_TYPES.ownedTrips)}
                     />
                   </Menu>
-                  <Segment attached="bottom">
-                    {isLoading ? (
-                      <Loader active inline="centered">
-                        Loading
-                      </Loader>
-                    ) : (
-                      <div>
-                        {activeItem === "trips" && <div></div>}
-                        {activeItem === "manage" && <div></div>}
-                      </div>
-                    )}
-                  </Segment>
+                  <TripsViewer
+                    trips={trips}
+                    owned_trips={owned_trips}
+                    isLoading={isLoading}
+                    tripType={activeItem}
+                  />
                 </div>
               </Grid.Column>
             </Grid>

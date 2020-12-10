@@ -32,7 +32,7 @@ const AppRouter = () => {
         dispatch(setCurrentUserAction(user));
       })
       .catch((e) => {
-        debugger;
+        console.error(e);
       });
   }
 
@@ -56,7 +56,7 @@ const AppRouter = () => {
               <CampgroundContainer id={routerProps.match.params.id} />
             )}
           />
-          <ProtectedRoute path='/admin' exact component={AdminContainer}/>
+          <ProtectedRoute path="/admin" exact component={AdminContainer} />
         </>
       ) : (
         <>
