@@ -6,6 +6,21 @@ const apiUrl =
     : "http://localhost:8080/api";
 
 export const getTrips = (user, token) => {
+  return fetch(`${apiUrl}/user/${user.email}/trips`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((trips) => {
+        console.log(trips);
+        return trips.map((trip) => Trip.fromStorage(trip));
+    });
+};
+
+export const getOwnedTrips = (user, token) => {
   return fetch(`${apiUrl}/user/${user.sub}/trips/owned`, {
     headers: {
       Accept: "application/json",
@@ -15,20 +30,7 @@ export const getTrips = (user, token) => {
   })
     .then((response) => response.json())
     .then((trips) => {
-      return trips.map((trip) => Trip.fromStorage(trip));
-    });
-};
-
-export const getOwnedTrips = (user, token) => {
-  return fetch(`${apiUrl}/user/${user.email}/trips/owned`, {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((trips) => {
+        console.log(trips);
       return trips.map((trip) => Trip.fromStorage(trip));
     });
 };
