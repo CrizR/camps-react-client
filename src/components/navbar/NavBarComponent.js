@@ -11,7 +11,7 @@ export function NavBarComponent() {
     return (
 
         <div className={'camps-navbar'}>
-            <div style={{background: 'white', transition: 'background-color 300ms linear'}}>
+            <div style={{background: "white", transition: 'background-color 300ms linear'}}>
                 <Menu secondary>
                     <Menu.Item
                         as={Link}
