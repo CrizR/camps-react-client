@@ -36,9 +36,9 @@ export function Home () {
             </div>
                 <h1 className="camps-title">Welcome to Camps!</h1>
                 <h2 className="camps-subtitle">A service that lets you camp with others</h2>
-              <div style={{padding: '45px'}}>
+              <div style={{padding: '40px'}}>
               </div>
-              { !!user && isAuthenticated ? <h3 className="camps-subtitle">Hello {user.name}.</h3> : <p></p>
+              { !!user && isAuthenticated ? <h3 className="camps-subtitle">Hello {user.name}.</h3> : <></>
               }
               <Link to={"/dashboard"}> <Button class="ui inverted button massive ui button" as={Link} to={"/dashboard"}>Dashboard</Button></Link>
               </div>
