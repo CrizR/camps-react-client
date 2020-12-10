@@ -2,9 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import bg2 from "../../assets/homepage2.jpg"
 import "./HomeStyle.css"
-import {
-    Button,
-} from "semantic-ui-react";
+// import {
+//     Button,
+// } from "semantic-ui-react";
+import Button from '@material-ui/core/Button'
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
@@ -32,10 +33,10 @@ const Home = ({}) => {
             </div>
                 <h1 className="camps-title">Welcome to Camps!</h1>
                 <h2 className="camps-subtitle">A service that lets you camp with others</h2>
-              <div style={{padding: '100px'}}>
+              <div style={{padding: '50px'}}>
               </div>
-                <Button className="camps-dashboard-button" as={Link} to={"/dashboard"}>Dashboard</Button>
-            </div>
+                <Button class="ui inverted button massive ui button" as={Link} to={"/dashboard"}>Dashboard</Button>
+              </div>
         </div>
     );
 
