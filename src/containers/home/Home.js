@@ -33,9 +33,9 @@ const Home = ({}) => {
             </div>
                 <h1 className="camps-title">Welcome to Camps!</h1>
                 <h2 className="camps-subtitle">A service that lets you camp with others</h2>
-              <div style={{padding: '50px'}}>
+              <div style={{padding: '45px'}}>
               </div>
-                <Button class="ui inverted button massive ui button" as={Link} to={"/dashboard"}>Dashboard</Button>
+                <Button class="ui inverted button massive ui button" as={Link} to={"/dashboard"}><Link to={"/dashboard"}>Dashboard</Link></Button>
               </div>
         </div>
     );
