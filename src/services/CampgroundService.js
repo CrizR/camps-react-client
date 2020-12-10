@@ -1,4 +1,4 @@
-import Campsite from "../model/CampsiteModel";
+import Campground from "../model/CampgroundModel";
 
 const url = "https://developer.nps.gov/api/v1/campgrounds";
 const api_key = "USBMWhZ9kdFYHUbocfzPv0yJ3gPdmYvU8barIf9M";
@@ -19,8 +19,8 @@ export const getCampgrounds = (parkCode, limit = 1000, start = 0, query = "") =>
             }
         })
         .then(response => response.json())
-        .then(campsites => {
-            return campsites; //TODO: Use CampsiteModel
+        .then(campgrounds => {
+            return campgrounds.data.map(campsite => Campground.fromStorage(campsite))
         });
 };
 
@@ -28,8 +28,7 @@ export const getCampgrounds = (parkCode, limit = 1000, start = 0, query = "") =>
 // They have no endpoint to retrieve a single campground :(
 export const getCampground = (id) => {
     return getCampgrounds("").then(cgs => {
-        let filtered = cgs.data.filter(cg => cg.id === id);
-        console.log(filtered, cgs, id);
+        let filtered = cgs.filter(cg => cg.id === id);
         if (!!filtered.length) {
             return filtered[0]
         } else {

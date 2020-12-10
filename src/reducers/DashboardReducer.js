@@ -19,10 +19,10 @@ const DashboardReducer = (state = initialState, action) => {
 
         case GET_CAMPGROUNDS: {
             return Object.assign({}, state, {
-                campgrounds: action.campgrounds.data,
+                campgrounds: action.campgrounds,
                 pageNumber: 1,
-                pageResults: action.campgrounds.data.slice(0, RESULTS_PER_PAGE),
-                filtered: action.campgrounds.data,
+                pageResults: action.campgrounds.slice(0, RESULTS_PER_PAGE),
+                filtered: action.campgrounds,
                 total: action.campgrounds.total
             })
         }

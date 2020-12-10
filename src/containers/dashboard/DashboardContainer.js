@@ -76,8 +76,8 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
             <Image className={'camps-bg-image'} src={bg}/>
             <div className={'camps-dashboard'}>
                 <Container>
-                    <Menu secondary className={'camps-menu'}>
-                        <Menu.Item className="camps-dashboard-menu-item">
+                    <Menu secondary className={'camps-menu'} stackable={true}>
+                        <Menu.Item className="camps-dashboard-menu-item mobile-hidden">
                             <h2>Campgrounds</h2>
                         </Menu.Item>
                         <Menu.Item
@@ -85,9 +85,9 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
                             <Input type='text'
                                    value={searchInput}
                                    onChange={(e) => setSearchInput(e.target.value)}
-                                   placeholder='Search Term' action>
+                                   placeholder='Search' action>
                                 <input/>
-                                <Dropdown placeholder='Select National Park' value={parkCode}
+                                <Dropdown placeholder='National Park' value={parkCode}
                                           onChange={(e, {value}) => setParkCode(value)}
                                           search selection options={parkOptions}/>
                                 <Button

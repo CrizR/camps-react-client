@@ -2,21 +2,62 @@
     z-index: 0;
 }
 
+.camps-campground-grid {
+    margin-top: 50px !important;
+    height: 100vh;
+}
+
 .camps-campground-details {
-    position: absolute !important;
-    left: 3%;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    z-index: 10;
-    min-width: 200px;
-    max-width: 40%;
-    height: 80%
+    position: relative;
+    padding: 20px !important;
+    height: 100%;
+}
+
+
+.camps-campground-details-container .ui.card, .ui.cards>.card {
+    width: 100%;
+}
+
+.camps-campground-details-container .ui.grid>* {
+    padding: 0 !important;
+}
+
+.camps-campground-details p {
+    font-size: 16px;
+    margin: 5px;
 }
 
 .camps-campground-description-style {
     color: black;
     text-align: left;
     margin-bottom: 20px;
+    padding-top: 20px;
 }
 
+.camps-campground-description-style-body {
+    padding: 25px;
+    background: #f2f2f2 !important;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.create-trip-details-btn {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+@media only screen and (max-width: 800px) {
+    .camps-campground-details-container .ui.grid>* {
+        padding: 0 !important;
+    }
+
+    .camps-campground-details {
+        padding: 30px !important;
+    }
+
+    .camps-campground-details {
+        height: 100% !important;
+    }
+}
