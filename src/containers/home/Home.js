@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import styled from "@material-ui/core/styles/styled";
+import {useAuth0} from "@auth0/auth0-react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +23,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Home = ({}) => {
+export function Home () {
+  const {logout, user, isAuthenticated, loginWithRedirect} = useAuth0();
+
   const classes = useStyles();
     return (
         <div>
@@ -35,12 +38,14 @@ const Home = ({}) => {
                 <h2 className="camps-subtitle">A service that lets you camp with others</h2>
               <div style={{padding: '45px'}}>
               </div>
+              { !!user && isAuthenticated ? <h3 className="camps-subtitle">Hello {user.name}.</h3> : <p></p>
+              }
               <Link to={"/dashboard"}> <Button class="ui inverted button massive ui button" as={Link} to={"/dashboard"}>Dashboard</Button></Link>
               </div>
         </div>
     );
 
-};
+}
 
 const stateToProperty = (state) => ({});
 
