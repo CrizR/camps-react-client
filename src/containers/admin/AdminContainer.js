@@ -15,10 +15,10 @@ import {
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import { setCurrentUserAction } from "../../actions/CurrentUserActions";
 import {
-  getTripsAction,
+  getInvitedTripsAction,
   getOwnedTripsAction,
 } from "../../actions/TripActions";
-import ProfileEditor from "../../components/profile/profileEditor";
+import ProfileEditor from "../../components/profile/ProfileEditor";
 
 //TODO: SHOWCASE TRIPS
 const AdminContainer = () => {
@@ -41,7 +41,7 @@ const AdminContainer = () => {
       getAccessTokenSilently({
         audience: process.env.REACT_APP_AUTH_AUDIENCE,
       }).then((token) => {
-        getTripsAction(dispatch, user, token);
+        getInvitedTripsAction(dispatch, user, token);
         getOwnedTripsAction(dispatch, user, token);
       });
     }

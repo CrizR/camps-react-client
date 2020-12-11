@@ -5,7 +5,7 @@ const apiUrl =
     ? "https://camps-node-server.herokuapp.com/api"
     : "http://localhost:8080/api";
 
-export const getTrips = (user, token) => {
+export const getInvitedTrips = (user, token) => {
   return fetch(`${apiUrl}/user/${user.email}/trips`, {
     headers: {
       Accept: "application/json",

@@ -1,4 +1,4 @@
 export const TRIP_TYPES = {
-  allTrips: "allTrips",
+  invitedTrips: "invitedTrips",
   ownedTrips: "ownedTrips",
 };
