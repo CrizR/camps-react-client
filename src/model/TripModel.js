@@ -1,25 +1,24 @@
 class Trip {
+  constructor(id, date, tripOwner, campground, description, name) {
+    this.id = id;
+    this.date = date;
+    this.tripOwner = tripOwner;
+    this.campground = campground;
+    this.description = description;
+    this.name = name;
+    //this.parkCode = parkCode;
+  }
 
-
-    constructor(id, name, owner, date, campgroundId, parkCode) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        this.date = date;
-        this.campgroundId = campgroundId;
-        this.parkCode = parkCode;
-    }
-
-    static fromStorage(obj) {
-        return new Trip(
-            obj["id"],
-            obj["name"],
-            obj["owner"],
-            obj["date"],
-            obj["campgroundId"],
-            obj["parkCode"])
-    }
-
+  static fromStorage(obj) {
+    return new Trip(
+      obj["id"],
+      obj["date"],
+      obj["tripOwner"],
+      obj["campground"],
+      obj["description"],
+      obj["name"]
+    );
+  }
 }
 
-export default Trip
+export default Trip;

@@ -53,7 +53,7 @@ const ProfileContainer = () => {
         <div className="camps-profile row">
           <Container>
             <Grid>
-              <Grid.Column width={6}>
+              <Grid.Column width={5}>
                 <Container>
                   <Header as="h1">
                     <Image circular src={currentUser.picture} />
@@ -79,16 +79,16 @@ const ProfileContainer = () => {
                   )}
                 </Container>
               </Grid.Column>
-              <Grid.Column width={10}>
+              <Grid.Column width={11}>
                 <div>
                   <Menu tabular attached="top">
                     <Menu.Item
-                      name="All trips"
+                      name="Your trips"
                       active={activeItem === TRIP_TYPES.allTrips}
                       onClick={() => setActiveItem(TRIP_TYPES.allTrips)}
                     />
                     <Menu.Item
-                      name="owned trips"
+                      name="Trip Invites"
                       active={activeItem === TRIP_TYPES.ownedTrips}
                       onClick={() => setActiveItem(TRIP_TYPES.ownedTrips)}
                     />

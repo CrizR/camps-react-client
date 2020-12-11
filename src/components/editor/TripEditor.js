@@ -9,9 +9,9 @@ import { createTripAction, updateTripAction } from "../../actions/TripActions";
 import { selectCurrentUser } from "../../actions/CurrentUserActions";
 
 // TODO Change this whole thing to not use JSON and to allow you to create a campsite
-const TripEditor = ({ campsite, triggerElement, isEdit, existingTrip }) => {
+const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
+  console.log(campground);
   const dispatch = useDispatch();
-
   const [open, setOpen] = React.useState(false);
   const { getAccessTokenSilently } = useAuth0();
   const currentUser = useSelector(selectCurrentUser);
@@ -21,7 +21,7 @@ const TripEditor = ({ campsite, triggerElement, isEdit, existingTrip }) => {
       inviteList: "",
       description: "",
       date: new Date().valueOf(),
-      campsite,
+      campground,
     }
   );
 

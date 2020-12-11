@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   Button,
   Grid,
+  Card,
   Segment,
   Container,
   Header,
@@ -11,6 +12,7 @@ import {
   Form,
 } from "semantic-ui-react";
 import { TRIP_TYPES } from "../../containers/profile/constants";
+import TripCard from "../card/TripCard.js";
 
 const TripsViewer = ({ trips, owned_trips, isLoading, tripType }) => {
   if (isLoading) {
@@ -25,14 +27,18 @@ const TripsViewer = ({ trips, owned_trips, isLoading, tripType }) => {
 
   return tripType === TRIP_TYPES.allTrips ? (
     <Segment attached="bottom">
-      {trips.map((trip) => (
-        <div>hi</div>
-      ))}
+      <Card.Group itemsPerRow={2}>
+        {trips.map((trip) => (
+          <TripCard trip={trip}></TripCard>
+        ))}
+      </Card.Group>
     </Segment>
   ) : (
     <Segment attached="bottom">
       {owned_trips.map((trip) => (
-        <div>hi</div>
+        <Card.Group itemsPerRow={2}>
+          <TripCard trip={trip}></TripCard>
+        </Card.Group>
       ))}
     </Segment>
   );
