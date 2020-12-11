@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   Button,
+  List,
   Card,
   Dropdown,
   DropdownItem,
@@ -43,6 +44,15 @@ const TripCard = ({ trip }) => {
         <Card.Description>{trip.description}</Card.Description>
       </Card.Content>
       <Card.Content extra>
+        <List>
+          <List.Item>
+            <List.Icon name="users" />
+            <List.Content>Invited Campers</List.Content>
+          </List.Item>
+          {trip.inviteList.map((user) => (
+            <List.Item>{user}</List.Item>
+          ))}
+        </List>
         <Link to={`/campground/${campground.id}`}>
           <Icon name="location arrow" />
           See Campsite Details

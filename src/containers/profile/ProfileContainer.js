@@ -9,6 +9,7 @@ import {
   Header,
   Menu,
   Image,
+  List,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import { getOwnedTripsAction, getTripsAction } from "../../actions/TripActions";
@@ -16,7 +17,6 @@ import ProfileEditor from "../../components/profile/profileEditor";
 import { TRIP_TYPES } from "./constants";
 import TripsViewer from "../../components/profile/TripsViewer";
 
-//TODO: SHOWCASE TRIPS
 const ProfileContainer = () => {
   const { getAccessTokenSilently, user, logout, isAuthenticated } = useAuth0();
   const [activeItem, setActiveItem] = useState(TRIP_TYPES.allTrips);
@@ -59,14 +59,24 @@ const ProfileContainer = () => {
                       <Header.Subheader>{currentUser.email}</Header.Subheader>
                     </Header.Content>
                   </Header>
+                  <p>{currentUser.about}</p>
                   {!editing && (
-                    <Button
-                      fluid
-                      content="Edit Profile"
-                      icon="edit"
-                      size="small"
-                      onClick={() => setEditing(true)}
-                    />
+                    <div>
+                      <Button
+                        fluid
+                        content="Edit Profile"
+                        icon="edit"
+                        size="small"
+                        onClick={() => setEditing(true)}
+                      />
+                      <List>
+                        <List.Item icon="tree" content="two trips" />
+                        <List.Item
+                          icon="map marker alternate"
+                          content={currentUser.location}
+                        />
+                      </List>
+                    </div>
                   )}
                   {editing && currentUser && (
                     <ProfileEditor
