@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useAuth0} from "@auth0/auth0-react";
 import "./AdminContainerStyle.css";
 import {
   Button,
-  Grid,
-  Segment,
   Container,
+  Grid,
   Header,
   Image,
-  Menu,
+  Input,
   Loader,
+  Menu,
+  Segment,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
-import { setCurrentUserAction } from "../../actions/CurrentUserActions";
-import {
-  getTripsAction,
-  getOwnedTripsAction,
-} from "../../actions/TripActions";
-import ProfileEditor from "../../components/profile/profileEditor";
+import {getOwnedTripsAction, getTripsAction,} from "../../actions/TripActions";
+import {searchUserEmailAdminAction} from "../../actions/AdminActions";
 
 //TODO: SHOWCASE TRIPS
 const AdminContainer = () => {
-  const { getAccessTokenSilently, user, logout, isAuthenticated } = useAuth0();
+  const {getAccessTokenSilently, user, logout, isAuthenticated} = useAuth0();
   const [activeItem, setActiveItem] = useState("trips");
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.UserReducer.user);
   const trips = useSelector((state) => state.TripsReducer.trips);
-  const owned_trips = useSelector((state) => state.TripsReducer.ownedTrips);
+  const usersFound = useSelector((state) => state.AdminReducer.user);
+  // const [setUsersFound] = useState(false);
+  console.log("userFound", usersFound)
   const isAllTripsLoaded = useSelector(
       (state) =>
           state.TripsReducer.isAllTripsLoaded &&
@@ -35,6 +34,11 @@ const AdminContainer = () => {
   );
   let isLoading = useSelector((state) => state.TripsReducer.isTripsLoading);
   const [editing, setEditing] = React.useState(false);
+  let searchEmail = "";
+
+  const updateEmail = (e) => {
+    searchEmail = e;
+  }
 
   useEffect(() => {
     if (isAuthenticated && user && !isAllTripsLoaded) {
@@ -50,7 +54,7 @@ const AdminContainer = () => {
   return (
       currentUser && (
           <>
-            <NavBarComponent />
+            <NavBarComponent/>
             <div className="camps-profile row">
               <Container>
                 <Grid>
@@ -58,7 +62,7 @@ const AdminContainer = () => {
                     <Container>
                       <h1 className="camps-admin-header-style">ADMIN</h1>
                       <Header as="h1">
-                        <Image circular src={currentUser.picture} />
+                        <Image circular src={currentUser.picture}/>
                         <Header.Content>
                           {currentUser.fName}
                           <Header.Subheader>{currentUser.email}</Header.Subheader>
@@ -87,12 +91,49 @@ const AdminContainer = () => {
                             </Loader>
                         ) : (
                             <div>
-                              {activeItem === "trips" && <div>
-
-                              </div>}
-                              {activeItem === "manage" && <div>
-                                testing
-                              </div>}
+                              {
+                                activeItem === "trips" && <div>
+                                  <Input type='text'
+                                      // value={""}
+                                         id="adminSearchEmail"
+                                         placeholder='Search by email'/>
+                                  <Button onClick={() => {
+                                    getAccessTokenSilently({
+                                      audience: process.env.REACT_APP_AUTH_AUDIENCE,
+                                    }).then((token) => {
+                                      // console.log(document.getElementById("adminSearchEmail").value)
+                                      searchUserEmailAdminAction(
+                                          dispatch,
+                                          document.getElementById(
+                                              "adminSearchEmail").value,
+                                          token
+                                      );
+                                    });
+                                  }}>
+                                    Search
+                                  </Button>
+                                  <div>
+                                    {
+                                      console.log(usersFound.length) &&
+                                    usersFound.length > 0 &&
+                                        usersFound.map(user =>
+                                          <span>
+                                            {user.name}
+                                          </span>
+                                        )
+                                    }
+                                    {
+                                      usersFound.length < 1 &&
+                                      <div><br/>No users found</div>
+                                    }
+                                  </div>
+                                </div>
+                              }
+                              {
+                                activeItem === "manage" && <div>
+                                  testing
+                                </div>
+                              }
                             </div>
                         )}
                       </Segment>
