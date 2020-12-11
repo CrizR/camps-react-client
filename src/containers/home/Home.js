@@ -6,7 +6,6 @@ import {
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import {useAuth0} from "@auth0/auth0-react";
-import Masonry from "react-masonry-component";
 import a1 from "../../assets/a1.svg"
 import a2 from "../../assets/a2.svg"
 import bg from "../../assets/landscape.svg"
