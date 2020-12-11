@@ -1,13 +1,145 @@
 .camps-title {
-  margin-bottom: 0;
-  color: white;
+    margin-bottom: 0;
+    color: white;
 }
 
 .camps-subtitle {
-  margin-bottom: 0;
-  color: white;
+    margin-bottom: 0;
+    color: white;
 }
 
-/*.camps-dashboard-button .hover{*/
-/*  size: 100px;*/
-/*}*/
+.camps-bg-home-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    width: 100%;
+}
+
+.home {
+    text-align: left;
+}
+
+.home-content {
+    text-align: left;
+    z-index: 1;
+    margin: 0 auto;
+    color: var(--camps-secondary-color);
+}
+
+.home .centered-button {
+    text-align: center;
+    margin-top: 100px;
+    padding-bottom: 50px;
+}
+
+.home .home-body {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 5%;
+    background-color: #34B7EA;
+    margin: 0 auto -5px;
+    text-align: center;
+}
+
+.home .plan-trip-btn {
+    width: 250px;
+}
+
+.home .home-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    width: 100%;
+}
+
+
+.home .offer-card .offer-content {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.offer-content {
+    margin-bottom: 100px;
+    z-index: 1;
+    margin-top: 100px;
+    text-align: center;
+}
+
+.masonry-class {
+    text-align: center;
+}
+
+.home .offer-content h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--camps-secondary-color);
+    z-index: 10;
+}
+
+.home .offer-card {
+    height: 300px;
+    width: 300px;
+    margin: 25px;
+    border-radius: 25px;
+    text-align: center;
+    color: black !important;
+}
+
+
+.home .offer-card img {
+    width: 100px;
+    height: 100px;
+    top: 50px;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%) !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.home .offer-card.ui.segment {
+    margin: 25px;
+}
+
+.home .cover-text {
+    position: relative;
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 100px;
+    width: 100%;
+}
+
+.home .cover-text h1 {
+    font-size: 42px;
+    color: white;
+}
+
+.home .cover-text h3 {
+    font-size: 28px;
+    color: white;
+}
+
+.home .home-content h1 {
+    font-size: 36px;
+    color: var(--camps-secondary-color);
+    text-align: left;
+    margin: 10px;
+
+}
+
+.home .offer-description {
+    font-size: 18px;
+    color: black;
+}
+
+
+.home .offer-header {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: black;
+}

@@ -1,48 +1,74 @@
 import React, {useEffect, useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import bg2 from "../../assets/homepage2.jpg"
 import "./HomeStyle.css"
-// import {
-//     Button,
-// } from "semantic-ui-react";
-import Button from '@material-ui/core/Button'
+import {
+    Button, Grid, Image, Segment,
+} from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import styled from "@material-ui/core/styles/styled";
 import {useAuth0} from "@auth0/auth0-react";
+import a1 from "../../assets/a1.svg"
+import a2 from "../../assets/a2.svg"
+import bg from "../../assets/landscape.svg"
+import {Link} from "react-router-dom";
 
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: '100vh',
-    backgroundImage: `url(${process.env.PUBLIC_URL + bg2})`,
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-  },
-}));
+const offers = [
+    {
+        "Header": "Find a Campground",
+        "Description": "Using our search tool find a Campground you want to visit!",
+        "Image": a1
+    },
+    {
+        "Header": "Plan a Trip",
+        "Description": "After choosing a campground, plan a trip and invite your friends!",
+        "Image": a2
+    },
+];
 
-export function Home () {
-  const {logout, user, isAuthenticated, loginWithRedirect} = useAuth0();
+export function Home() {
 
-  const classes = useStyles();
+    function getOffers() {
+        let offerObjects = [];
+
+        offers.forEach(offer => {
+            offerObjects.push(
+                <Segment className={'offer-card'}>
+                    <Image src={offer.Image}/>
+                    <div className={'offer-content'}>
+                        <h1 className={'offer-header'}>
+                            {offer.Header}
+                        </h1>
+                        <h3 className={'offer-description'}>
+                            {offer.Description}
+                        </h3>
+                    </div>
+                </Segment>
+            )
+        });
+        return offerObjects
+
+    }
+
+
     return (
-        <div>
-            <NavBarComponent />
-            <div className={classes.root} >
-              <CssBaseline />
-            <div style={{padding: '50px'}}>
+        <>
+            <div className={'home'}>
+                <NavBarComponent/>
+                <div className={'home-body'}>
+                    <div className={'cover-text'}>
+                        <h1>Your camping trip planner</h1>
+                        <h3>Find a trip in the wild!</h3>
+                    </div>
+                    <div className={'offer-content'}>
+                        <Grid columns={2} centered>
+                            {getOffers()}
+                        </Grid>
+                    </div>
+                    <Button as={Link} to={'/dashboard'} className={'camps-secondary-button plan-trip-btn'}>Plan Trip</Button>
+                </div>
+                <Image className='camps-bg-home-image' src={bg} alt={"test"}/>
             </div>
-                <h1 className="camps-title">Welcome to Camps!</h1>
-                <h2 className="camps-subtitle">A service that lets you camp with others</h2>
-              <div style={{padding: '40px'}}>
-              </div>
-              { !!user && isAuthenticated ? <h3 className="camps-subtitle">Hello {user.name}.</h3> : <></>
-              }
-              <Link to={"/dashboard"}> <Button class="ui inverted button massive ui button" as={Link} to={"/dashboard"}>Dashboard</Button></Link>
-              </div>
-        </div>
+        </>
     );
 
 }
