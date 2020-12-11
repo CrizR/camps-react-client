@@ -14,7 +14,7 @@ import {
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import { getOwnedTripsAction, getInvitedTripsAction } from "../../actions/TripActions";
-import ProfileEditor from "../../components/profile/ProfileEditor";
+import ProfileEditor from "../../components/profile/profileEditor";
 import { TRIP_TYPES } from "./constants";
 import TripsViewer from "../../components/profile/TripsViewer";
 import { getUserByEmail } from "../../services/UserService";
