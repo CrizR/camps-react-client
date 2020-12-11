@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createTripAction, updateTripAction } from "../../actions/TripActions";
 import { selectCurrentUser } from "../../actions/CurrentUserActions";
+import { inviteToTrip } from "../../services/TripsService";
 
 // TODO Change this whole thing to not use JSON and to allow you to create a campsite
 const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
@@ -30,6 +31,11 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
       ...editStateTrip,
       [fieldName]: fieldName === "date" ? e : e.target.value,
     });
+
+  const formatTrip = (trip) => ({
+    ...trip,
+    inviteList: trip.inviteList.split(/\s/g).filter((el) => el.length > 0),
+  });
 
   return (
     <Modal
@@ -80,23 +86,44 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
         <Button
           onClick={() => {
             if (!currentUser) return;
+
             getAccessTokenSilently({
               audience: process.env.REACT_APP_AUTH_AUDIENCE,
             }).then((token) => {
+              const formattedTrip = formatTrip(editStateTrip);
+
               isEdit
                 ? updateTripAction(
                     dispatch,
                     currentUser,
                     existingTrip.id,
-                    { trip: editStateTrip },
+                    { trip: formattedTrip },
                     token
-                  )
+                  ).then((trip) => {
+                    if (trip.inviteList.length) {
+                      // edit user trip
+                    }
+                  })
                 : createTripAction(
                     dispatch,
                     currentUser,
-                    { trip: editStateTrip },
+                    { trip: formattedTrip },
                     token
-                  );
+                  ).then((trip) => {
+                    if (trip.inviteList.length) {
+                      // collection of async calls
+                      Promise.all(
+                        trip.inviteList.map((email) => {
+                          inviteToTrip(
+                            currentUser.sub,
+                            email,
+                            trip.id,
+                            token
+                          ).catch((e) => console.error(e));
+                        })
+                      ).then(() => console.log("success"));
+                    }
+                  });
             });
           }}
         >

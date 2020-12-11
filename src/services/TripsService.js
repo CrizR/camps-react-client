@@ -15,8 +15,8 @@ export const getTrips = (user, token) => {
   })
     .then((response) => response.json())
     .then((trips) => {
-        console.log(trips);
-        return trips.map((trip) => Trip.fromStorage(trip));
+      console.log(trips);
+      return trips.map((trip) => Trip.fromStorage(trip));
     });
 };
 
@@ -30,13 +30,12 @@ export const getOwnedTrips = (user, token) => {
   })
     .then((response) => response.json())
     .then((trips) => {
-        console.log(trips);
       return trips.map((trip) => Trip.fromStorage(trip));
     });
 };
 
-export const inviteToTrip = (user, email, tripId, token) => {
-  return fetch(`${apiUrl}/user/${user.sub}/trips/${tripId}/invite`, {
+export const inviteToTrip = (userId, email, tripId, token) => {
+  return fetch(`${apiUrl}/user/${userId}/trips/${tripId}/invite`, {
     method: "POST",
     body: JSON.stringify({ email: email }),
     headers: {

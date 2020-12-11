@@ -83,14 +83,14 @@ const ProfileContainer = () => {
                 <div>
                   <Menu tabular attached="top">
                     <Menu.Item
-                      name="Your trips"
-                      active={activeItem === TRIP_TYPES.allTrips}
-                      onClick={() => setActiveItem(TRIP_TYPES.allTrips)}
-                    />
-                    <Menu.Item
-                      name="Trip Invites"
+                      name="Your Trips"
                       active={activeItem === TRIP_TYPES.ownedTrips}
                       onClick={() => setActiveItem(TRIP_TYPES.ownedTrips)}
+                    />
+                    <Menu.Item
+                      name="Your Invites"
+                      active={activeItem === TRIP_TYPES.allTrips}
+                      onClick={() => setActiveItem(TRIP_TYPES.allTrips)}
                     />
                   </Menu>
                   <TripsViewer
