@@ -54,7 +54,7 @@ const AdminContainer = () => {
             <div className="camps-profile row">
               <Container>
                 <Grid>
-                  <Grid.Column width={6}>
+                  <Grid.Column width={5}>
                     <Container>
                       <h1 className="camps-admin-header-style">ADMIN</h1>
                       <Header as="h1">
