@@ -37,67 +37,6 @@ const ProfileContainer = () => {
   }, [isAuthenticated, user, isAllTripsLoaded]);
 
   return (
-<<<<<<< HEAD
-    currentUser && (
-      <>
-        <NavBarComponent />
-        <div className="camps-profile row">
-          <Container>
-            <Grid>
-              <Grid.Column width={5}>
-                <Container>
-                  <Header as="h1">
-                    <Image circular src={currentUser.picture} />
-                    <Header.Content>
-                      {currentUser.fName}
-                      <Header.Subheader>{currentUser.email}</Header.Subheader>
-                    </Header.Content>
-                  </Header>
-                  {!editing && (
-                    <Button
-                      fluid
-                      content="Edit Profile"
-                      icon="edit"
-                      size="small"
-                      onClick={() => setEditing(true)}
-                    />
-                  )}
-                  {editing && currentUser && (
-                    <ProfileEditor
-                      currentUser={currentUser}
-                      setEditing={setEditing}
-                    />
-                  )}
-                </Container>
-              </Grid.Column>
-              <Grid.Column width={11}>
-                <div>
-                  <Menu tabular attached="top">
-                    <Menu.Item
-                      name="Your Trips"
-                      active={activeItem === TRIP_TYPES.ownedTrips}
-                      onClick={() => setActiveItem(TRIP_TYPES.ownedTrips)}
-                    />
-                    <Menu.Item
-                      name="Your Invites"
-                      active={activeItem === TRIP_TYPES.allTrips}
-                      onClick={() => setActiveItem(TRIP_TYPES.allTrips)}
-                    />
-                  </Menu>
-                  <TripsViewer
-                    trips={trips}
-                    owned_trips={owned_trips}
-                    isLoading={isLoading}
-                    tripType={activeItem}
-                  />
-                </div>
-              </Grid.Column>
-            </Grid>
-          </Container>
-        </div>
-      </>
-    )
-=======
       currentUser && (
           <>
             <NavBarComponent/>
@@ -170,7 +109,6 @@ const ProfileContainer = () => {
             </div>
           </>
       )
->>>>>>> 33ca9c10c0708262d48cad528681382685059213
   );
 };
 
