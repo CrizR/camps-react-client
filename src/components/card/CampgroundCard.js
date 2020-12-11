@@ -18,7 +18,7 @@ import { connect } from "react-redux";
 import Truncate from "react-truncate";
 import { useAuth0 } from "@auth0/auth0-react";
 import TripEditor from "../editor/TripEditor";
-import bg from "../../assets/bg.png";
+import bg from "../../assets/mountains.svg";
 import DatePicker from "react-datepicker";
 
 const Map = ReactMapboxGl({

@@ -31,7 +31,6 @@ const offers = [
 ];
 
 export function Home() {
-    const {logout, user, isAuthenticated, loginWithRedirect} = useAuth0();
 
     function getOffers() {
         let offerObjects = [];

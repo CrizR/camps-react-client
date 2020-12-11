@@ -15,8 +15,8 @@
 }
 
 .camps-primary-button.ui.button:hover {
-    background: url("assets/bg1.png");
-    color: black;
+    background: var(--camps-primary-color);
+    color: white;
 }
 
 
@@ -34,8 +34,10 @@
 
 .camps-bg-image {
     position: fixed !important;
-    height: 100%;
-    width: 100%;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 0;
-    opacity: 0.08;
+    opacity: 0.1;
 }

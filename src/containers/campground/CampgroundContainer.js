@@ -4,11 +4,13 @@ import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import ReactMapboxGl, {Feature, Layer} from "react-mapbox-gl";
 import {getCampground} from "../../services/CampgroundService";
-import {Button, Card, Dimmer, Grid, Icon, Image, Loader, Segment} from "semantic-ui-react";
+import {Button, Card, Dimmer, Grid, Icon, Image, Loader, Modal, Segment} from "semantic-ui-react";
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css"
-import bg from "../../assets/bg.png"
+import bg from "../../assets/homepage2.jpg"
 import NumberFormat from 'react-number-format';
+import TripEditor from "../../components/editor/TripEditor";
+import {useAuth0} from "@auth0/auth0-react";
 
 const Map = ReactMapboxGl({
     minZoom: 2,
@@ -17,6 +19,7 @@ const Map = ReactMapboxGl({
 
 
 const CampgroundContainer = ({id}) => {
+    const {isAuthenticated, loginWithRedirect} = useAuth0();
     const [campground, setCampground] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -96,7 +99,26 @@ const CampgroundContainer = ({id}) => {
                                 </Card.Content>
 
                                 <Card.Content extra>
-                                    <Button className={'create-trip-details-btn camps-secondary-button'}>Create Trip Here!</Button>
+                                    {isAuthenticated ?
+                                        <TripEditor triggerElement={<Button
+                                            className={'create-trip-details-btn camps-secondary-button'}>Create Trip
+                                            Here!</Button>}/>
+                                        :
+                                        <Modal
+                                            size={"tiny"}
+                                            style={{textAlign: "center"}}
+                                            trigger={
+                                                <Button className={"camps-primary-button camps-start-btn"}>
+                                                    Create Trip
+                                                </Button>
+                                            }
+                                        >
+                                            <Modal.Header>Login to Create a Trip</Modal.Header>
+                                            <Modal.Content>
+                                                <Button onClick={() => loginWithRedirect()}>Login</Button>
+                                            </Modal.Content>
+                                        </Modal>
+                                    }
                                 </Card.Content>
                             </Card>
                         </Grid.Column>
@@ -111,7 +133,6 @@ const CampgroundContainer = ({id}) => {
                                         height: '100%',
                                         width: '100%'
                                     }}
-
                                 >
                                     <Layer type={'symbol'} paint={{"icon-color": '#f6e835'}}
                                            layout={{'icon-image': 'marker-15', 'icon-size': 2}}>
