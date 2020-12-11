@@ -20,6 +20,20 @@ export const getUser = (user, token) => {
         });
 };
 
+export const getUserByEmail = (email) => {
+    return fetch(`${apiUrl}/user/email/${email}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((user) => {
+        return user;
+      });
+  };
+
 export const createUserIfNotExist = async (user, token) => {
 
     let existingUser = await getUser(user, token);

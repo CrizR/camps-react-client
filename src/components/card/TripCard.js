@@ -50,7 +50,9 @@ const TripCard = ({ trip }) => {
             <List.Content>Invited Campers</List.Content>
           </List.Item>
           {trip.inviteList.map((user) => (
-            <List.Item>{user}</List.Item>
+            <List.Item>
+              <Link to={`/profile/${user}`}>{user}</Link>
+            </List.Item>
           ))}
         </List>
         <Link to={`/campground/${campground.id}`}>
