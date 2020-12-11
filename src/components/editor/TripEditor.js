@@ -7,11 +7,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createTripAction, updateTripAction } from "../../actions/TripActions";
 import { selectCurrentUser } from "../../actions/CurrentUserActions";
-import {Link} from "react-router-dom";
-import {highlightModule} from "../../actions/DashboardActions";
+import { inviteToTrip } from "../../services/TripsService";
 
 // TODO Change this whole thing to not use JSON and to allow you to create a campsite
-const TripEditor = ({ campground, triggerElement, isEdit, existingTrip, highlightModule, highlight }) => {
+const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
   console.log(campground);
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
@@ -33,6 +32,11 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip, highligh
       [fieldName]: fieldName === "date" ? e : e.target.value,
     });
 
+  const formatTrip = (trip) => ({
+    ...trip,
+    inviteList: trip.inviteList.split(/\s/g).filter((el) => el.length > 0),
+  });
+
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -46,25 +50,13 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip, highligh
       <Modal.Content className={"camps-json-input-comp"}>
         <Form>
           <Form.Group widths="equal">
-            { highlight.toString().length < 1 &&
-              <Form.Field
-                  control={Input}
-                  label="Trip Name"
-                  placeholder="Default Trip"
-                  className="camps-name-field-empty"
-                  onChange={(e) => updateField(e, "name")}
-                  value={editStateTrip.name}
-              />
-            }
-            { highlight.toString().length > 0 &&
-              <Form.Field
-                  control={Input}
-                  label="Trip Name"
-                  placeholder="Default Trip"
-                  onChange={(e) => updateField(e, "name")}
-                  value={editStateTrip.name}
-              />
-            }
+            <Form.Field
+              control={Input}
+              label="Trip Name"
+              placeholder="Default Trip"
+              onChange={(e) => updateField(e, "name")}
+              value={editStateTrip.name}
+            />
           </Form.Group>
           <Form.Field
             control={Input}
@@ -91,37 +83,52 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip, highligh
         </Form>
       </Modal.Content>
       <Modal.Actions className={"camps-create-campsite-card-actions"}>
-       <Link to="/"> <Button
+        <Button
           onClick={() => {
             if (!currentUser) return;
-            highlightModule(editStateTrip.name);
-            if (editStateTrip.name) {
-              console.log("Sending trip to server...")
-              getAccessTokenSilently({
-                audience: process.env.REACT_APP_AUTH_AUDIENCE,
-              }).then((token) => {
-                isEdit
-                    ? updateTripAction(
+
+            getAccessTokenSilently({
+              audience: process.env.REACT_APP_AUTH_AUDIENCE,
+            }).then((token) => {
+              const formattedTrip = formatTrip(editStateTrip);
+
+              isEdit
+                ? updateTripAction(
                     dispatch,
                     currentUser,
                     existingTrip.id,
-                    {trip: editStateTrip},
+                    { trip: formattedTrip },
                     token
-                    )
-                    : createTripAction(
+                  ).then((trip) => {
+                    if (trip.inviteList.length) {
+                      // edit user trip
+                    }
+                  })
+                : createTripAction(
                     dispatch,
                     currentUser,
-                    {trip: editStateTrip},
+                    { trip: formattedTrip },
                     token
-                    );
-              });
-            } else {
-              console.log("Name field is empty")
-            }
+                  ).then((trip) => {
+                    if (trip.inviteList.length) {
+                      // collection of async calls
+                      Promise.all(
+                        trip.inviteList.map((email) => {
+                          inviteToTrip(
+                            currentUser.sub,
+                            email,
+                            trip.id,
+                            token
+                          ).catch((e) => console.error(e));
+                        })
+                      ).then(() => console.log("success"));
+                    }
+                  });
+            });
           }}
         >
           Save Trip
-        </Button></Link>
+        </Button>
       </Modal.Actions>
     </Modal>
   );
@@ -129,11 +136,8 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip, highligh
 
 const stateToProperty = (state) => ({
   selectedCampsite: state.DashboardReducer.selected,
-  highlight: state.DashboardReducer.highlight,
 });
 
-const propertyToDispatchMapper = (dispatch) => ({
-  highlightModule: (hField) => highlightModule(dispatch, hField)
-});
+const propertyToDispatchMapper = (dispatch) => ({});
 
 export default connect(stateToProperty, propertyToDispatchMapper)(TripEditor);

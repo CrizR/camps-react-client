@@ -1,4 +1,11 @@
-import {createTrip, deleteTrip, getOwnedTrips, getTrips, updateTrip} from "../services/TripsService";
+import {
+  createTrip,
+  deleteTrip,
+  getOwnedTrips,
+  getTrips,
+  updateTrip,
+  inviteToTrip,
+} from "../services/TripsService";
 
 export const CREATE_TRIP = "CREATE_TRIP";
 export const UPDATE_TRIP = "UPDATE_TRIP";
@@ -11,81 +18,82 @@ export const GET_TRIPS_PENDING = "GET_TRIPS_PENDING";
 export const GET_TRIPS_FAILURE = "GET_TRIPS_FAILURE";
 
 const setTripsPending = () => ({
-    type: GET_TRIPS_PENDING,
+  type: GET_TRIPS_PENDING,
 });
-  
+
 const setTripsFailure = (error) => ({
-    type: GET_TRIPS_FAILURE,
-    error: error ? error.toString : "Problemo",
+  type: GET_TRIPS_FAILURE,
+  error: error ? error.toString : "Problemo",
 });
 
 export function createTripAction(dispatch, user, tripObj, token) {
-    return createTrip(user, tripObj, token).then(trip => {
-        return dispatch({
-            type: CREATE_TRIP,
-            trip: trip
-        });
-    })
+  return createTrip(user, tripObj, token).then((trip) => {
+    dispatch({
+      type: CREATE_TRIP,
+      trip: trip,
+    });
+    return trip;
+  });
 }
 
 export function updateTripAction(dispatch, user, id, tripObj, token) {
-    return updateTrip(user, id, tripObj, token).then(trip => {
-        return dispatch({
-            type: UPDATE_TRIP,
-            id: id,
-            trip: trip
-        });
-    })
+  return updateTrip(user, id, tripObj, token).then((trip) => {
+    dispatch({
+      type: UPDATE_TRIP,
+      id: id,
+      trip: trip,
+    });
+    return trip;
+  });
 }
 
 export function deleteTripAction(dispatch, user, id, token) {
-    return deleteTrip(user, id, token).then(() => {
-        return dispatch({
-            type: DELETE_TRIP,
-            id: id
-        });
-    })
+  return deleteTrip(user, id, token).then(() => {
+    return dispatch({
+      type: DELETE_TRIP,
+      id: id,
+    });
+  });
 }
 
 export function getTripsAction(dispatch, user, token) {
-    try {
-        dispatch(setTripsPending());
-        getTrips(user, token).then(tripzes => {
-            return dispatch({
-                type: GET_TRIPS,
-                trips: tripzes
-            });
-        })
-    } catch (err) {
-        setTripsFailure(err);
-    }
+  try {
+    dispatch(setTripsPending());
+    getTrips(user, token).then((tripzes) => {
+      return dispatch({
+        type: GET_TRIPS,
+        trips: tripzes,
+      });
+    });
+  } catch (err) {
+    setTripsFailure(err);
+  }
 }
 
-
 export function getOwnedTripsAction(dispatch, user, token) {
-    try {
-        dispatch(setTripsPending());
-        getOwnedTrips(user, token).then(trips => {
-            return dispatch({
-                type: GET_OWNED_TRIPS,
-                trips: trips
-            });
-        })
-    } catch (err) {
-        setTripsFailure(err);
-    }  
+  try {
+    dispatch(setTripsPending());
+    getOwnedTrips(user, token).then((trips) => {
+      return dispatch({
+        type: GET_OWNED_TRIPS,
+        trips: trips,
+      });
+    });
+  } catch (err) {
+    setTripsFailure(err);
+  }
 }
 
 export function selectTripAction(dispatch, id) {
-    return dispatch({
-        type: SELECT_TRIP,
-        id: id
-    });
+  return dispatch({
+    type: SELECT_TRIP,
+    id: id,
+  });
 }
 
 export function searchTripsAction(dispatch, searchTerm) {
-    return dispatch({
-        type: SEARCH_TRIPS,
-        searchTerm: searchTerm,
-    });
+  return dispatch({
+    type: SEARCH_TRIPS,
+    searchTerm: searchTerm,
+  });
 }
