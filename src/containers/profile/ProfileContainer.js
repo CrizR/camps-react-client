@@ -13,42 +13,35 @@ import {
   Loader,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
-import { getOwnedTripsAction, getTripsAction } from "../../actions/TripActions";
-import ProfileEditor from "../../components/profile/profileEditor";
+import { getOwnedTripsAction, getInvitedTripsAction } from "../../actions/TripActions";
+import ProfileEditor from "../../components/profile/ProfileEditor";
 import { TRIP_TYPES } from "./constants";
 import TripsViewer from "../../components/profile/TripsViewer";
 import { getUserByEmail } from "../../services/UserService";
-import { getOwnedTrips, getTrips } from "../../services/TripsService";
+import { getOwnedTrips, getInvitedTrips } from "../../services/TripsService";
 
 const ProfileContainer = ({ isEditable, email }) => {
-  const { getAccessTokenSilently, user, logout, isAuthenticated } = useAuth0();
-  const [activeItem, setActiveItem] = useState(TRIP_TYPES.allTrips);
+  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
+
   const currentUser = useSelector((state) => state.UserReducer.user);
-  const trips = useSelector((state) => state.TripsReducer.trips);
+  const invited_trips = useSelector((state) => state.TripsReducer.invitedTrips);
   const owned_trips = useSelector((state) => state.TripsReducer.ownedTrips);
-  const isAllTripsLoaded = useSelector(
+  const isInvitedTripsLoaded = useSelector(
     (state) =>
-      state.TripsReducer.isAllTripsLoaded &&
+      state.TripsReducer.isInvitedTripsLoaded &&
       state.TripsReducer.isOwnedTripsLoaded
   );
-  let isLoading = useSelector((state) => state.TripsReducer.isTripsLoading);
+  let isLoading = useSelector(
+    (state) => 
+    state.TripsReducer.isTripsLoading
+  );
+
+  const [activeItem, setActiveItem] = useState(TRIP_TYPES.invitedTrips);
   const [editing, setEditing] = React.useState(false);
-
-  const [
-    isAllEmailUserTripsLoaded,
-    setIsAllEmailUserTripsLoaded,
-  ] = React.useState(false);
-
-  const [
-    isAllEmailUserTripsLoading,
-    setIsAllEmailUserTripsLoading,
-  ] = React.useState(false);
-
-  const [emailUserTrips, setEmailUserTrips] = React.useState({
-    owned: [],
-    all: [],
-  });
+  const [isAllEmailUserTripsLoaded, setIsAllEmailUserTripsLoaded] = React.useState(false);
+  const [isAllEmailUserTripsLoading, setIsAllEmailUserTripsLoading] = React.useState(false);
+  const [emailUserTrips, setEmailUserTrips] = React.useState({owned: [], all: [],});
 
   const [emailUser, setEmailUser] = React.useState(null);
    
@@ -76,7 +69,7 @@ const ProfileContainer = ({ isEditable, email }) => {
         })
         .then((res) => {
           return Promise.all([
-            getTrips(res.eUser, res.token),
+            getInvitedTrips(res.eUser, res.token),
             getOwnedTrips(res.eUser, res.token),
           ]);
         })
@@ -89,15 +82,15 @@ const ProfileContainer = ({ isEditable, email }) => {
           setIsAllEmailUserTripsLoading(false);
         })
         .catch((e) => console.error(e));
-    } else if (isAuthenticated && user && !isAllTripsLoaded) {
+    } else if (isAuthenticated && user && !isInvitedTripsLoaded) {
       getAccessTokenSilently({
         audience: process.env.REACT_APP_AUTH_AUDIENCE,
       }).then((token) => {
-        getTripsAction(dispatch, user, token);
+        getInvitedTripsAction(dispatch, user, token);
         getOwnedTripsAction(dispatch, user, token);
       });
     }
-  }, [isAuthenticated, user, isAllTripsLoaded, email]);
+  }, [isAuthenticated, user, isInvitedTripsLoaded, email]);
 
   const userToDisplay = email ? emailUser : currentUser;
 
@@ -157,12 +150,12 @@ const ProfileContainer = ({ isEditable, email }) => {
                     />
                     <Menu.Item
                       name="Invited Trips"
-                      active={activeItem === TRIP_TYPES.allTrips}
-                      onClick={() => setActiveItem(TRIP_TYPES.allTrips)}
+                      active={activeItem === TRIP_TYPES.invitedTrips}
+                      onClick={() => setActiveItem(TRIP_TYPES.invitedTrips)}
                     />
                   </Menu>
                   <TripsViewer
-                    trips={email ? emailUserTrips.all : trips}
+                    invited_trips={email ? emailUserTrips.all : invited_trips}
                     owned_trips={email ? emailUserTrips.owned : owned_trips}
                     isLoading={email ? isAllEmailUserTripsLoading : isLoading}
                     tripType={activeItem}

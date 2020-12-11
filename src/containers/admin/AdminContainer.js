@@ -14,8 +14,17 @@ import {
   Segment,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
+<<<<<<< HEAD
 import {getOwnedTripsAction, getTripsAction,} from "../../actions/TripActions";
 import {searchUserEmailAdminAction} from "../../actions/AdminActions";
+=======
+import { setCurrentUserAction } from "../../actions/CurrentUserActions";
+import {
+  getInvitedTripsAction,
+  getOwnedTripsAction,
+} from "../../actions/TripActions";
+import ProfileEditor from "../../components/profile/ProfileEditor";
+>>>>>>> b640c9e422a90cbd76667647e0018ec2ae036771
 
 //TODO: SHOWCASE TRIPS
 const AdminContainer = () => {
@@ -45,7 +54,7 @@ const AdminContainer = () => {
       getAccessTokenSilently({
         audience: process.env.REACT_APP_AUTH_AUDIENCE,
       }).then((token) => {
-        getTripsAction(dispatch, user, token);
+        getInvitedTripsAction(dispatch, user, token);
         getOwnedTripsAction(dispatch, user, token);
       });
     }

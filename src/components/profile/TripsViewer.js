@@ -1,20 +1,13 @@
 import * as React from "react";
 import {
-  Button,
-  Grid,
   Card,
   Segment,
-  Container,
-  Header,
-  Image,
-  Menu,
   Loader,
-  Form,
 } from "semantic-ui-react";
 import { TRIP_TYPES } from "../../containers/profile/constants";
 import TripCard from "../card/TripCard.js";
 
-const TripsViewer = ({ trips, owned_trips, isLoading, tripType }) => {
+const TripsViewer = ({ invited_trips, owned_trips, isLoading, tripType }) => {
   if (isLoading) {
     return (
       <Segment attached="bottom">
@@ -26,11 +19,11 @@ const TripsViewer = ({ trips, owned_trips, isLoading, tripType }) => {
   }
 
   return(
-      tripType === TRIP_TYPES.allTrips ?
+      tripType === TRIP_TYPES.invitedTrips ?
       (<Segment attached="bottom">
       <Card.Group itemsPerRow={2}>
         {
-          trips.map((trip) => (
+          invited_trips.map((trip) => (
           <TripCard trip={trip}/>
         ))}
       </Card.Group>
