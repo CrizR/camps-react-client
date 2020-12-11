@@ -2,7 +2,7 @@ import React from 'react';
 import './NavBarStyle.css'
 import {Link} from 'react-router-dom'
 import {Button, Dropdown, Menu} from 'semantic-ui-react'
-import logo from "../../assets/logo.png"
+import logo from "../../assets/logo.svg"
 import {useAuth0} from "@auth0/auth0-react";
 
 export function NavBarComponent() {
