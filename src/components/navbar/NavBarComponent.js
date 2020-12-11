@@ -32,7 +32,7 @@ export function NavBarComponent() {
                                 >
                                     <Dropdown.Menu>
                                         <Dropdown.Item>
-                                            <Link to='/profile'>Profile</Link>
+                                            <Link to={`/profile/${user.email}`}>Profile</Link>
                                         </Dropdown.Item>
                                         <Dropdown.Item>
                                             <Link to='/admin'>Admin</Link>
