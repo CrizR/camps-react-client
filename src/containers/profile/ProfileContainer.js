@@ -55,6 +55,7 @@ const ProfileContainer = () => {
             <Grid>
               <Grid.Column width={5}>
                 <Container>
+                  <h1 className="camps-profile-banner-style">Profile</h1>
                   <Header as="h1">
                     <Image circular src={currentUser.picture} />
                     <Header.Content>
