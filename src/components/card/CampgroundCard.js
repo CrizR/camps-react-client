@@ -9,6 +9,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import TripEditor from "../editor/TripEditor"
 import bg from "../../assets/bg.png"
 import DatePicker from "react-datepicker";
+import {highlightModule} from "../../actions/DashboardActions";
 
 const Map = ReactMapboxGl({
     minZoom: 2,
@@ -22,9 +23,8 @@ const Map = ReactMapboxGl({
 
 // TODO: Make this properly display campground
 // Let's use mapbox to showcase its location
-function CampgroundCard({campground}) {
+function CampgroundCard({campground, highlightModule}) {
     const {isAuthenticated, loginWithRedirect} = useAuth0();
-
     useEffect(() => {
     }, []);
 
@@ -74,7 +74,7 @@ function CampgroundCard({campground}) {
                         </Grid.Column>
                         <Grid.Column>
                             <TripEditor campground={campground}
-                                        triggerElement={<Button className={'camps-primary-button camps-start-btn'}>
+                                        triggerElement={<Button onClick={() => highlightModule("1")} className={'camps-primary-button camps-start-btn'}>
                                             Create Trip</Button>}/>
                         </Grid.Column>
                     </Grid>
@@ -89,7 +89,7 @@ function CampgroundCard({campground}) {
                             <Modal
                                 size={'tiny'}
                                 style={{textAlign: 'center'}}
-                                trigger={<Button className={'camps-primary-button camps-start-btn'}>
+                                trigger={<Button onClick={() => highlightModule("1")} className={'camps-primary-button camps-start-btn'}>
                                     Create Trip</Button>}
                             >
                                 <Modal.Header>
@@ -111,7 +111,9 @@ function CampgroundCard({campground}) {
 
 const stateToProperty = (state) => ({});
 
-const propertyToDispatchMapper = (dispatch) => ({});
+const propertyToDispatchMapper = (dispatch) => ({
+  highlightModule: (hField) => highlightModule(dispatch, hField)
+});
 
 export default connect
 (stateToProperty, propertyToDispatchMapper)

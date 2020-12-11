@@ -16,3 +16,8 @@
 .ui.menu .item>.input input {
     width: 50%;
 }
+
+.camps-name-field-empty {
+    background-color: lightpink;
+    padding: 10px;
+}

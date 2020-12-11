@@ -2,6 +2,7 @@ import {
     FILTER_CAMPSITES,
     GET_CAMPGROUNDS, SELECT_CAMPSITE,
     SET_PAGE_NUMBER,
+    HIGHLIGHT_MODULE
 } from "../actions/DashboardActions";
 import {RESULTS_PER_PAGE} from "../containers/dashboard/DashboardContainer";
 
@@ -10,7 +11,8 @@ const initialState = {
     filtered: [],
     pageNumber: 1,
     total: 0,
-    selected: {}
+    selected: {},
+    highlight: "1"
 };
 
 const DashboardReducer = (state = initialState, action) => {
@@ -41,6 +43,12 @@ const DashboardReducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 pageResults: state.filtered.slice((Math.max(action.pageNumber - 1, 0)) * RESULTS_PER_PAGE, RESULTS_PER_PAGE * action.pageNumber),
                 pageNumber: action.pageNumber
+            })
+        }
+
+        case HIGHLIGHT_MODULE: {
+            return Object.assign({}, state, {
+                highlight: action.highlight
             })
         }
 

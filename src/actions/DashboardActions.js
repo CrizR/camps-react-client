@@ -4,6 +4,7 @@ export const GET_CAMPGROUNDS = "GET_CAMPGROUNDS";
 export const SELECT_CAMPSITE = "SELECT_CAMPSITE";
 export const SET_PAGE_NUMBER = "SET_PAGE_NUMBER";
 export const FILTER_CAMPSITES = "FILTER_CAMPSITES";
+export const HIGHLIGHT_MODULE = "HIGHLIGHT_MODULE";
 
 export function selectCampsiteAction(dispatch, campsite) {
     return dispatch({
@@ -33,4 +34,11 @@ export async function getCampgroundsAction(dispatch, parkCode, limit, start, que
         campgrounds: await getCampgrounds(parkCode, limit, start, query)
     });
 }
+
+export const highlightModule = (dispatch, highlight) =>
+    dispatch({
+        type: HIGHLIGHT_MODULE,
+        highlight
+    });
+
 

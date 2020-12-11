@@ -7,9 +7,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createTripAction, updateTripAction } from "../../actions/TripActions";
 import { selectCurrentUser } from "../../actions/CurrentUserActions";
+import {Link} from "react-router-dom";
+import {highlightModule} from "../../actions/DashboardActions";
 
 // TODO Change this whole thing to not use JSON and to allow you to create a campsite
-const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
+const TripEditor = ({ campground, triggerElement, isEdit, existingTrip, highlightModule, highlight }) => {
   console.log(campground);
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
@@ -44,13 +46,25 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
       <Modal.Content className={"camps-json-input-comp"}>
         <Form>
           <Form.Group widths="equal">
-            <Form.Field
-              control={Input}
-              label="Trip Name"
-              placeholder="Default Trip"
-              onChange={(e) => updateField(e, "name")}
-              value={editStateTrip.name}
-            />
+            { highlight.toString().length < 1 &&
+              <Form.Field
+                  control={Input}
+                  label="Trip Name"
+                  placeholder="Default Trip"
+                  className="camps-name-field-empty"
+                  onChange={(e) => updateField(e, "name")}
+                  value={editStateTrip.name}
+              />
+            }
+            { highlight.toString().length > 0 &&
+              <Form.Field
+                  control={Input}
+                  label="Trip Name"
+                  placeholder="Default Trip"
+                  onChange={(e) => updateField(e, "name")}
+                  value={editStateTrip.name}
+              />
+            }
           </Form.Group>
           <Form.Field
             control={Input}
@@ -77,31 +91,37 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
         </Form>
       </Modal.Content>
       <Modal.Actions className={"camps-create-campsite-card-actions"}>
-        <Button
+       <Link to="/"> <Button
           onClick={() => {
             if (!currentUser) return;
-            getAccessTokenSilently({
-              audience: process.env.REACT_APP_AUTH_AUDIENCE,
-            }).then((token) => {
-              isEdit
-                ? updateTripAction(
+            highlightModule(editStateTrip.name);
+            if (editStateTrip.name) {
+              console.log("Sending trip to server...")
+              getAccessTokenSilently({
+                audience: process.env.REACT_APP_AUTH_AUDIENCE,
+              }).then((token) => {
+                isEdit
+                    ? updateTripAction(
                     dispatch,
                     currentUser,
                     existingTrip.id,
-                    { trip: editStateTrip },
+                    {trip: editStateTrip},
                     token
-                  )
-                : createTripAction(
+                    )
+                    : createTripAction(
                     dispatch,
                     currentUser,
-                    { trip: editStateTrip },
+                    {trip: editStateTrip},
                     token
-                  );
-            });
+                    );
+              });
+            } else {
+              console.log("Name field is empty")
+            }
           }}
         >
           Save Trip
-        </Button>
+        </Button></Link>
       </Modal.Actions>
     </Modal>
   );
@@ -109,8 +129,11 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
 
 const stateToProperty = (state) => ({
   selectedCampsite: state.DashboardReducer.selected,
+  highlight: state.DashboardReducer.highlight,
 });
 
-const propertyToDispatchMapper = (dispatch) => ({});
+const propertyToDispatchMapper = (dispatch) => ({
+  highlightModule: (hField) => highlightModule(dispatch, hField)
+});
 
 export default connect(stateToProperty, propertyToDispatchMapper)(TripEditor);

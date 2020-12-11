@@ -44,8 +44,8 @@ const ProfileContainer = () => {
               <Container>
                 <Grid>
                   <Grid.Column width={5}>
-                    <Container>
                       <h1 className="camps-profile-banner-style">Profile</h1>
+                    <Container className="camps-profile-sidebar-card-style">
                       <Header as="h1">
                         {/*<Image circular src={currentUser.picture} />*/}
                         {/*{currentUser.fName}*/}
