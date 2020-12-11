@@ -18,7 +18,7 @@ import { connect } from "react-redux";
 import Truncate from "react-truncate";
 import { useAuth0 } from "@auth0/auth0-react";
 import TripEditor from "../editor/TripEditor";
-import bg from "../../assets/bg.png";
+import bg from "../../assets/mountains.svg";
 import DatePicker from "react-datepicker";
 
 const Map = ReactMapboxGl({
@@ -98,7 +98,7 @@ function CampgroundCard({ campground }) {
                 campground={campground.id}
                 isEdit={false}
                 triggerElement={
-                  <Button className={"camps-primary-button camps-start-btn"}>
+                  <Button className={"camps-start-btn"}>
                     Create Trip
                   </Button>
                 }
@@ -109,7 +109,7 @@ function CampgroundCard({ campground }) {
           <Grid columns={2}>
             <Grid.Column>
               <Button
-                className={"camps-secondary-button camps-start-btn"}
+                className={"camps-start-btn"}
                 as={Link}
                 to={`/campground/${campground.id}`}
               >

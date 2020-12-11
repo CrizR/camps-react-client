@@ -11,8 +11,8 @@
 }
 
 .camps-dashboard-container {
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .camps-dashboard-grid-search {
@@ -43,6 +43,10 @@
 
 @media only screen and (max-width: 800px) {
 
+    .camps-dashboard-container {
+        padding-left: 0;
+        padding-right: 0;
+    }
 
     .mobile-hidden {
         display: none !important;

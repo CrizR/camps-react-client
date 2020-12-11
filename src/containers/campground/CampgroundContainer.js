@@ -4,11 +4,14 @@ import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import ReactMapboxGl, {Feature, Layer} from "react-mapbox-gl";
 import {getCampground} from "../../services/CampgroundService";
-import {Button, Card, Dimmer, Grid, Icon, Image, Loader, Segment} from "semantic-ui-react";
+import {Button, Card, Dimmer, Grid, Icon, Image, Loader, Modal, Segment} from "semantic-ui-react";
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css"
-import bg from "../../assets/bg.png"
+import bg from "../../assets/homepage2.jpg"
 import NumberFormat from 'react-number-format';
+import TripEditor from "../../components/editor/TripEditor";
+import {useAuth0} from "@auth0/auth0-react";
+import {Link} from "react-router-dom";
 
 const Map = ReactMapboxGl({
     minZoom: 2,
@@ -17,6 +20,7 @@ const Map = ReactMapboxGl({
 
 
 const CampgroundContainer = ({id}) => {
+    const {isAuthenticated, loginWithRedirect} = useAuth0();
     const [campground, setCampground] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -44,7 +48,8 @@ const CampgroundContainer = ({id}) => {
                         <Grid.Column width={4}>
                             <Card className={'camps-campground-details'}>
                                 <Card.Header>
-                                    <h2 style={{paddingBottom: '10px'}}>{campground.name}</h2>
+                                    <Button as={Link} to={'/dashboard'} icon={'left arrow'}/><h2
+                                    style={{paddingBottom: '10px'}}>{campground.name}</h2>
                                 </Card.Header>
                                 <Card.Content>
                                     <div className="camps-campground-description-style-body">
@@ -57,28 +62,35 @@ const CampgroundContainer = ({id}) => {
                                             <p>Total: {campground.campsites.totalSites}</p>
                                         </div>
                                     </div>
-                                    <div className="camps-campground-description-style">
-                                        <h3><Icon name={'dollar'}/>Fees</h3>
-                                        <div className={'camps-campground-description-style-body'}>
+                                    {
+                                        !!campground.fees.length &&
+                                        <div className="camps-campground-description-style">
+                                            <h3><Icon name={'dollar'}/>Fees</h3>
+                                            <div className={'camps-campground-description-style-body'}>
 
-                                            <p>{campground.fees[0].title}: <Icon
-                                                name={'dollar'}/>{campground.fees[0].cost}
-                                            </p>
-                                            <p>{campground.fees[0].description}</p>
+                                                <p>{campground.fees[0].title}: <Icon
+                                                    name={'dollar'}/>{campground.fees[0].cost}
+                                                </p>
+                                                <p>{campground.fees[0].description}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="camps-campground-description-style">
-                                        <h3><Icon name={'mail'}/>Contact</h3>
-                                        <div className={'camps-campground-description-style-body'}>
-                                            <p><Icon name={'mail'}/><a>{campground.emailAddress}</a></p>
-                                            <p><Icon name={'phone'}/> <a>
-                                                <NumberFormat format="+1 (###) ###-####"
-                                                              displayType={'text'}
-                                                              value={campground.phoneNumber}
-                                                              mask="_"/>
-                                            </a></p>
+                                    }
+
+                                    {
+                                        !!campground.emailAddress && campground.phoneNumber &&
+                                        <div className="camps-campground-description-style">
+                                            <h3><Icon name={'mail'}/>Contact</h3>
+                                            <div className={'camps-campground-description-style-body'}>
+                                                <p><Icon name={'mail'}/><a>{campground.emailAddress}</a></p>
+                                                <p><Icon name={'phone'}/> <a>
+                                                    <NumberFormat format="+1 (###) ###-####"
+                                                                  displayType={'text'}
+                                                                  value={campground.phoneNumber}
+                                                                  mask="_"/>
+                                                </a></p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                     {!!campground.images.length &&
                                     <div className="camps-campground-description-style" style={{marginTop: '25px'}}>
                                         <h3><Icon name={'photo'}/> Images</h3>
@@ -96,7 +108,26 @@ const CampgroundContainer = ({id}) => {
                                 </Card.Content>
 
                                 <Card.Content extra>
-                                    <Button className={'create-trip-details-btn camps-secondary-button'}>Create Trip Here!</Button>
+                                    {isAuthenticated ?
+                                        <TripEditor triggerElement={<Button
+                                            className={'create-trip-details-btn'}>Create Trip
+                                            Here!</Button>}/>
+                                        :
+                                        <Modal
+                                            size={"tiny"}
+                                            style={{textAlign: "center"}}
+                                            trigger={
+                                                <Button className={"camps-start-btn"}>
+                                                    Create Trip
+                                                </Button>
+                                            }
+                                        >
+                                            <Modal.Header>Login to Create a Trip</Modal.Header>
+                                            <Modal.Content>
+                                                <Button onClick={() => loginWithRedirect()}>Login</Button>
+                                            </Modal.Content>
+                                        </Modal>
+                                    }
                                 </Card.Content>
                             </Card>
                         </Grid.Column>
@@ -111,7 +142,6 @@ const CampgroundContainer = ({id}) => {
                                         height: '100%',
                                         width: '100%'
                                     }}
-
                                 >
                                     <Layer type={'symbol'} paint={{"icon-color": '#f6e835'}}
                                            layout={{'icon-image': 'marker-15', 'icon-size': 2}}>

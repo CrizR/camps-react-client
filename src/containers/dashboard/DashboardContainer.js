@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import "./DashboardStyle.css"
 import {
     Button,
-    Container,
     Dimmer,
     Dropdown,
-    Grid, Header, Image,
+    Grid, Image,
     Input,
     Loader,
     Menu,
@@ -17,8 +16,7 @@ import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import {filterCampsitesAction, getCampgroundsAction, setPageNumberAction} from "../../actions/DashboardActions";
 import {parkCodes} from "../../assets/parkCodes";
-import bg from "../../assets/bg.png"
-import {useAuth0} from "@auth0/auth0-react";
+import bg from "../../assets/bg1.svg"
 
 const parkOptions = Object.keys(parkCodes).map((k, i) => ({
     key: i,
@@ -73,9 +71,8 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
     return (
         <>
             <NavBarComponent/>
-            <Image className={'camps-bg-image'} src={bg}/>
             <div className={'camps-dashboard'}>
-                <Container>
+                <div className={'camps-dashboard-container'}>
                     <Menu secondary className={'camps-menu'} stackable={true}>
                         <Menu.Item className="camps-dashboard-menu-item mobile-hidden">
                             <h2>Campgrounds</h2>
@@ -136,7 +133,7 @@ const DashboardContainer = ({getCampsites, filtered, pageResults, filterCampsite
                         }
 
                     </Segment>
-                </Container>
+                </div>
             </div>
         </>
     );
