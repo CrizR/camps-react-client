@@ -11,6 +11,7 @@
 .camps-primary-button.ui.button {
     background: var(--camps-secondary-color);
     color: white;
+    z-index: 1;
 }
 
 .camps-primary-button.ui.button:hover {
