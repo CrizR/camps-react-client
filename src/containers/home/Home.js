@@ -11,10 +11,6 @@ import a2 from "../../assets/a2.svg"
 import bg from "../../assets/landscape.svg"
 import {Link} from "react-router-dom";
 
-const masonryOptions = {
-    transitionDuration: 0,
-    fitWidth: true
-};
 
 const offers = [
     {

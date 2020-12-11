@@ -60,28 +60,35 @@ const CampgroundContainer = ({id}) => {
                                             <p>Total: {campground.campsites.totalSites}</p>
                                         </div>
                                     </div>
-                                    <div className="camps-campground-description-style">
-                                        <h3><Icon name={'dollar'}/>Fees</h3>
-                                        <div className={'camps-campground-description-style-body'}>
+                                    {
+                                        !!campground.fees.length &&
+                                        <div className="camps-campground-description-style">
+                                            <h3><Icon name={'dollar'}/>Fees</h3>
+                                            <div className={'camps-campground-description-style-body'}>
 
-                                            <p>{campground.fees[0].title}: <Icon
-                                                name={'dollar'}/>{campground.fees[0].cost}
-                                            </p>
-                                            <p>{campground.fees[0].description}</p>
+                                                <p>{campground.fees[0].title}: <Icon
+                                                    name={'dollar'}/>{campground.fees[0].cost}
+                                                </p>
+                                                <p>{campground.fees[0].description}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="camps-campground-description-style">
-                                        <h3><Icon name={'mail'}/>Contact</h3>
-                                        <div className={'camps-campground-description-style-body'}>
-                                            <p><Icon name={'mail'}/><a>{campground.emailAddress}</a></p>
-                                            <p><Icon name={'phone'}/> <a>
-                                                <NumberFormat format="+1 (###) ###-####"
-                                                              displayType={'text'}
-                                                              value={campground.phoneNumber}
-                                                              mask="_"/>
-                                            </a></p>
+                                    }
+
+                                    {
+                                        !!campground.emailAddress && campground.phoneNumber &&
+                                        <div className="camps-campground-description-style">
+                                            <h3><Icon name={'mail'}/>Contact</h3>
+                                            <div className={'camps-campground-description-style-body'}>
+                                                <p><Icon name={'mail'}/><a>{campground.emailAddress}</a></p>
+                                                <p><Icon name={'phone'}/> <a>
+                                                    <NumberFormat format="+1 (###) ###-####"
+                                                                  displayType={'text'}
+                                                                  value={campground.phoneNumber}
+                                                                  mask="_"/>
+                                                </a></p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                     {!!campground.images.length &&
                                     <div className="camps-campground-description-style" style={{marginTop: '25px'}}>
                                         <h3><Icon name={'photo'}/> Images</h3>
