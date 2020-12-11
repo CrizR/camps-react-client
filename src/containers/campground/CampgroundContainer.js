@@ -11,6 +11,7 @@ import bg from "../../assets/homepage2.jpg"
 import NumberFormat from 'react-number-format';
 import TripEditor from "../../components/editor/TripEditor";
 import {useAuth0} from "@auth0/auth0-react";
+import {Link} from "react-router-dom";
 
 const Map = ReactMapboxGl({
     minZoom: 2,
@@ -47,7 +48,8 @@ const CampgroundContainer = ({id}) => {
                         <Grid.Column width={4}>
                             <Card className={'camps-campground-details'}>
                                 <Card.Header>
-                                    <h2 style={{paddingBottom: '10px'}}>{campground.name}</h2>
+                                    <Button as={Link} to={'/dashboard'} icon={'left arrow'}/><h2
+                                    style={{paddingBottom: '10px'}}>{campground.name}</h2>
                                 </Card.Header>
                                 <Card.Content>
                                     <div className="camps-campground-description-style-body">
@@ -108,14 +110,14 @@ const CampgroundContainer = ({id}) => {
                                 <Card.Content extra>
                                     {isAuthenticated ?
                                         <TripEditor triggerElement={<Button
-                                            className={'create-trip-details-btn camps-secondary-button'}>Create Trip
+                                            className={'create-trip-details-btn'}>Create Trip
                                             Here!</Button>}/>
                                         :
                                         <Modal
                                             size={"tiny"}
                                             style={{textAlign: "center"}}
                                             trigger={
-                                                <Button className={"camps-primary-button camps-start-btn"}>
+                                                <Button className={"camps-start-btn"}>
                                                     Create Trip
                                                 </Button>
                                             }

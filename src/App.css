@@ -1,35 +1,10 @@
 .App {
     text-align: center;
     background: #E9E9E9;
-    --camps-primary-color: #1a531f;
-    --camps-secondary-color: #227326;
-    --camps-accent-color: #c92238;
-    --camps-tertiary-color: #1b2d1c;
     height: 100vh;
 }
 
-.camps-primary-button.ui.button {
-    background: var(--camps-secondary-color);
-    color: white;
-    z-index: 1;
-}
 
-.camps-primary-button.ui.button:hover {
-    background: var(--camps-primary-color);
-    color: white;
-}
-
-
-.camps-secondary-button.ui.button {
-    background: var(--camps-tertiary-color);
-    color: white;
-}
-
-
-.camps-secondary-button.ui.button:hover {
-    background: var(--camps-secondary-color);
-    color: white;
-}
 
 
 .camps-bg-image {
