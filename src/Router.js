@@ -72,11 +72,7 @@ const AppRouter = () => {
       ) : (
         <>
           <Route exact path="/" component={Home} />
-          <Route path="/profile/:email"
-            exact
-            component={(routerProps) => (
-              <ProfileContainer email={routerProps.match.params.email} />
-            )}/>
+          <Route path="/profile/:email" exact component={ProfileContainer} />
           <Route path="/dashboard/" exact component={DashboardContainer} />
           <Route
             path="/campground/:id"
