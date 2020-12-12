@@ -30,11 +30,11 @@ const TripsViewer = ({ invited_trips, owned_trips, isLoading, tripType }) => {
     </Segment>)
       :
       (<Segment attached="bottom">
-      {owned_trips.map((trip) => (
         <Card.Group itemsPerRow={2}>
+      {owned_trips.map((trip) => ( 
           <TripCard trip={trip}/>
-        </Card.Group>
       ))}
+       </Card.Group>
     </Segment>
       )  );
 

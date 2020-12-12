@@ -47,11 +47,11 @@ const TripCard = ({ trip }) => {
         <List>
           <List.Item>
             <List.Icon name="users" />
-            <List.Content>Invited Campers</List.Content>
+            <List.Content>Invite List</List.Content>
           </List.Item>
           {trip.inviteList.map((user) => (
             <List.Item>
-              <Link to={`/profile/${user}`}>{user}</Link>
+              <a onClick={() => {window.location.href=`/profile/${user}`}}>{user}</a>
             </List.Item>
           ))}
         </List>

@@ -2,18 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./ProfileContainerStyle.css";
+import logo from "../../assets/logo.svg";
 import {
   Button,
   Container,
   Grid,
+  Divider,
   Header,
   Menu,
   Image,
   List,
-  Loader,
+  Segment,
+  Icon,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
-import { getOwnedTripsAction, getInvitedTripsAction } from "../../actions/TripActions";
+import {
+  getOwnedTripsAction,
+  getInvitedTripsAction,
+} from "../../actions/TripActions";
 import ProfileEditor from "../../components/profile/profileEditor";
 import { TRIP_TYPES } from "./constants";
 import TripsViewer from "../../components/profile/TripsViewer";
@@ -21,9 +27,13 @@ import { getUserByEmail } from "../../services/UserService";
 import { getOwnedTrips, getInvitedTrips } from "../../services/TripsService";
 
 const ProfileContainer = ({ isEditable, email }) => {
-  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
+  const {
+    getAccessTokenSilently,
+    user,
+    isAuthenticated,
+    loginWithRedirect,
+  } = useAuth0();
   const dispatch = useDispatch();
-
   const currentUser = useSelector((state) => state.UserReducer.user);
   const invited_trips = useSelector((state) => state.TripsReducer.invitedTrips);
   const owned_trips = useSelector((state) => state.TripsReducer.ownedTrips);
@@ -32,23 +42,34 @@ const ProfileContainer = ({ isEditable, email }) => {
       state.TripsReducer.isInvitedTripsLoaded &&
       state.TripsReducer.isOwnedTripsLoaded
   );
-  let isLoading = useSelector(
-    (state) => 
-    state.TripsReducer.isTripsLoading
-  );
+  let isLoading = useSelector((state) => state.TripsReducer.isTripsLoading);
 
   const [activeItem, setActiveItem] = useState(TRIP_TYPES.invitedTrips);
   const [editing, setEditing] = React.useState(false);
-  const [isAllEmailUserTripsLoaded, setIsAllEmailUserTripsLoaded] = React.useState(false);
-  const [isAllEmailUserTripsLoading, setIsAllEmailUserTripsLoading] = React.useState(false);
-  const [emailUserTrips, setEmailUserTrips] = React.useState({owned: [], all: [],});
+  const [
+    isAllEmailUserTripsLoaded,
+    setIsAllEmailUserTripsLoaded,
+  ] = React.useState(false);
+  const [
+    isAllEmailUserTripsLoading,
+    setIsAllEmailUserTripsLoading,
+  ] = React.useState(false);
+  const [emailUserTrips, setEmailUserTrips] = React.useState({
+    owned: [],
+    all: [],
+  });
 
   const [emailUser, setEmailUser] = React.useState(null);
-   
-  // I know this is messy, I will refactor this later.
+
   useEffect(() => {
     if (!isAuthenticated) {
-      return;
+      //return;
+      getUserByEmail(email).then((eUser) => {
+        const parsedUser = eUser.Items[0];
+        setEmailUser(parsedUser);
+        console.log(parsedUser);
+        return parsedUser;
+      });
     }
     if (email && !isAllEmailUserTripsLoaded && !isAllEmailUserTripsLoading) {
       setIsAllEmailUserTripsLoading(true);
@@ -94,8 +115,6 @@ const ProfileContainer = ({ isEditable, email }) => {
 
   const userToDisplay = email ? emailUser : currentUser;
 
-
-
   return (
     userToDisplay && (
       <>
@@ -113,7 +132,16 @@ const ProfileContainer = ({ isEditable, email }) => {
                       <Header.Subheader>{userToDisplay.email}</Header.Subheader>
                     </Header.Content>
                   </Header>
-                  <p>{userToDisplay.about}</p>
+                  <List>
+                    <List.Item>
+                      <p>{userToDisplay.about}</p>
+                    </List.Item>
+                    <List.Item
+                      icon="map marker alternate"
+                      content={userToDisplay.location}
+                    />
+                  </List>
+
                   {!editing && !email && (
                     <div>
                       <Button
@@ -131,13 +159,6 @@ const ProfileContainer = ({ isEditable, email }) => {
                       setEditing={setEditing}
                     />
                   )}
-                  <List>
-                    <List.Item icon="tree" content="two trips" />
-                    <List.Item
-                      icon="map marker alternate"
-                      content={userToDisplay.location}
-                    />
-                  </List>
                 </Container>
               </Grid.Column>
               <Grid.Column width={11}>
@@ -154,12 +175,25 @@ const ProfileContainer = ({ isEditable, email }) => {
                       onClick={() => setActiveItem(TRIP_TYPES.invitedTrips)}
                     />
                   </Menu>
-                  <TripsViewer
-                    invited_trips={email ? emailUserTrips.all : invited_trips}
-                    owned_trips={email ? emailUserTrips.owned : owned_trips}
-                    isLoading={email ? isAllEmailUserTripsLoading : isLoading}
-                    tripType={activeItem}
-                  />
+                  {isAuthenticated ? (
+                    <TripsViewer
+                      invited_trips={email ? emailUserTrips.all : invited_trips}
+                      owned_trips={email ? emailUserTrips.owned : owned_trips}
+                      isLoading={email ? isAllEmailUserTripsLoading : isLoading}
+                      tripType={activeItem}
+                    />
+                  ) : (
+                    <Segment attached="bottom" placeholder>
+                      <Header icon>
+                        <div>
+                          <img width={200} alt={"logo"} src={logo} />
+                        </div>
+                        Login to see where other campers are going!
+                        <Divider />
+                      </Header>
+                      <Button onClick={() => loginWithRedirect()}>Login</Button>
+                    </Segment>
+                  )}
                 </div>
               </Grid.Column>
             </Grid>
