@@ -20,7 +20,7 @@ import {
   getOwnedTripsAction,
   getInvitedTripsAction,
 } from "../../actions/TripActions";
-import ProfileEditor from "../../components/profile/profileEditor";
+import ProfileEditor from "../../components/profile/ProfileEditor";
 import { TRIP_TYPES } from "./constants";
 import TripsViewer from "../../components/profile/TripsViewer";
 import { getUserByEmail } from "../../services/UserService";
