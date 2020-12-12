@@ -4,7 +4,7 @@ import {
     Button,
     Dimmer,
     Dropdown,
-    Grid, Image,
+    Grid,
     Input,
     Loader,
     Menu,
@@ -16,7 +16,6 @@ import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {connect} from "react-redux";
 import {filterCampsitesAction, getCampgroundsAction, setPageNumberAction} from "../../actions/DashboardActions";
 import {parkCodes} from "../../assets/parkCodes";
-import bg from "../../assets/bg1.svg"
 
 const parkOptions = Object.keys(parkCodes).map((k, i) => ({
     key: i,
