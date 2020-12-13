@@ -36,21 +36,10 @@ const TripCard = ({ trip, isEditable }) => {
     getCampground(campgroundId, "").then((cg) => {
       setCampground(cg);
       setLoading(false);
-      console.log(cg);
     });
   }, []);
 
   return (
-    /*
-     <Card>
-    <Card.Content header='About Amy' />
-    <Card.Content description={description} />
-    <Card.Content extra>
-      <Icon name='user' />4 Friends
-    </Card.Content>
-  </Card>
-    */
-
     <Card>
       <Image src={imageUrl} wrapped ui={false} />
       <Card.Content header={trip.name}>

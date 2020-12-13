@@ -41,6 +41,7 @@ export function updateTripAction(dispatch, user, id, tripObj, token) {
     dispatch({
       type: UPDATE_TRIP,
       id: id,
+      //trip: trip,
       trip: trip,
     });
     return trip;

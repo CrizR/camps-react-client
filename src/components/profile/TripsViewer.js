@@ -4,6 +4,7 @@ import { TRIP_TYPES } from "../../containers/profile/constants";
 import TripCard from "../card/TripCard.js";
 
 const TripsViewer = ({ invited_trips, owned_trips, isLoading, tripType }) => {
+  // debugger;
   if (isLoading) {
     return (
       <Segment attached="bottom">

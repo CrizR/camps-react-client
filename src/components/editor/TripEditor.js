@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { createTripAction, updateTripAction } from "../../actions/TripActions";
 import { selectCurrentUser } from "../../actions/CurrentUserActions";
 import { inviteToTrip } from "../../services/TripsService";
+import InviteEditor from "../editor/InviteEditor";
 
 // TODO Change this whole thing to not use JSON and to allow you to create a campsite
 const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
@@ -19,11 +20,16 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
   const [editStateTrip, setEditStateTrip] = useState(
     existingTrip || {
       name: "",
-      inviteList: "",
       description: "",
       date: new Date().valueOf(),
       campground,
     }
+  );
+
+  const availableUsers = new Set([""]);
+
+  const [inviteList, setInviteList] = React.useState(
+    (existingTrip && existingTrip.inviteList) || []
   );
 
   const updateField = (e, fieldName) =>
@@ -35,7 +41,7 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
   // do noting if inviteList is already a list
   const formatTrip = (trip) => ({
     ...trip,
-    inviteList: trip.inviteList.split(/\s/g).filter((el) => el.length > 0),
+    inviteList,
   });
 
   return (
@@ -60,14 +66,6 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
             />
           </Form.Group>
           <Form.Field
-            control={Input}
-            type={"email"}
-            label="Invite List"
-            placeholder="abc@gmail.com"
-            onChange={(e) => updateField(e, "inviteList")}
-            value={editStateTrip.inviteList}
-          />
-          <Form.Field
             control={TextArea}
             label="Trip Description"
             placeholder="..."
@@ -81,6 +79,14 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
               onChange={(e) => updateField(e.valueOf(), "date")}
             />
           </Form.Field>
+          <Form.Field>
+            <label>Invite List</label>
+            <InviteEditor
+              inviteList={inviteList}
+              setInvitees={setInviteList}
+              availableUsers={availableUsers}
+            />
+          </Form.Field>
         </Form>
       </Modal.Content>
       <Modal.Actions className={"camps-create-campsite-card-actions"}>
@@ -92,7 +98,6 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
               audience: process.env.REACT_APP_AUTH_AUDIENCE,
             }).then((token) => {
               const formattedTrip = formatTrip(editStateTrip);
-
               isEdit
                 ? updateTripAction(
                     dispatch,
@@ -103,14 +108,19 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
                   ).then((trip) => {
                     if (trip.inviteList.length) {
                       Promise.all(
-                        trip.inviteList.map((email) => {
-                          inviteToTrip(
-                            currentUser.sub,
-                            email,
-                            trip.id,
-                            token
-                          ).catch((e) => console.error(e));
-                        })
+                        trip.inviteList
+                          .filter(
+                            (inviteeEmail) =>
+                              !existingTrip.inviteList.includes(inviteeEmail)
+                          )
+                          .map((email) => {
+                            inviteToTrip(
+                              currentUser.sub,
+                              email,
+                              trip.id,
+                              token
+                            ).catch((e) => console.error(e));
+                          })
                       ).then(() => console.log("success"));
                     }
                   })
