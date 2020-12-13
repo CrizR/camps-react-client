@@ -9,3 +9,18 @@
   width: 100%;
 
 }
+
+.camps-nonAdmin-header {
+  margin-bottom: 0;
+  color: black;
+  text-align: center;
+}
+
+.camps-nonAdmin-button {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.camps-nonAdmin-background {
+  background-color: black;
+}
