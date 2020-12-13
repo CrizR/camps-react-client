@@ -16,7 +16,7 @@ import {
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {searchUserEmailAdminAction} from "../../actions/AdminActions";
 import {highlightModule} from "../../actions/DashboardActions";
-import {updateUserAction} from "../../actions/CurrentUserActions";
+import {updateUserActionByAdmin} from "../../actions/CurrentUserActions";
 
 //TODO: SHOWCASE TRIPS
 const AdminContainer = (
@@ -31,11 +31,12 @@ const AdminContainer = (
   const {getAccessTokenSilently, user, logout, isAuthenticated} = useAuth0();
   const [activeItem, setActiveItem] = useState("trips");
   const currentUser = useSelector((state) => state.UserReducer.user);
+  const currentUserChanged = useSelector((state) => state.UserReducer.userA);
   const trips = useSelector((state) => state.TripsReducer.trips);
   const dispatch = useDispatch();
   // const usersFound = useSelector((state) => state.AdminReducer.user);
   // const [setUsersFound] = useState(false);
-  console.log("currentUser",currentUser)
+  console.log("currentUser", currentUser)
   console.log("AdminContainer u", users)
   // // console.log("AdminContainer uf", usersFound)
   // const isAllTripsLoaded = useSelector(
@@ -56,10 +57,14 @@ const AdminContainer = (
   function switchAdmin() {
     if (!user.admin || user.admin === "false") {
       user.admin = "true"
-    }else {
+    } else {
       user.admin = "false"
     }
+    return("1");
+  }
 
+  if (currentUserChanged && users[0]) {
+    users[0].admin = currentUserChanged.admin;
   }
 
   return (
@@ -89,11 +94,11 @@ const AdminContainer = (
                             active={activeItem === "trips"}
                             onClick={() => setActiveItem("trips")}
                         />
-                        <Menu.Item
-                            name="all trips"
-                            active={activeItem === "manage"}
-                            onClick={() => setActiveItem("manage")}
-                        />
+                        {/*<Menu.Item*/}
+                        {/*    name="all trips"*/}
+                        {/*    active={activeItem === "manage"}*/}
+                        {/*    onClick={() => setActiveItem("manage")}*/}
+                        {/*/>*/}
                       </Menu>
                       <Segment attached="bottom">
                         {isLoading ? (
@@ -104,7 +109,6 @@ const AdminContainer = (
 
                             <div>
                               {
-
                                 activeItem === "trips" &&
                                 <div>
                                   <Table>
@@ -157,29 +161,48 @@ const AdminContainer = (
                                         users.map(user =>
                                             <Table.Row key={user.email}>
                                               {
-                                                (!user.admin || user.admin === "false") &&
+                                                (!user.admin || user.admin === "false")
+                                                &&
                                                 <Table.Cell>
                                                   <i onClick={() => {
-                                                    switchAdmin();
+                                                    // switchAdmin()
+                                                    highlightModule("")
                                                     getAccessTokenSilently({
                                                       audience: process.env.REACT_APP_AUTH_AUDIENCE,
                                                     }).then((token) => {
-                                                      updateUserAction(
+                                                      updateUserActionByAdmin(
                                                           dispatch,
                                                           {
                                                             ...user,
-                                                            admin: user.admin
+                                                            admin: "true"
                                                           },
                                                           token
                                                       );
                                                     });
-                                                  }} className="user icon"/> User
+                                                  }}
+                                                     className="user icon"/> User
                                                 </Table.Cell>
                                               }
                                               {
                                                 user && user.admin === "true" &&
                                                 <Table.Cell>
-                                                  <i style={{color: "red"}} className="user icon"/> Admin
+                                                  <i onClick={() => {
+                                                    // switchAdmin()
+                                                    highlightModule("")
+                                                    getAccessTokenSilently({
+                                                      audience: process.env.REACT_APP_AUTH_AUDIENCE,
+                                                    }).then((token) => {
+                                                      updateUserActionByAdmin(
+                                                          dispatch,
+                                                          {
+                                                            ...user,
+                                                            admin: "false"
+                                                          },
+                                                          token
+                                                      );
+                                                    });
+                                                  }} style={{color: "red"}}
+                                                     className="user icon"/> Admin
                                                 </Table.Cell>
                                               }
 

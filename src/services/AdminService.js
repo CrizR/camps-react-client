@@ -20,14 +20,3 @@ export const getUserFromEmail = (email, token) => {
     return users.Items
   });
 };
-
-const updateUser = (user, token) =>
-    fetch(`${apiUrl}/user/${user.sub}`, {
-      method: "POST",
-      body: JSON.stringify(user),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((response) => response.json());
