@@ -51,7 +51,7 @@ const AppRouter = () => {
           <ProtectedRoute
             path="/profile"
             exact
-            component={(routerProps) => <ProfileContainer isEditable />}
+            component={(routerProps) => <ProfileContainer />}
           />
           <ProtectedRoute
             path="/profile/:email"
@@ -72,11 +72,13 @@ const AppRouter = () => {
       ) : (
         <>
           <Route exact path="/" component={Home} />
-          <Route path="/profile/:email"
+          <Route
+            path="/profile/:email"
             exact
             component={(routerProps) => (
               <ProfileContainer email={routerProps.match.params.email} />
-            )}/>
+            )}
+          />
           <Route path="/dashboard/" exact component={DashboardContainer} />
           <Route
             path="/campground/:id"

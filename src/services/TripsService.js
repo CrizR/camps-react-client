@@ -60,7 +60,7 @@ export const createTrip = (user, trip, token) =>
     .then((trip) => Trip.fromStorage(trip));
 
 export const updateTrip = (user, id, trip, token) =>
-  fetch(`${apiUrl}/user/${user.sub}/trip/${id}`, {
+  fetch(`${apiUrl}/user/${user.sub}/trips/${id}`, {
     method: "PUT",
     body: JSON.stringify(trip),
     headers: {
@@ -72,8 +72,8 @@ export const updateTrip = (user, id, trip, token) =>
     .then((response) => response.json())
     .then((trip) => Trip.fromStorage(trip));
 
-export const deleteTrip = (user, id, token) =>
-  fetch(`${apiUrl}/user/${user.sub}/trip/${id}`, {
+export const deleteTrip = (id, token) =>
+  fetch(`${apiUrl}/trips/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

@@ -47,8 +47,8 @@ export function updateTripAction(dispatch, user, id, tripObj, token) {
   });
 }
 
-export function deleteTripAction(dispatch, user, id, token) {
-  return deleteTrip(user, id, token).then(() => {
+export function deleteTripAction(dispatch, id, token) {
+  return deleteTrip(id, token).then(() => {
     return dispatch({
       type: DELETE_TRIP,
       id: id,

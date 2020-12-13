@@ -32,6 +32,7 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
       [fieldName]: fieldName === "date" ? e : e.target.value,
     });
 
+  // do noting if inviteList is already a list
   const formatTrip = (trip) => ({
     ...trip,
     inviteList: trip.inviteList.split(/\s/g).filter((el) => el.length > 0),
@@ -101,7 +102,16 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
                     token
                   ).then((trip) => {
                     if (trip.inviteList.length) {
-                      // edit user trip
+                      Promise.all(
+                        trip.inviteList.map((email) => {
+                          inviteToTrip(
+                            currentUser.sub,
+                            email,
+                            trip.id,
+                            token
+                          ).catch((e) => console.error(e));
+                        })
+                      ).then(() => console.log("success"));
                     }
                   })
                 : createTripAction(

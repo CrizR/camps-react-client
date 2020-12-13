@@ -26,7 +26,7 @@ import TripsViewer from "../../components/profile/TripsViewer";
 import { getUserByEmail } from "../../services/UserService";
 import { getOwnedTrips, getInvitedTrips } from "../../services/TripsService";
 
-const ProfileContainer = ({ isEditable, email }) => {
+const ProfileContainer = ({ email }) => {
   const {
     getAccessTokenSilently,
     user,
