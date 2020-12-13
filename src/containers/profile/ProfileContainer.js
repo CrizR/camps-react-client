@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./ProfileContainerStyle.css";
-import logo from "../../assets/logo.svg";
 import {
   Button,
   Container,
   Grid,
-  Divider,
   Header,
   Menu,
   Image,
   List,
-  Segment,
-  Icon,
+  Loader,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
 import {
@@ -34,6 +31,7 @@ const ProfileContainer = ({ email }) => {
     loginWithRedirect,
   } = useAuth0();
   const dispatch = useDispatch();
+
   const currentUser = useSelector((state) => state.UserReducer.user);
   const invited_trips = useSelector((state) => state.TripsReducer.invitedTrips);
   const owned_trips = useSelector((state) => state.TripsReducer.ownedTrips);
@@ -61,15 +59,10 @@ const ProfileContainer = ({ email }) => {
 
   const [emailUser, setEmailUser] = React.useState(null);
 
+  // I know this is messy, I will refactor this later.
   useEffect(() => {
     if (!isAuthenticated) {
-      //return;
-      getUserByEmail(email).then((eUser) => {
-        const parsedUser = eUser.Items[0];
-        setEmailUser(parsedUser);
-        console.log(parsedUser);
-        return parsedUser;
-      });
+      return;
     }
     if (email && !isAllEmailUserTripsLoaded && !isAllEmailUserTripsLoading) {
       setIsAllEmailUserTripsLoading(true);
@@ -132,16 +125,7 @@ const ProfileContainer = ({ email }) => {
                       <Header.Subheader>{userToDisplay.email}</Header.Subheader>
                     </Header.Content>
                   </Header>
-                  <List>
-                    <List.Item>
-                      <p>{userToDisplay.about}</p>
-                    </List.Item>
-                    <List.Item
-                      icon="map marker alternate"
-                      content={userToDisplay.location}
-                    />
-                  </List>
-
+                  <p>{userToDisplay.about}</p>
                   {!editing && !email && (
                     <div>
                       <Button
@@ -159,6 +143,13 @@ const ProfileContainer = ({ email }) => {
                       setEditing={setEditing}
                     />
                   )}
+                  <List>
+                    <List.Item icon="tree" content="two trips" />
+                    <List.Item
+                      icon="map marker alternate"
+                      content={userToDisplay.location}
+                    />
+                  </List>
                 </Container>
               </Grid.Column>
               <Grid.Column width={11}>
@@ -175,25 +166,12 @@ const ProfileContainer = ({ email }) => {
                       onClick={() => setActiveItem(TRIP_TYPES.invitedTrips)}
                     />
                   </Menu>
-                  {isAuthenticated ? (
-                    <TripsViewer
-                      invited_trips={email ? emailUserTrips.all : invited_trips}
-                      owned_trips={email ? emailUserTrips.owned : owned_trips}
-                      isLoading={email ? isAllEmailUserTripsLoading : isLoading}
-                      tripType={activeItem}
-                    />
-                  ) : (
-                    <Segment attached="bottom" placeholder>
-                      <Header icon>
-                        <div>
-                          <img width={200} alt={"logo"} src={logo} />
-                        </div>
-                        Login to see where other campers are going!
-                        <Divider />
-                      </Header>
-                      <Button onClick={() => loginWithRedirect()}>Login</Button>
-                    </Segment>
-                  )}
+                  <TripsViewer
+                    invited_trips={email ? emailUserTrips.all : invited_trips}
+                    owned_trips={email ? emailUserTrips.owned : owned_trips}
+                    isLoading={email ? isAllEmailUserTripsLoading : isLoading}
+                    tripType={activeItem}
+                  />
                 </div>
               </Grid.Column>
             </Grid>

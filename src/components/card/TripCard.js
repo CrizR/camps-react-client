@@ -63,7 +63,7 @@ const TripCard = ({ trip, isEditable }) => {
         <List>
           <List.Item>
             <List.Icon name="users" />
-            <List.Content>Invite List</List.Content>
+            <List.Content>Invited Campers</List.Content>
           </List.Item>
           {trip.inviteList.map((user) => (
             <List.Item>

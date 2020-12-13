@@ -1,6 +1,7 @@
 import {
   SET_CURRENT_USER,
   UPDATE_USER,
+  SET_CURRENT_USER_BY_ADMIN
 } from "../actions/CurrentUserActions";
 
 const initialState = {
@@ -13,6 +14,12 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    }
+    case SET_CURRENT_USER_BY_ADMIN: {
+      return {
+        ...state,
+        userA: action.payload,
       };
     }
     case UPDATE_USER: {
