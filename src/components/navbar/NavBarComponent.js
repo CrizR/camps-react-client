@@ -5,9 +5,7 @@ import {Button, Dropdown, Menu} from "semantic-ui-react";
 import logo from "../../assets/logo.svg";
 import {useAuth0} from "@auth0/auth0-react";
 
-export function NavBarComponent(
-    {admin}
-) {
+export function NavBarComponent() {
   const {logout, user, isAuthenticated, loginWithRedirect} = useAuth0();
 
   return (
@@ -39,12 +37,9 @@ export function NavBarComponent(
                         <Dropdown.Item>
                           <Link to={`/profile`}>Profile</Link>
                         </Dropdown.Item>
-                        {
-                          admin === "true" &&
                           <Dropdown.Item>
-                            <Link to="/admin">Admin</Link>
+                            <Link to="/admin">Search</Link>
                           </Dropdown.Item>
-                        }
                         <Dropdown.Item onClick={() => logout()} text="Logout"/>
                       </Dropdown.Menu>
                     </Dropdown>
