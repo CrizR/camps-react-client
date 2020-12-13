@@ -2,7 +2,8 @@ import {
     FILTER_CAMPSITES,
     GET_CAMPGROUNDS, SELECT_CAMPSITE,
     SET_PAGE_NUMBER,
-    HIGHLIGHT_MODULE
+    HIGHLIGHT_MODULE,
+    SEARCH_USER_EMAIL
 } from "../actions/DashboardActions";
 import {RESULTS_PER_PAGE} from "../containers/dashboard/DashboardContainer";
 
@@ -12,7 +13,7 @@ const initialState = {
     pageNumber: 1,
     total: 0,
     selected: {},
-    highlight: "1"
+    highlight: ""
 };
 
 const DashboardReducer = (state = initialState, action) => {

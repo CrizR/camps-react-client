@@ -14,9 +14,9 @@ import AdminReducer from "./reducers/AdminReducer"
 
 const rootReducer = combineReducers({
   DashboardReducer,
+  AdminReducer,
   UserReducer,
   TripsReducer,
-  AdminReducer
 });
 
 const store = createStore(rootReducer);

@@ -12,6 +12,7 @@ export const transformUser = (user) => ({
   about: user.about || null,
   location: user.location || null,
   phone: user.phone || null,
+  admin: user.admin || "false"
 });
 
 export const setCurrentUserAction = (user) => ({

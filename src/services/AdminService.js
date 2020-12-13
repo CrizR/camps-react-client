@@ -15,8 +15,19 @@ export const getUserFromEmail = (email, token) => {
         }
       })
   .then(response => response.json())
-  .then(user => {
-    console.log("Admin found user", user)
-    return user
+  .then(users => {
+    console.log("AdminService found user", users.Items)
+    return users.Items
   });
 };
+
+const updateUser = (user, token) =>
+    fetch(`${apiUrl}/user/${user.sub}`, {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => response.json());

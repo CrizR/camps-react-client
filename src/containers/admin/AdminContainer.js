@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useState} from "react";
+import {connect, useDispatch, useSelector} from "react-redux";
 import {useAuth0} from "@auth0/auth0-react";
 import "./AdminContainerStyle.css";
 import {
-  Button,
   Container,
   Grid,
   Header,
@@ -12,53 +11,56 @@ import {
   Loader,
   Menu,
   Segment,
+  Table,
 } from "semantic-ui-react";
 import NavBarComponent from "../../components/navbar/NavBarComponent";
-<<<<<<< HEAD
-import {getOwnedTripsAction, getTripsAction,} from "../../actions/TripActions";
 import {searchUserEmailAdminAction} from "../../actions/AdminActions";
-=======
-import { setCurrentUserAction } from "../../actions/CurrentUserActions";
-import {
-  getInvitedTripsAction,
-  getOwnedTripsAction,
-} from "../../actions/TripActions";
-import ProfileEditor from "../../components/profile/ProfileEditor";
->>>>>>> b640c9e422a90cbd76667647e0018ec2ae036771
+import {highlightModule} from "../../actions/DashboardActions";
+import {updateUserAction} from "../../actions/CurrentUserActions";
 
 //TODO: SHOWCASE TRIPS
-const AdminContainer = () => {
+const AdminContainer = (
+    {
+      users,
+      searchUserEmail,
+      highlightModule,
+      highlightedModule,
+      isLoading
+    }
+) => {
   const {getAccessTokenSilently, user, logout, isAuthenticated} = useAuth0();
   const [activeItem, setActiveItem] = useState("trips");
-  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.UserReducer.user);
   const trips = useSelector((state) => state.TripsReducer.trips);
-  const usersFound = useSelector((state) => state.AdminReducer.user);
+  const dispatch = useDispatch();
+  // const usersFound = useSelector((state) => state.AdminReducer.user);
   // const [setUsersFound] = useState(false);
-  console.log("userFound", usersFound)
-  const isAllTripsLoaded = useSelector(
-      (state) =>
-          state.TripsReducer.isAllTripsLoaded &&
-          state.TripsReducer.isOwnedTripsLoaded
-  );
-  let isLoading = useSelector((state) => state.TripsReducer.isTripsLoading);
-  const [editing, setEditing] = React.useState(false);
-  let searchEmail = "";
+  console.log("currentUser",currentUser)
+  console.log("AdminContainer u", users)
+  // // console.log("AdminContainer uf", usersFound)
+  // const isAllTripsLoaded = useSelector(
+  //     (state) =>
+  //         state.TripsReducer.isAllTripsLoaded &&
+  //         state.TripsReducer.isOwnedTripsLoaded
+  // );
 
-  const updateEmail = (e) => {
-    searchEmail = e;
-  }
+  // useEffect(() => {
+  //   if (isAuthenticated && user && !isAllTripsLoaded) {
+  //     getAccessTokenSilently({
+  //       audience: process.env.REACT_APP_AUTH_AUDIENCE,
+  //     }).then((token) => {
+  //     });
+  //   }
+  // }, [isAuthenticated, user, isAllTripsLoaded]);
 
-  useEffect(() => {
-    if (isAuthenticated && user && !isAllTripsLoaded) {
-      getAccessTokenSilently({
-        audience: process.env.REACT_APP_AUTH_AUDIENCE,
-      }).then((token) => {
-        getInvitedTripsAction(dispatch, user, token);
-        getOwnedTripsAction(dispatch, user, token);
-      });
+  function switchAdmin() {
+    if (!user.admin || user.admin === "false") {
+      user.admin = "true"
+    }else {
+      user.admin = "false"
     }
-  }, [isAuthenticated, user, isAllTripsLoaded]);
+
+  }
 
   return (
       currentUser && (
@@ -79,7 +81,7 @@ const AdminContainer = () => {
                       </Header>
                     </Container>
                   </Grid.Column>
-                  <Grid.Column width={10}>
+                  <Grid.Column width={11}>
                     <div>
                       <Menu tabular attached="top">
                         <Menu.Item
@@ -99,44 +101,112 @@ const AdminContainer = () => {
                               Loading
                             </Loader>
                         ) : (
+
                             <div>
                               {
-                                activeItem === "trips" && <div>
-                                  <Input type='text'
-                                      // value={""}
-                                         id="adminSearchEmail"
-                                         placeholder='Search by email'/>
-                                  <Button onClick={() => {
-                                    getAccessTokenSilently({
-                                      audience: process.env.REACT_APP_AUTH_AUDIENCE,
-                                    }).then((token) => {
-                                      // console.log(document.getElementById("adminSearchEmail").value)
-                                      searchUserEmailAdminAction(
-                                          dispatch,
-                                          document.getElementById(
-                                              "adminSearchEmail").value,
-                                          token
-                                      );
-                                    });
-                                  }}>
-                                    Search
-                                  </Button>
-                                  <div>
-                                    {
-                                      console.log(usersFound.length) &&
-                                    usersFound.length > 0 &&
-                                        usersFound.map(user =>
-                                          <span>
-                                            {user.name}
-                                          </span>
+
+                                activeItem === "trips" &&
+                                <div>
+                                  <Table>
+                                    <Table.Header>
+                                      <Table.Row>
+                                        <Table.HeaderCell>
+                                          <Input
+                                              className="camps-fill-width"
+                                              type='text'
+                                              // value={""}
+                                              id="adminSearchEmail"
+                                              onChange={() =>
+                                                  getAccessTokenSilently({
+                                                    audience: process.env.REACT_APP_AUTH_AUDIENCE,
+                                                  }).then((token) => {
+                                                    // console.log(document.getElementById("adminSearchEmail").value)
+                                                    searchUserEmail(
+                                                        document.getElementById(
+                                                            "adminSearchEmail").value,
+                                                        token)
+                                                    highlightModule("")
+                                                  })
+                                              }
+                                              placeholder='Search by email'/>
+                                        </Table.HeaderCell>
+                                      </Table.Row>
+                                    </Table.Header>
+                                  </Table>
+                                  <Table>
+                                    <Table.Header>
+                                      {
+                                        users && users.length > 0 &&
+                                        <Table.Row>
+                                          <Table.HeaderCell>
+                                            Status:
+                                          </Table.HeaderCell><Table.HeaderCell>
+                                          Location:
+                                        </Table.HeaderCell><Table.HeaderCell>
+                                          Email:
+                                        </Table.HeaderCell>
+                                        </Table.Row>
+                                      }
+                                    </Table.Header>
+                                    <Table.Body
+                                        className="ui celled striped table">
+
+                                      {
+                                        users && users.length > 0 &&
+
+                                        users.map(user =>
+                                            <Table.Row key={user.email}>
+                                              {
+                                                (!user.admin || user.admin === "false") &&
+                                                <Table.Cell>
+                                                  <i onClick={() => {
+                                                    switchAdmin();
+                                                    getAccessTokenSilently({
+                                                      audience: process.env.REACT_APP_AUTH_AUDIENCE,
+                                                    }).then((token) => {
+                                                      updateUserAction(
+                                                          dispatch,
+                                                          {
+                                                            ...user,
+                                                            admin: user.admin
+                                                          },
+                                                          token
+                                                      );
+                                                    });
+                                                  }} className="user icon"/> User
+                                                </Table.Cell>
+                                              }
+                                              {
+                                                user && user.admin === "true" &&
+                                                <Table.Cell>
+                                                  <i style={{color: "red"}} className="user icon"/> Admin
+                                                </Table.Cell>
+                                              }
+
+                                              <Table.Cell>{user.location}</Table.Cell>
+                                              <Table.Cell>{user.email}</Table.Cell>
+                                            </Table.Row>
                                         )
-                                    }
-                                    {
-                                      usersFound.length < 1 &&
-                                      <div><br/>No users found</div>
-                                    }
-                                  </div>
+
+                                      }
+                                      {
+                                        users && (users.length < 1) &&
+                                        <Table.Row>
+                                          <Table.Cell>No User Found</Table.Cell>
+                                        </Table.Row>
+                                      }
+                                      {
+                                        !users &&
+                                        <Table.Row>
+                                          <Table.Cell>
+
+                                          </Table.Cell>
+                                        </Table.Row>
+                                      }
+                                    </Table.Body>
+                                  </Table>
                                 </div>
+
                               }
                               {
                                 activeItem === "manage" && <div>
@@ -156,5 +226,24 @@ const AdminContainer = () => {
   );
 };
 
-export default AdminContainer;
+const stateToProperty = (state) => ({
+  users: state.AdminReducer.users,
+  highlightedModule: state.DashboardReducer.highlight,
+  isLoading: state.TripsReducer.isTripsLoading,
+});
+
+const propertyToDispatchMapper = (dispatch) => ({
+  searchUserEmail: (email, token) => searchUserEmailAdminAction(
+      dispatch,
+      email,
+      token
+  ),
+  highlightModule: (module) => {
+    highlightModule(dispatch, module)
+  }
+});
+
+export default connect
+(stateToProperty, propertyToDispatchMapper)
+(AdminContainer)
 

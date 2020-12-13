@@ -1,10 +1,12 @@
 import {getCampgrounds} from "../services/CampgroundService";
+import {getUserFromEmail} from "../services/AdminService";
 
 export const GET_CAMPGROUNDS = "GET_CAMPGROUNDS";
 export const SELECT_CAMPSITE = "SELECT_CAMPSITE";
 export const SET_PAGE_NUMBER = "SET_PAGE_NUMBER";
 export const FILTER_CAMPSITES = "FILTER_CAMPSITES";
 export const HIGHLIGHT_MODULE = "HIGHLIGHT_MODULE";
+export const SEARCH_USER_EMAIL = "SEARCH_USER_EMAIL";
 
 export function selectCampsiteAction(dispatch, campsite) {
     return dispatch({
@@ -40,5 +42,15 @@ export const highlightModule = (dispatch, highlight) =>
         type: HIGHLIGHT_MODULE,
         highlight
     });
+
+export const searchUserEmailDashboardAction = (dispatch, email, token) =>
+
+    getUserFromEmail(email, token).then(res => {
+        return dispatch({
+            type: SEARCH_USER_EMAIL,
+            email,
+            users: res
+        });
+    })
 
 
