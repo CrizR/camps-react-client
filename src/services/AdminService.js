@@ -16,7 +16,7 @@ export const getUserFromEmail = (email, token) => {
       })
   .then(response => response.json())
   .then(users => {
-    console.log("AdminService found user", users.Items)
+    // console.log("AdminService found user", users.Items)
     return users.Items
   });
 };

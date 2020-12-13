@@ -38,8 +38,8 @@ const AdminContainer = (
   const dispatch = useDispatch();
   // const usersFound = useSelector((state) => state.AdminReducer.user);
   // const [setUsersFound] = useState(false);
-  console.log("currentUser", currentUser)
-  console.log("AdminContainer u", users)
+  // console.log("currentUser", currentUser)
+  // console.log("AdminContainer u", users)
   // // console.log("AdminContainer uf", usersFound)
   // const isAllTripsLoaded = useSelector(
   //     (state) =>
@@ -127,7 +127,7 @@ const AdminContainer = (
                       <div>
                         <Menu tabular attached="top">
                           <Menu.Item
-                              name="all users"
+                              name="Find Users"
                               active={activeItem === "trips"}
                               onClick={() => setActiveItem("trips")}
                           />
@@ -335,7 +335,7 @@ const AdminContainer = (
                       <div>
                         <Menu tabular attached="top">
                           <Menu.Item
-                              name="all users"
+                              name="Find Users"
                               active={activeItem === "trips"}
                               onClick={() => setActiveItem("trips")}
                           />

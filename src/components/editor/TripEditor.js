@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./TripEditorStyle.css";
 import { Button, Form, Input, Modal, TextArea } from "semantic-ui-react";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -36,6 +36,13 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
     setEditStateTrip({
       ...editStateTrip,
       [fieldName]: fieldName === "date" ? e : e.target.value,
+      buttonClicked: false,
+    });
+
+  const updateButtonClicked = (bVal) =>
+    setEditStateTrip({
+      ...editStateTrip,
+      buttonClicked: bVal,
     });
 
   // do noting if inviteList is already a list
@@ -65,6 +72,14 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
               value={editStateTrip.name}
             />
           </Form.Group>
+          <Form.Field
+            control={Input}
+            type={"email"}
+            label="Invite List"
+            placeholder="abc@gmail.com"
+            onChange={(e) => updateField(e, "inviteList")}
+            value={editStateTrip.inviteList}
+          />
           <Form.Field
             control={TextArea}
             label="Trip Description"
