@@ -69,7 +69,22 @@ const AdminContainer = (
   }
 
   function updateAuthUser(bString) {
-    user.admin = bString;
+    if (bString.length < 2) {
+
+    } else {
+      user.admin = bString;
+    }
+  }
+
+  function updateAuthUser(bString, tempUser) {
+    if (bString.length < 2) {
+
+    } else {
+      user.admin = bString;
+    }
+    if (tempUser && currentUser.email === tempUser.email) {
+      currentUser.admin = bString;
+    }
   }
 
   return (
@@ -172,6 +187,9 @@ const AdminContainer = (
                                                       === "false")
                                                   &&
                                                   <Table.Cell>
+                                                    <i
+                                                        className="user icon"/>
+                                                    User &nbsp;&nbsp;&nbsp;
                                                     <i onClick={() => {
                                                       // switchAdmin()
                                                       highlightModule("")
@@ -186,16 +204,20 @@ const AdminContainer = (
                                                             },
                                                             token
                                                         );
-                                                        updateAuthUser("true");
+                                                        updateAuthUser("true", user);
                                                       });
-                                                    }}
-                                                       className="user icon"/> User
+                                                    }} style={{float: "right"}}
+                                                       className="arrow alternate circle up outline icon"/>
+
                                                   </Table.Cell>
                                                 }
                                                 {
                                                   user && user.admin === "true"
                                                   &&
                                                   <Table.Cell>
+                                                    <i style={{color: "red"}}
+                                                       className="user icon"/>
+                                                    Admin
                                                     <i onClick={() => {
                                                       // switchAdmin()
                                                       highlightModule("")
@@ -210,14 +232,20 @@ const AdminContainer = (
                                                             },
                                                             token
                                                         );
-                                                        updateAuthUser("false");
+                                                        updateAuthUser("false", user);
                                                       });
-                                                    }} style={{color: "red"}}
-                                                       className="user icon"/> Admin
+                                                    }} style={{float: "right"}}
+                                                       className="arrow alternate circle down outline icon"/>
                                                   </Table.Cell>
                                                 }
-
+                                                {
+                                                  user.location.length > 0 &&
                                                 <Table.Cell>{user.location}</Table.Cell>
+                                                }
+                                                {
+                                                  user.location.length < 1 &&
+                                                  <Table.Cell>N/A</Table.Cell>
+                                                }
                                                 <Table.Cell>{user.email}</Table.Cell>
                                               </Table.Row>
                                           )
@@ -260,27 +288,30 @@ const AdminContainer = (
                 currentUser.admin === "false" &&
                 <Container>
                   <div className="camps-nonAdmin-header">
-                    Sorry, only admins can use this pages
+                    Only admins can use this page.
                   </div>
                   <div className="camps-nonAdmin-button">
-                  <Button onClick={() => {
-                    getAccessTokenSilently({
-                      audience: process.env.REACT_APP_AUTH_AUDIENCE,
-                    }).then((token) => {
-                      updateUserActionByAdmin(
-                          dispatch,
-                          {
-                            ...currentUser,
-                            admin: "true"
-                          },
-                          token
-                      );
-                      updateAuthUser("true");
-                      highlightModule("");
-                    });
-                  }}>
-                    Become Admin (FOR TEST PURPOSES)
-                  </Button>
+                    <Button onClick={() => {
+                      getAccessTokenSilently({
+                        audience: process.env.REACT_APP_AUTH_AUDIENCE,
+                      }).then((token) => {
+                        updateUserActionByAdmin(
+                            dispatch,
+                            {
+                              ...currentUser,
+                              admin: "true"
+                            },
+                            token
+                        );
+                        updateAuthUser("true", currentUser);
+                        searchUserEmail(
+                            "",
+                            token)
+                        highlightModule("");
+                      });
+                    }}>
+                      Become Admin (FOR TEST PURPOSES)
+                    </Button>
                   </div>
                 </Container>
               }
