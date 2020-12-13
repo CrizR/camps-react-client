@@ -1,4 +1,3 @@
-//import * as React from "react";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -63,7 +62,7 @@ const TripCard = ({ trip, isEditable }) => {
         <List>
           <List.Item>
             <List.Icon name="users" />
-            <List.Content>Invited Campers</List.Content>
+            <List.Content>Invite List</List.Content>
           </List.Item>
           {trip.inviteList.map((user) => (
             <List.Item>

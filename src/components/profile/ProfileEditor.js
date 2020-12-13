@@ -15,7 +15,6 @@ const ProfileEditor = ({ currentUser, setEditing }) => {
     about: currentUser.about || "",
     phone: currentUser.phone || "",
     location: currentUser.location || "",
-    admin: currentUser.admin || "false",
   });
 
   return (

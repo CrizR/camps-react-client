@@ -1,7 +1,7 @@
 import {
   SET_CURRENT_USER,
   UPDATE_USER,
-  SET_CURRENT_USER_BY_ADMIN
+  SET_CURRENT_USER_BY_ADMIN,
 } from "../actions/CurrentUserActions";
 
 const initialState = {

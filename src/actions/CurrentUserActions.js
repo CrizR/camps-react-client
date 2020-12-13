@@ -1,4 +1,4 @@
-import { updateUser} from "../services/UserService";
+import { updateUser } from "../services/UserService";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const GET_USER = "GET_USER";
@@ -13,7 +13,7 @@ export const transformUser = (user) => ({
   about: user.about || null,
   location: user.location || null,
   phone: user.phone || null,
-  admin: user.admin || "false"
+  admin: user.admin || "false",
 });
 
 export const setCurrentUserAction = (user) => ({
@@ -38,6 +38,5 @@ export function updateUserActionByAdmin(dispatch, user, token) {
     });
   });
 }
-
 
 export const selectCurrentUser = (state) => state.UserReducer.user;
