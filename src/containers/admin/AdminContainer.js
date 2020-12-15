@@ -236,7 +236,7 @@ const AdminContainer = (
                                                             user);
                                                       });
                                                     }} style={{float: "right"}}
-                                                       className="arrow alternate circle up outline icon"/>
+                                                       title="Upgrade to admin" className="arrow alternate circle up outline icon"/>
                                                   </Table.Cell>
                                                 }
                                                 {
@@ -273,7 +273,7 @@ const AdminContainer = (
                                                         });
                                                       }}
                                                          style={{float: "right"}}
-                                                         className="arrow alternate circle down outline icon"/>
+                                                         title="Downgrade to user"className="arrow alternate circle down outline icon"/>
                                                     }
 
                                                       {/*MAKE AN ADMIN AN OWNER - OPTION*/}
