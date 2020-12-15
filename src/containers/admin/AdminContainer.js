@@ -127,9 +127,9 @@ const AdminContainer = (
                             <br/>
                           <b>Examples</b><br/>
                           </div>
-                          <span style={{color: "blue"}}>User:</span> cs4550.user@gmail.com<br/>
-                          <span style={{color: "red"}}>Admin:</span> kerokeroarisa21@gmail.com<br/>
-                          <span style={{color: "green"}}>Owner:</span> reply2zain@gmail.com<br/>
+                          <i style={{color: "blue"}} className="user icon"/> cs4550.user@gmail.com<br/>
+                          <i style={{color: "red"}} className="user icon"/> kerokeroarisa21@gmail.com<br/>
+                          <i style={{color: "green"}} className="user icon"/> reply2zain@gmail.com<br/>
 
                         </div>
                       </Container>
