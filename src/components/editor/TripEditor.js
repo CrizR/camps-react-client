@@ -32,6 +32,8 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
     (existingTrip && existingTrip.inviteList) || []
   );
 
+  const [updateButtonClicked, setUpdateButtonClicked] = React.useState(false);
+
   const updateField = (e, fieldName) =>
     setEditStateTrip({
       ...editStateTrip,
@@ -39,13 +41,6 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
       buttonClicked: false,
     });
 
-  const updateButtonClicked = (bVal) =>
-    setEditStateTrip({
-      ...editStateTrip,
-      buttonClicked: bVal,
-    });
-
-  // do noting if inviteList is already a list
   const formatTrip = (trip) => ({
     ...trip,
     inviteList,
@@ -152,10 +147,16 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
                     }
                   });
             });
+            setUpdateButtonClicked(true);
           }}
         >
           Save Trip
         </Button>
+        {updateButtonClicked && (
+          <Button basic color="green">
+            Saved!
+          </Button>
+        )}
       </Modal.Actions>
     </Modal>
   );
