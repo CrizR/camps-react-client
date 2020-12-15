@@ -263,11 +263,11 @@ const AdminContainer = (
                                                   </Table.Cell>
                                                 }
                                                 {
-                                                  user.location.length > 0 &&
+                                                  user.location && user.location.length > 0 &&
                                                   <Table.Cell>{user.location}</Table.Cell>
                                                 }
                                                 {
-                                                  user.location.length < 1 &&
+                                                  (!user.location || user.location.length < 1) &&
                                                   <Table.Cell>N/A</Table.Cell>
                                                 }
                                                 <Table.Cell>{user.email}</Table.Cell>
