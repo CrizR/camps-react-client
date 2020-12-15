@@ -52,14 +52,6 @@ const ProfileEditor = ({ currentUser, setEditing }) => {
           <label>Email</label>
           <input value={currentUser.email} readOnly="readonly" disabled />
         </Form.Field>
-        <Form.Field>
-          <label>First Name</label>
-          <input value={currentUser.fName} readOnly="readonly" disabled />
-        </Form.Field>
-        <Form.Field>
-          <label>Last Name</label>
-          <input value={currentUser.lName} readOnly="readonly" disabled />
-        </Form.Field>
 
         <div>
           <Button floated="left" onClick={() => setEditing(false)}>

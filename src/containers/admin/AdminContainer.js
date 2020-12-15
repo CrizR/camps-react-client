@@ -98,7 +98,7 @@ const AdminContainer = (
               {
                 (currentUser.admin === "true" || currentUser.admin === "owner") &&
                 <Container>
-                  <Grid>
+                  <Grid stackable>
                     <Grid.Column width={5}>
                       <Container>
                         <h1 className="camps-admin-header-style">ADMIN
