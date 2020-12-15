@@ -56,15 +56,6 @@ const AdminContainer = (
   //   }
   // }, [isAuthenticated, user, isAllTripsLoaded]);
 
-  function switchAdmin() {
-    if (!user.admin || user.admin === "false") {
-      user.admin = "true"
-    } else {
-      user.admin = "false"
-    }
-    return ("1");
-  }
-
   if (currentUserChanged && users && users[0]) {
     users[0].admin = currentUserChanged.admin;
   }
@@ -91,10 +82,10 @@ const AdminContainer = (
   return (
       currentUser && (
           <>
-            <NavBarComponent admin={currentUser.admin}/>
+            <NavBarComponent/>
             <div className="camps-profile row">
               {
-                currentUser.admin === "true" &&
+                (currentUser.admin === "true" || currentUser.admin === "owner") &&
                 <Container>
                   <Grid stackable>
                     <Grid.Column width={5}>
@@ -112,9 +103,11 @@ const AdminContainer = (
                           <div style={{textAlign: "center"}}>
                             <b>Admin Guide</b><br/>
                           </div>
-                          <i className="user icon"/> User <br/>
+                          <i style={{color: "blue"}} className="user icon"/> User - normal member of the site <br/>
                           <i style={{color: "red"}}
-                             className="user icon"/> Admin<br/>
+                             className="user icon"/> Admin - special privileges<br/>
+                             <i style={{color: "green"}}
+                             className="user icon"/> Owner - admin that cannot be removed<br/>
                           <i className="arrow alternate circle up outline icon"/> Upgrade
                           User<br/>
                           <i className="arrow alternate circle down outline icon"/> Downgrade
@@ -191,10 +184,8 @@ const AdminContainer = (
                                       </Table.Header>
                                       <Table.Body
                                           className="ui celled striped table">
-
                                         {
                                           users && users.length > 0 &&
-
                                           users.map(user =>
                                               <Table.Row key={user.email}>
                                                 {
@@ -207,7 +198,7 @@ const AdminContainer = (
                                                       <i
                                                           style={{color: "blue"}}
                                                           className="user icon"/>
-                                                      User &nbsp;&nbsp;&nbsp;
+                                                      User&nbsp;&nbsp;&nbsp;
                                                     </Link>
                                                     <i onClick={() => {
                                                       // switchAdmin()
@@ -231,49 +222,117 @@ const AdminContainer = (
                                                   </Table.Cell>
                                                 }
                                                 {
-                                                  user && user.admin === "true"
+                                                  user && (user.admin
+                                                      === "true")
                                                   &&
                                                   <Table.Cell>
-
                                                     <Link
                                                         to={`/profile/${user.email}`}>
                                                       <i style={{color: "red"}}
                                                          className="user icon"/>
                                                       Admin
                                                     </Link>
-                                                    <i onClick={() => {
-                                                      // switchAdmin()
-                                                      highlightModule("")
-                                                      getAccessTokenSilently({
-                                                        audience: process.env.REACT_APP_AUTH_AUDIENCE,
-                                                      }).then((token) => {
-                                                        updateUserActionByAdmin(
-                                                            dispatch,
-                                                            {
-                                                              ...user,
-                                                              admin: "false"
-                                                            },
-                                                            token
-                                                        );
-                                                        updateAuthUser("false",
-                                                            user);
-                                                      });
-                                                    }} style={{float: "right"}}
-                                                       className="arrow alternate circle down outline icon"/>
+                                                    {
+                                                      currentUser.email
+                                                      !== user.email &&
+                                                      <i onClick={() => {
+                                                        // switchAdmin()
+                                                        highlightModule("")
+                                                        getAccessTokenSilently({
+                                                          audience: process.env.REACT_APP_AUTH_AUDIENCE,
+                                                        }).then((token) => {
+                                                          updateUserActionByAdmin(
+                                                              dispatch,
+                                                              {
+                                                                ...user,
+                                                                admin: "false"
+                                                              },
+                                                              token
+                                                          );
+                                                          updateAuthUser(
+                                                              "false",
+                                                              user);
+                                                        });
+                                                      }}
+                                                         style={{float: "right"}}
+                                                         className="arrow alternate circle down outline icon"/>
+                                                    }
+
+                                                      {/*MAKE AN ADMIN AN OWNER*/}
+                                                      {/*<i onClick={() => {*/}
+                                                      {/*  // switchAdmin()*/}
+                                                      {/*  highlightModule("")*/}
+                                                      {/*  getAccessTokenSilently({*/}
+                                                      {/*    audience: process.env.REACT_APP_AUTH_AUDIENCE,*/}
+                                                      {/*  }).then((token) => {*/}
+                                                      {/*    updateUserActionByAdmin(*/}
+                                                      {/*        dispatch,*/}
+                                                      {/*        {*/}
+                                                      {/*          ...user,*/}
+                                                      {/*          admin: "owner"*/}
+                                                      {/*        },*/}
+                                                      {/*        token*/}
+                                                      {/*    );*/}
+                                                      {/*    updateAuthUser(*/}
+                                                      {/*        "owner",*/}
+                                                      {/*        user);*/}
+                                                      {/*  });*/}
+                                                      {/*}}*/}
+                                                      {/*   style={{float: "right"}}*/}
+                                                      {/*   className="arrow alternate circle up outline icon"/>*/}
+
                                                   </Table.Cell>
                                                 }
                                                 {
-                                                  user.location.length > 0 &&
+                                                  user && (user.admin
+                                                      === "owner")
+                                                  &&
+                                                  <Table.Cell>
+                                                    <Link
+                                                        to={`/profile/${user.email}`}>
+                                                      <i style={{color: "green"}}
+                                                         className="user icon"/>
+                                                      Owner
+                                                    </Link>
+                                                    {/*DOWNGRADE AN OWNER*/}
+                                                    {/*<i onClick={() => {*/}
+                                                    {/*  // switchAdmin()*/}
+                                                    {/*  highlightModule("")*/}
+                                                    {/*  getAccessTokenSilently({*/}
+                                                    {/*    audience: process.env.REACT_APP_AUTH_AUDIENCE,*/}
+                                                    {/*  }).then((token) => {*/}
+                                                    {/*    updateUserActionByAdmin(*/}
+                                                    {/*        dispatch,*/}
+                                                    {/*        {*/}
+                                                    {/*          ...user,*/}
+                                                    {/*          admin: "true"*/}
+                                                    {/*        },*/}
+                                                    {/*        token*/}
+                                                    {/*    );*/}
+                                                    {/*    updateAuthUser(*/}
+                                                    {/*        "true",*/}
+                                                    {/*        user);*/}
+                                                    {/*  });*/}
+                                                    {/*}}*/}
+                                                    {/*   style={{float: "right", color: "red"}}*/}
+                                                    {/*   className="arrow alternate circle down outline icon"/>*/}
+                                                  </Table.Cell>
+                                                }
+
+                                                {
+                                                  user.location
+                                                  && user.location.length > 0 &&
                                                   <Table.Cell>{user.location}</Table.Cell>
                                                 }
                                                 {
-                                                  user.location.length < 1 &&
+                                                  (!user.location
+                                                      || user.location.length
+                                                      < 1) &&
                                                   <Table.Cell>N/A</Table.Cell>
                                                 }
                                                 <Table.Cell>{user.email}</Table.Cell>
                                               </Table.Row>
                                           )
-
                                         }
                                         {
                                           users && (users.length < 1) &&
@@ -459,34 +518,36 @@ const AdminContainer = (
                   </Grid>
 
 
-                  <Container>
-                    <div className="camps-nonAdmin-header">
-                      {/*Only admins can use this page.*/}
-                    </div>
-                    <div className="">
-                      <Button onClick={() => {
-                        getAccessTokenSilently({
-                          audience: process.env.REACT_APP_AUTH_AUDIENCE,
-                        }).then((token) => {
-                          updateUserActionByAdmin(
-                              dispatch,
-                              {
-                                ...currentUser,
-                                admin: "true"
-                              },
-                              token
-                          );
-                          updateAuthUser("true", currentUser);
-                          searchUserEmail(
-                              "",
-                              token)
-                          highlightModule("");
-                        });
-                      }}>
-                        Become Admin (FOR TEST PURPOSES)
-                      </Button>
-                    </div>
-                  </Container>
+                  {
+                    <Container>
+                      <div className="camps-nonAdmin-header">
+                        {/*Only admins can use this page.*/}
+                      </div>
+                      <div className="">
+                        <Button onClick={() => {
+                          getAccessTokenSilently({
+                            audience: process.env.REACT_APP_AUTH_AUDIENCE,
+                          }).then((token) => {
+                            updateUserActionByAdmin(
+                                dispatch,
+                                {
+                                  ...currentUser,
+                                  admin: "true"
+                                },
+                                token
+                            );
+                            updateAuthUser("true", currentUser);
+                            searchUserEmail(
+                                "",
+                                token)
+                            highlightModule("");
+                          });
+                        }}>
+                          Become Admin (FOR TEST PURPOSES)
+                        </Button>
+                      </div>
+                    </Container>
+                  }
                 </Container>
               }
             </div>
