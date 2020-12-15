@@ -140,6 +140,9 @@ const ProfileContainer = ({ email }) => {
                       icon="map marker alternate"
                       content={userToDisplay.location}
                     />
+                    {!email && (
+                      <List.Item icon="phone" content={userToDisplay.phone} />
+                    )}
                   </List>
 
                   {!editing && !email && (
@@ -181,6 +184,7 @@ const ProfileContainer = ({ email }) => {
                       owned_trips={email ? emailUserTrips.owned : owned_trips}
                       isLoading={email ? isAllEmailUserTripsLoading : isLoading}
                       tripType={activeItem}
+                      currentUser={currentUser}
                     />
                   ) : (
                     <Segment attached="bottom" placeholder>
