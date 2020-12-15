@@ -12,6 +12,8 @@ import NumberFormat from 'react-number-format';
 import TripEditor from "../../components/editor/TripEditor";
 import {useAuth0} from "@auth0/auth0-react";
 import {Link} from "react-router-dom";
+import {getTripsForCampground} from "../../services/TripsService";
+import TripCard from "../../components/card/TripCard";
 
 const Map = ReactMapboxGl({
     minZoom: 2,
@@ -22,14 +24,25 @@ const Map = ReactMapboxGl({
 const CampgroundContainer = ({id}) => {
     const {isAuthenticated, loginWithRedirect} = useAuth0();
     const [campground, setCampground] = useState({});
+    const [associatedTrips, setTrips] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getCampground(id, "").then(cg => {
             setCampground(cg);
             setLoading(false);
+        });
+
+        getTripsForCampground(id).then(trips => {
+            setTrips(trips)
         })
     }, []);
+
+    function updateTrips() {
+        getTripsForCampground(id).then(trips => {
+            setTrips(trips)
+        })
+    }
 
 
     return (
@@ -105,11 +118,34 @@ const CampgroundContainer = ({id}) => {
                                         </div>
                                     </div>
                                     }
+                                    <div className="camps-campground-description-style" style={{marginTop: '25px'}}>
+                                        <h3><Icon name={'angle up'}/>Trips</h3>
+                                        <div className={'camps-campground-description-style-body'}>
+                                            <Modal
+                                                size={"small"}
+                                                trigger={
+                                                    <div>
+                                                        <p>Trips Here: {associatedTrips.length}</p>
+                                                    <Button style={{width: '100%'}}>See Associated Trips</Button>
+                                                    </div>
+                                                }
+                                            >
+                                                <Modal.Header>Associated Trips</Modal.Header>
+                                                <Modal.Content>
+                                                    <Card.Group itemsPerRow={2}>
+                                                        {associatedTrips.map((trip) => (
+                                                            <TripCard trip={trip} isEditable={false} isPreview={true}/>
+                                                        ))}
+                                                    </Card.Group>
+                                                </Modal.Content>
+                                            </Modal>
+                                        </div>
+                                    </div>
                                 </Card.Content>
 
                                 <Card.Content extra>
                                     {isAuthenticated ?
-                                        <TripEditor triggerElement={<Button
+                                        <TripEditor callback={updateTrips} campground={campground} triggerElement={<Button
                                             className={'create-trip-details-btn'}>Create Trip
                                             Here!</Button>}/>
                                         :
@@ -150,7 +186,7 @@ const CampgroundContainer = ({id}) => {
                                 </Map>
                                 :
 
-                                <Image style={{height: '100vh', width: '100%'}} src={bg}/>
+                                <Image style={{height: '100%', width: '100%'}} src={bg}/>
                             }
 
                         </Grid.Column>

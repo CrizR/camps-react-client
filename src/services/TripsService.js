@@ -20,6 +20,19 @@ export const getInvitedTrips = (user, token) => {
     });
 };
 
+export const getTripsForCampground = (campgroundId) => {
+    return fetch(`${apiUrl}/campground/${campgroundId}/trips`, {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((trips) => {
+            return trips.map((trip) => Trip.fromStorage(trip));
+        });
+};
+
 export const getOwnedTrips = (user, token) => {
   return fetch(`${apiUrl}/user/${user.sub}/trips/owned`, {
     headers: {
