@@ -175,7 +175,7 @@ const AdminContainer = (
                                                       // console.log(document.getElementById("adminSearchEmail").value)
                                                       searchUserEmail(
                                                           document.getElementById(
-                                                              "adminSearchEmail").value,
+                                                              "adminSearchEmail").value.trim(),
                                                           token)
                                                       highlightModule("")
                                                     })
