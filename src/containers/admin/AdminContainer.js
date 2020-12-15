@@ -103,7 +103,7 @@ const AdminContainer = (
                           <div style={{textAlign: "center"}}>
                             <b>Admin Guide</b><br/>
                           </div>
-                          <i className="user icon"/> User - normal member of the site <br/>
+                          <i style={{color: "blue"}} className="user icon"/> User - normal member of the site <br/>
                           <i style={{color: "red"}}
                              className="user icon"/> Admin - special privileges<br/>
                              <i style={{color: "green"}}
