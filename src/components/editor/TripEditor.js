@@ -136,7 +136,7 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
                               token
                             ).catch((e) => console.error(e));
                           })
-                      ).then(() => console.log("success"));
+                      ).then(() => setOpen(false));
                     }
                   })
                 : createTripAction(
@@ -156,7 +156,7 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
                             token
                           ).catch((e) => console.error(e));
                         })
-                      ).then(() => console.log("success"));
+                      ).then(() => setOpen(false));
                     }
                   });
             });

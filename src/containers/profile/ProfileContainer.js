@@ -116,12 +116,12 @@ const ProfileContainer = ({ email }) => {
   const userToDisplay = email ? emailUser : currentUser;
 
   return (
-    userToDisplay && (
+    (userToDisplay && (
       <>
         <NavBarComponent />
         <div className="camps-profile row">
           <Container>
-            <Grid>
+            <Grid stackable>
               <Grid.Column width={5}>
                 <Container>
                   <h1 className="camps-profile-banner-style">Profile</h1>
@@ -146,7 +146,7 @@ const ProfileContainer = ({ email }) => {
                     <div>
                       <Button
                         fluid
-                        content="Edit Profile"
+                        content="Edit"
                         icon="edit"
                         size="small"
                         onClick={() => setEditing(true)}
@@ -200,7 +200,8 @@ const ProfileContainer = ({ email }) => {
           </Container>
         </div>
       </>
-    )
+    )) ||
+    null
   );
 };
 
