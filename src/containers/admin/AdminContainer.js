@@ -68,6 +68,17 @@ const AdminContainer = (
     }
   }
 
+  const getUserStatus = (uString) =>
+    getAccessTokenSilently({
+      audience: process.env.REACT_APP_AUTH_AUDIENCE,
+    }).then((token) => {
+      // console.log(document.getElementById("adminSearchEmail").value)
+      searchUserEmail(
+          uString,
+          token)
+      highlightModule("")
+    })
+
   function updateAuthUser(bString, tempUser) {
     if (bString.length < 2) {
 
@@ -112,6 +123,13 @@ const AdminContainer = (
                           User<br/>
                           <i className="arrow alternate circle down outline icon"/> Downgrade
                           User<br/>
+                          <div style={{textAlign: "center"}}>
+                            <br/>
+                          <b>Examples</b><br/>
+                          </div>
+                          <span style={{color: "blue"}}>User:</span> cs4550.user@gmail.com<br/>
+                          <span style={{color: "red"}}>Admin:</span> kerokeroarisa21@gmail.com<br/>
+                          <span style={{color: "green"}}>Owner:</span> reply2zain@gmail.com<br/>
 
                         </div>
                       </Container>
@@ -258,7 +276,7 @@ const AdminContainer = (
                                                          className="arrow alternate circle down outline icon"/>
                                                     }
 
-                                                      {/*MAKE AN ADMIN AN OWNER*/}
+                                                      {/*MAKE AN ADMIN AN OWNER - OPTION*/}
                                                       {/*<i onClick={() => {*/}
                                                       {/*  // switchAdmin()*/}
                                                       {/*  highlightModule("")*/}
@@ -294,7 +312,7 @@ const AdminContainer = (
                                                          className="user icon"/>
                                                       Owner
                                                     </Link>
-                                                    {/*DOWNGRADE AN OWNER*/}
+                                                    {/*DOWNGRADE AN OWNER - OPTION*/}
                                                     {/*<i onClick={() => {*/}
                                                     {/*  // switchAdmin()*/}
                                                     {/*  highlightModule("")*/}
