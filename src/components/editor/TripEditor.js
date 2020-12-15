@@ -73,14 +73,6 @@ const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
             />
           </Form.Group>
           <Form.Field
-            control={Input}
-            type={"email"}
-            label="Invite List"
-            placeholder="abc@gmail.com"
-            onChange={(e) => updateField(e, "inviteList")}
-            value={editStateTrip.inviteList}
-          />
-          <Form.Field
             control={TextArea}
             label="Trip Description"
             placeholder="..."
