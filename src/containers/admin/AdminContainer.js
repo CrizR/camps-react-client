@@ -38,8 +38,9 @@ const AdminContainer = (
   const dispatch = useDispatch();
   // const usersFound = useSelector((state) => state.AdminReducer.user);
   // const [setUsersFound] = useState(false);
-  // console.log("currentUser", currentUser)
-  // console.log("AdminContainer u", users)
+  console.log("currentUser", currentUser)
+  console.log("user", user)
+  console.log("AdminContainer u", users)
   // // console.log("AdminContainer uf", usersFound)
   // const isAllTripsLoaded = useSelector(
   //     (state) =>
@@ -69,15 +70,15 @@ const AdminContainer = (
   }
 
   const getUserStatus = (uString) =>
-    getAccessTokenSilently({
-      audience: process.env.REACT_APP_AUTH_AUDIENCE,
-    }).then((token) => {
-      // console.log(document.getElementById("adminSearchEmail").value)
-      searchUserEmail(
-          uString,
-          token)
-      highlightModule("")
-    })
+      getAccessTokenSilently({
+        audience: process.env.REACT_APP_AUTH_AUDIENCE,
+      }).then((token) => {
+        // console.log(document.getElementById("adminSearchEmail").value)
+        searchUserEmail(
+            uString,
+            token)
+        highlightModule("")
+      })
 
   function updateAuthUser(bString, tempUser) {
     if (bString.length < 2) {
@@ -96,7 +97,8 @@ const AdminContainer = (
             <NavBarComponent/>
             <div className="camps-profile row">
               {
-                (currentUser.admin === "true" || currentUser.admin === "owner") &&
+                (currentUser.admin === "true" || currentUser.admin === "owner")
+                &&
                 <Container>
                   <Grid stackable>
                     <Grid.Column width={5}>
@@ -106,7 +108,13 @@ const AdminContainer = (
                         <Header as="h1">
                           <Image circular src={currentUser.picture}/>
                           <Header.Content>
-                            {currentUser.fName}
+                            {currentUser.fName && currentUser.fName.length > 0
+                            &&
+                            currentUser.fName}
+
+                            {(!currentUser.fName || (currentUser.fName
+                                && currentUser.fName.length < 1)) &&
+                            user.name}
                             <Header.Subheader>{currentUser.email}</Header.Subheader>
                           </Header.Content>
                         </Header>
@@ -114,22 +122,29 @@ const AdminContainer = (
                           <div style={{textAlign: "center"}}>
                             <b>Admin Guide</b><br/>
                           </div>
-                          <i style={{color: "blue"}} className="user icon"/> User - normal member of the site <br/>
+                          <i style={{color: "blue"}}
+                             className="user icon"/> User - normal member of the
+                          site <br/>
                           <i style={{color: "red"}}
-                             className="user icon"/> Admin - special privileges<br/>
-                             <i style={{color: "green"}}
-                             className="user icon"/> Owner - admin that cannot be removed<br/>
+                             className="user icon"/> Admin - special
+                          privileges<br/>
+                          <i style={{color: "green"}}
+                             className="user icon"/> Owner - admin that cannot
+                          be removed<br/>
                           <i className="arrow alternate circle up outline icon"/> Upgrade
                           User<br/>
                           <i className="arrow alternate circle down outline icon"/> Downgrade
                           User<br/>
                           <div style={{textAlign: "center"}}>
                             <br/>
-                          <b>Examples</b><br/>
+                            <b>Examples</b><br/>
                           </div>
-                          <i style={{color: "blue"}} className="user icon"/> cs4550.user@gmail.com<br/>
-                          <i style={{color: "red"}} className="user icon"/> kerokeroarisa21@gmail.com<br/>
-                          <i style={{color: "green"}} className="user icon"/> reply2zain@gmail.com<br/>
+                          <i style={{color: "blue"}}
+                             className="user icon"/> cs4550.user@gmail.com<br/>
+                          <i style={{color: "red"}}
+                             className="user icon"/> kerokeroarisa21@gmail.com<br/>
+                          <i style={{color: "green"}}
+                             className="user icon"/> reply2zain@gmail.com<br/>
 
                         </div>
                       </Container>
@@ -185,13 +200,20 @@ const AdminContainer = (
                                         </Table.Row>
                                       </Table.Header>
                                     </Table>
+                                    {
+                                      users && users.length > 0 &&
+                                      <div style={{color: "gray", textAlign: "center"}}>
+                                        <b>Public Search Information</b>
+                                      </div>
+                                    }
+
                                     <Table>
                                       <Table.Header>
                                         {
                                           users && users.length > 0 &&
                                           <Table.Row>
                                             <Table.HeaderCell>
-                                              Status:
+                                              Profile:
                                             </Table.HeaderCell><Table.HeaderCell>
                                             Location:
                                           </Table.HeaderCell><Table.HeaderCell>
@@ -200,6 +222,74 @@ const AdminContainer = (
                                           </Table.Row>
                                         }
                                       </Table.Header>
+                                      <Table.Body
+                                          className="ui celled striped table">
+                                        {
+                                          users && users.length > 0 &&
+                                          users.map(user =>
+                                              <Table.Row key={user.email}>
+                                                <Table.Cell>
+                                                  <Link
+                                                      to={`/profile/${user.email}`}>
+                                                    <i className="linkify icon"/>
+                                                    See Profile
+                                                  </Link>
+                                                </Table.Cell>
+
+                                                {
+                                                  user.location
+                                                  && user.location.length > 0 &&
+                                                  <Table.Cell>{user.location}</Table.Cell>
+                                                }
+                                                {
+                                                  (!user.location
+                                                      || user.location.length
+                                                      < 1) &&
+                                                  <Table.Cell>N/A</Table.Cell>
+                                                }
+                                                <Table.Cell>{user.email}</Table.Cell>
+                                              </Table.Row>
+                                          )
+                                        }
+                                        {
+                                          users && (users.length < 1) &&
+                                          <Table.Row>
+                                            <Table.Cell>No User
+                                              Found</Table.Cell>
+                                          </Table.Row>
+                                        }
+                                        {
+                                          !users &&
+                                          <Table.Row>
+                                            <Table.Cell>
+
+                                            </Table.Cell>
+                                          </Table.Row>
+                                        }
+                                      </Table.Body>
+                                    </Table>
+                                    {
+                                      users && users.length > 0 &&
+                                      <div style={{color: "gray", textAlign: "center"}}>
+                                        <b>Private Search Information</b>
+                                      </div>
+                                    }
+                                    {users && users.length > 0 &&
+                                    <Table>
+                                      {
+                                        users && users.length > 0 &&
+                                        <Table.Header>
+                                          <Table.Row>
+                                            <Table.HeaderCell>
+                                              Status:
+                                            </Table.HeaderCell><Table.HeaderCell>
+                                            Phone:
+                                          </Table.HeaderCell><Table.HeaderCell>
+                                            About:
+                                          </Table.HeaderCell>
+                                          </Table.Row>
+                                        </Table.Header>
+                                      }
                                       <Table.Body
                                           className="ui celled striped table">
                                         {
@@ -236,7 +326,8 @@ const AdminContainer = (
                                                             user);
                                                       });
                                                     }} style={{float: "right"}}
-                                                       title="Upgrade to admin" className="arrow alternate circle up outline icon"/>
+                                                       title="Upgrade to admin"
+                                                       className="arrow alternate circle up outline icon"/>
                                                   </Table.Cell>
                                                 }
                                                 {
@@ -244,12 +335,9 @@ const AdminContainer = (
                                                       === "true")
                                                   &&
                                                   <Table.Cell>
-                                                    <Link
-                                                        to={`/profile/${user.email}`}>
-                                                      <i style={{color: "red"}}
-                                                         className="user icon"/>
-                                                      Admin
-                                                    </Link>
+                                                    <i style={{color: "red"}}
+                                                       className="user icon"/>
+                                                    Admin
                                                     {
                                                       currentUser.email
                                                       !== user.email &&
@@ -273,31 +361,32 @@ const AdminContainer = (
                                                         });
                                                       }}
                                                          style={{float: "right"}}
-                                                         title="Downgrade to user"className="arrow alternate circle down outline icon"/>
+                                                         title="Downgrade to user"
+                                                         className="arrow alternate circle down outline icon"/>
                                                     }
 
-                                                      {/*MAKE AN ADMIN AN OWNER - OPTION*/}
-                                                      {/*<i onClick={() => {*/}
-                                                      {/*  // switchAdmin()*/}
-                                                      {/*  highlightModule("")*/}
-                                                      {/*  getAccessTokenSilently({*/}
-                                                      {/*    audience: process.env.REACT_APP_AUTH_AUDIENCE,*/}
-                                                      {/*  }).then((token) => {*/}
-                                                      {/*    updateUserActionByAdmin(*/}
-                                                      {/*        dispatch,*/}
-                                                      {/*        {*/}
-                                                      {/*          ...user,*/}
-                                                      {/*          admin: "owner"*/}
-                                                      {/*        },*/}
-                                                      {/*        token*/}
-                                                      {/*    );*/}
-                                                      {/*    updateAuthUser(*/}
-                                                      {/*        "owner",*/}
-                                                      {/*        user);*/}
-                                                      {/*  });*/}
-                                                      {/*}}*/}
-                                                      {/*   style={{float: "right"}}*/}
-                                                      {/*   className="arrow alternate circle up outline icon"/>*/}
+                                                    {/*MAKE AN ADMIN AN OWNER - OPTION*/}
+                                                    {/*<i onClick={() => {*/}
+                                                    {/*  // switchAdmin()*/}
+                                                    {/*  highlightModule("")*/}
+                                                    {/*  getAccessTokenSilently({*/}
+                                                    {/*    audience: process.env.REACT_APP_AUTH_AUDIENCE,*/}
+                                                    {/*  }).then((token) => {*/}
+                                                    {/*    updateUserActionByAdmin(*/}
+                                                    {/*        dispatch,*/}
+                                                    {/*        {*/}
+                                                    {/*          ...user,*/}
+                                                    {/*          admin: "owner"*/}
+                                                    {/*        },*/}
+                                                    {/*        token*/}
+                                                    {/*    );*/}
+                                                    {/*    updateAuthUser(*/}
+                                                    {/*        "owner",*/}
+                                                    {/*        user);*/}
+                                                    {/*  });*/}
+                                                    {/*}}*/}
+                                                    {/*   style={{float: "right"}}*/}
+                                                    {/*   className="arrow alternate circle up outline icon"/>*/}
 
                                                   </Table.Cell>
                                                 }
@@ -306,12 +395,17 @@ const AdminContainer = (
                                                       === "owner")
                                                   &&
                                                   <Table.Cell>
-                                                    <Link
-                                                        to={`/profile/${user.email}`}>
-                                                      <i style={{color: "green"}}
-                                                         className="user icon"/>
-                                                      Owner
-                                                    </Link>
+                                                    <i style={{color: "green"}}
+                                                       className="user icon"/>
+                                                    Owner
+                                                    <span>
+                                                    <i style={{
+                                                      float: "right",
+                                                      color: "lightgray"
+                                                    }}
+                                                       title="Cannot downgrade owner status"
+                                                       className="arrow alternate circle down outline icon"/>
+                                                    </span>
                                                     {/*DOWNGRADE AN OWNER - OPTION*/}
                                                     {/*<i onClick={() => {*/}
                                                     {/*  // switchAdmin()*/}
@@ -336,39 +430,46 @@ const AdminContainer = (
                                                     {/*   className="arrow alternate circle down outline icon"/>*/}
                                                   </Table.Cell>
                                                 }
+                                                <Table.Cell>
+                                                  {
+                                                    (user.phone
+                                                        && user.phone.length
+                                                        > 0)
+                                                    &&
+                                                    user.phone
+                                                  }
+                                                  {
+                                                    (!user.phone
+                                                        || user.phone.length
+                                                        < 1)
+                                                    &&
+                                                    <span>N/A</span>
+                                                  }
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                  {
+                                                    (user.about
+                                                        && user.about.length
+                                                        > 0)
+                                                    &&
+                                                    user.about
+                                                  }
+                                                  {
+                                                    (!user.about
+                                                        || user.about.length
+                                                        < 1)
+                                                    &&
+                                                    <span>N/A</span>
+                                                  }
 
-                                                {
-                                                  user.location
-                                                  && user.location.length > 0 &&
-                                                  <Table.Cell>{user.location}</Table.Cell>
-                                                }
-                                                {
-                                                  (!user.location
-                                                      || user.location.length
-                                                      < 1) &&
-                                                  <Table.Cell>N/A</Table.Cell>
-                                                }
-                                                <Table.Cell>{user.email}</Table.Cell>
+                                                </Table.Cell>
                                               </Table.Row>
                                           )
                                         }
-                                        {
-                                          users && (users.length < 1) &&
-                                          <Table.Row>
-                                            <Table.Cell>No User
-                                              Found</Table.Cell>
-                                          </Table.Row>
-                                        }
-                                        {
-                                          !users &&
-                                          <Table.Row>
-                                            <Table.Cell>
-
-                                            </Table.Cell>
-                                          </Table.Row>
-                                        }
                                       </Table.Body>
+
                                     </Table>
+                                    }
                                   </div>
 
                                 }
