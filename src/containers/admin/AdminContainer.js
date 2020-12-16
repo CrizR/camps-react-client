@@ -38,9 +38,9 @@ const AdminContainer = (
   const dispatch = useDispatch();
   // const usersFound = useSelector((state) => state.AdminReducer.user);
   // const [setUsersFound] = useState(false);
-  console.log("currentUser", currentUser)
-  console.log("user", user)
-  console.log("AdminContainer u", users)
+  // console.log("currentUser", currentUser)
+  // console.log("user", user)
+  // console.log("AdminContainer u", users)
   // // console.log("AdminContainer uf", usersFound)
   // const isAllTripsLoaded = useSelector(
   //     (state) =>
@@ -403,7 +403,7 @@ const AdminContainer = (
                                                       float: "right",
                                                       color: "lightgray"
                                                     }}
-                                                       title="Cannot downgrade owner status"
+                                                       title="cannot downgrade an owner"
                                                        className="arrow alternate circle down outline icon"/>
                                                     </span>
                                                     {/*DOWNGRADE AN OWNER - OPTION*/}
