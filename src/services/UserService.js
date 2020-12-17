@@ -4,7 +4,7 @@ const apiUrl = process.env.NODE_ENV === 'production' ? "https://camps-node-serve
 
 
 export const getUser = (user, token) => {
-    console.log(`${apiUrl}/user/${user.sub}`);
+    // console.log(`${apiUrl}/user/${user.sub}`);
     return fetch(`${apiUrl}/user/${user.sub}`,
         {
             method: 'GET',
@@ -25,7 +25,7 @@ export const createUserIfNotExist = async (user, token) => {
     let existingUser = await getUser(user, token);
 
     if (Object.keys(existingUser).length === 0) {
-        console.log(existingUser);
+        // console.log(existingUser);
         return fetch(`${apiUrl}/user/`,
             {
                 method: 'POST',

@@ -15,7 +15,7 @@ export const getTrips = (user, token) => {
   })
     .then((response) => response.json())
     .then((trips) => {
-      console.log(trips);
+      // console.log(trips);
       return trips.map((trip) => Trip.fromStorage(trip));
     });
 };

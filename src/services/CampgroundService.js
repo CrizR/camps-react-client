@@ -9,7 +9,7 @@ export const getCampgrounds = (parkCode, limit = 1000, start = 0, query = "") =>
     if (!!query) {
         requestUrl = `${url}?parkCode=${parkCode}&parkCode=&limit=${limit}&start=${start}&q=${query}&api_key=${api_key}`;
     }
-    console.log("test");
+    // console.log("test");
 
     return fetch(requestUrl,
         {

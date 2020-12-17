@@ -18,7 +18,7 @@ import {
 import { getCampground } from "../../services/CampgroundService";
 
 const TripCard = ({ trip }) => {
-  console.log(trip);
+  // console.log(trip);
   const campgroundId = trip.campground;
   const [campground, setCampground] = useState({});
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ const TripCard = ({ trip }) => {
     getCampground(campgroundId, "").then((cg) => {
       setCampground(cg);
       setLoading(false);
-      console.log(cg);
+      // console.log(cg);
     });
   }, []);
 

@@ -11,7 +11,7 @@ import { inviteToTrip } from "../../services/TripsService";
 
 // TODO Change this whole thing to not use JSON and to allow you to create a campsite
 const TripEditor = ({ campground, triggerElement, isEdit, existingTrip }) => {
-  console.log(campground);
+  // console.log(campground);
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const { getAccessTokenSilently } = useAuth0();
