@@ -144,4 +144,4 @@ const stateToProperty = (state) => ({});
 
 const propertyToDispatchMapper = (dispatch) => ({});
 
-export default connect(stateToProperty, propertyToDispatchMapper)(TripCard);
+export default connect(stateToProperty, propertyToDispatchMapper)(TripCard)

@@ -15,6 +15,7 @@ const ProfileEditor = ({ currentUser, setEditing }) => {
     about: currentUser.about || "",
     phone: currentUser.phone || "",
     location: currentUser.location || "",
+    phoneIsHidden: currentUser.phoneIsHidden || "false"
   });
 
   return (
@@ -47,6 +48,18 @@ const ProfileEditor = ({ currentUser, setEditing }) => {
               setUserAttr({ ...userAttr, phone: e.target.value })
             }
           />
+          {/*<span>*/}
+          {/*  <label>*/}
+          {/*<input type="radio" name="phone_visibility" id="phone_visible" value="visible"*/}
+          {/*       defaultChecked={!currentUser.phoneIsHidden || currentUser.phoneIsHidden === "false"}/>*/}
+          {/*    &nbsp;Visible*/}
+          {/*  </label>*/}
+          {/*  &nbsp;&nbsp;&nbsp;&nbsp;*/}
+          {/*  <label>*/}
+          {/*<input type="radio" name="phone_visibility" id="phone_hidden" value="hidden" defaultChecked={currentUser.phoneIsHidden === "true"}/>*/}
+          {/*    &nbsp;Hidden*/}
+          {/*  </label>*/}
+          {/*  </span>*/}
         </Form.Field>
         <Form.Field>
           <label>Email</label>
@@ -62,6 +75,9 @@ const ProfileEditor = ({ currentUser, setEditing }) => {
             positive
             onClick={() => {
               setEditing(false);
+              // if(document.getElementById("phone_visible").value === "visible") {
+              //   setUserAttr({ ...userAttr, phoneIsHidden: "true" })
+              // }
               getAccessTokenSilently({
                 audience: process.env.REACT_APP_AUTH_AUDIENCE,
               }).then((token) => {
