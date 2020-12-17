@@ -48,7 +48,18 @@ const AppRouter = () => {
             exact
             component={DashboardContainer}
           />
-          <ProtectedRoute path="/profile" exact component={ProfileContainer} />
+          <ProtectedRoute
+            path="/profile"
+            exact
+            component={(routerProps) => <ProfileContainer />}
+          />
+          <ProtectedRoute
+            path="/profile/:email"
+            exact
+            component={(routerProps) => (
+              <ProfileContainer email={routerProps.match.params.email} />
+            )}
+          />
           <ProtectedRoute
             path="/campground/:id"
             exact
@@ -61,7 +72,14 @@ const AppRouter = () => {
       ) : (
         <>
           <Route exact path="/" component={Home} />
-          <Route path="/profile/:id" exact component={ProfileContainer} />
+          <Route exact path="/admin" component={DashboardContainer} />
+          <Route
+            path="/profile/:email"
+            exact
+            component={(routerProps) => (
+              <ProfileContainer email={routerProps.match.params.email} />
+            )}
+          />
           <Route path="/dashboard/" exact component={DashboardContainer} />
           <Route
             path="/campground/:id"

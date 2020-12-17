@@ -10,9 +10,11 @@ import LoadingComponent from "./components/loading/LoadingComponent";
 import HttpsRedirect from "react-https-redirect";
 import TripsReducer from "./reducers/TripsReducer";
 import AppRouter from "./Router";
+import AdminReducer from "./reducers/AdminReducer"
 
 const rootReducer = combineReducers({
   DashboardReducer,
+  AdminReducer,
   UserReducer,
   TripsReducer,
 });

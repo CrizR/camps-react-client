@@ -2,7 +2,7 @@ import {
   createTrip,
   deleteTrip,
   getOwnedTrips,
-  getTrips,
+  getInvitedTrips,
   updateTrip,
   inviteToTrip,
 } from "../services/TripsService";
@@ -10,7 +10,7 @@ import {
 export const CREATE_TRIP = "CREATE_TRIP";
 export const UPDATE_TRIP = "UPDATE_TRIP";
 export const DELETE_TRIP = "DELETE_TRIP";
-export const GET_TRIPS = "GET_TRIPS";
+export const GET_INVITED_TRIPS = "GET_INVITED_TRIPS";
 export const SEARCH_TRIPS = "SEARCH_TRIPS";
 export const SELECT_TRIP = "SELECT_TRIP";
 export const GET_OWNED_TRIPS = "GET_OWNED_TRIPS";
@@ -41,14 +41,15 @@ export function updateTripAction(dispatch, user, id, tripObj, token) {
     dispatch({
       type: UPDATE_TRIP,
       id: id,
+      //trip: trip,
       trip: trip,
     });
     return trip;
   });
 }
 
-export function deleteTripAction(dispatch, user, id, token) {
-  return deleteTrip(user, id, token).then(() => {
+export function deleteTripAction(dispatch, id, token) {
+  return deleteTrip(id, token).then(() => {
     return dispatch({
       type: DELETE_TRIP,
       id: id,
@@ -56,12 +57,12 @@ export function deleteTripAction(dispatch, user, id, token) {
   });
 }
 
-export function getTripsAction(dispatch, user, token) {
+export function getInvitedTripsAction(dispatch, user, token) {
   try {
     dispatch(setTripsPending());
-    getTrips(user, token).then((tripzes) => {
+    getInvitedTrips(user, token).then((tripzes) => {
       return dispatch({
-        type: GET_TRIPS,
+        type: GET_INVITED_TRIPS,
         trips: tripzes,
       });
     });

@@ -5,3 +5,46 @@
   text-align: center;
 }
 
+.camps-user-header-style {
+  color: gray;
+  border-style: solid;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.camps-fill-width {
+  width: 100%;
+
+}
+
+.camps-nonAdmin-header {
+  margin-bottom: 0;
+  color: black;
+  text-align: center;
+}
+
+.camps-nonAdmin-button {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.camps-nonAdmin-background {
+  background-color: black;
+}
+
+.camps-popular-users-header {
+  text-align: center;
+  padding: 5px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: lightsteelblue;
+  background-color: whitesmoke;
+}
+
+.camps-admin-tips-header {
+  padding: 10px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: lightpink;
+  background-color: lightgoldenrodyellow;
+}

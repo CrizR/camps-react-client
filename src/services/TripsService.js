@@ -5,7 +5,7 @@ const apiUrl =
     ? "https://camps-node-server.herokuapp.com/api"
     : "http://localhost:8080/api";
 
-export const getTrips = (user, token) => {
+export const getInvitedTrips = (user, token) => {
   return fetch(`${apiUrl}/user/${user.email}/trips`, {
     headers: {
       Accept: "application/json",
@@ -18,6 +18,19 @@ export const getTrips = (user, token) => {
       // console.log(trips);
       return trips.map((trip) => Trip.fromStorage(trip));
     });
+};
+
+export const getTripsForCampground = (campgroundId) => {
+    return fetch(`${apiUrl}/campground/${campgroundId}/trips`, {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((trips) => {
+            return trips.map((trip) => Trip.fromStorage(trip));
+        });
 };
 
 export const getOwnedTrips = (user, token) => {
@@ -60,7 +73,7 @@ export const createTrip = (user, trip, token) =>
     .then((trip) => Trip.fromStorage(trip));
 
 export const updateTrip = (user, id, trip, token) =>
-  fetch(`${apiUrl}/user/${user.sub}/trip/${id}`, {
+  fetch(`${apiUrl}/user/${user.sub}/trips/${id}`, {
     method: "PUT",
     body: JSON.stringify(trip),
     headers: {
@@ -72,8 +85,8 @@ export const updateTrip = (user, id, trip, token) =>
     .then((response) => response.json())
     .then((trip) => Trip.fromStorage(trip));
 
-export const deleteTrip = (user, id, token) =>
-  fetch(`${apiUrl}/user/${user.sub}/trip/${id}`, {
+export const deleteTrip = (id, token) =>
+  fetch(`${apiUrl}/trips/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
